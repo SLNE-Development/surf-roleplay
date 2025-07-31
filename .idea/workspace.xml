@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1617dd19-3690-4f7d-b993-ea020a7aa27c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/surf-job-api/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/Job.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRegistry.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/CitizenJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayerManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/SurfJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/ListenerManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/OnlineListener.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerManagerImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="surf-job" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="Kotlin Object" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ammodev&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:SLNE-Development/surf-job.git&quot;,
+    &quot;accountId&quot;: &quot;e79b599f-83e0-4c80-b4c2-bd5ff9348fe9&quot;
+  }
+}</component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\Program Files\php\php-8.3\php.exe" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="30dAmUSVQTn7cMEXi2sSoqfMdT9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.Download Sources.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "version/1.21.7",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Workspaces",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "actions.on.save",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Workspaces\surf-job" />
+    </key>
+    <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="dev.slne.surf.job.api.job.jobs.neutral" />
+      <recent name="dev.slne.surf.job.api.job.jobs" />
+      <recent name="dev.slne.surf.job.api.job" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="docs" factoryName="Docutils task">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docs" factoryName="Sphinx task">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="docutils_input_file" value="" />
+      <option name="docutils_output_file" value="" />
+      <option name="docutils_params" value="" />
+      <option name="docutils_task" value="" />
+      <option name="docutils_open_in_browser" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="surf-job" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="surf-job" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.27812.49" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.27812.49" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1617dd19-3690-4f7d-b993-ea020a7aa27c" name="Changes" comment="" />
+      <created>1753947235273</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753947235273</updated>
+      <workItem from="1753947236381" duration="1414000" />
+      <workItem from="1753960397890" duration="60000" />
+      <workItem from="1753960474517" duration="164000" />
+      <workItem from="1753967343301" duration="4000" />
+      <workItem from="1753967571905" duration="4375000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
