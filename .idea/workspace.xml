@@ -5,23 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1617dd19-3690-4f7d-b993-ea020a7aa27c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/surf-job-api/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/Job.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRegistry.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRequirement.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/CitizenJob.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayerManager.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/SurfJob.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/ListenerManager.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/OnlineListener.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerManagerImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/RpPlayer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-paper/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-paper/src/main/kotlin/dev/slne/surf/roleplay/paper/SurfRoleplay.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/Job.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/Job.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRegistry.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRequirement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRequirement.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/CitizenJob.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/CitizenJob.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/RpPlayerManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/SurfJob.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/SurfJob.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/ListenerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/ListenerManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/OnlineListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/OnlineListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerManagerImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerManagerImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,12 +86,12 @@
     &quot;assignee&quot;: &quot;ammodev&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:SLNE-Development/surf-job.git&quot;,
-    &quot;accountId&quot;: &quot;e79b599f-83e0-4c80-b4c2-bd5ff9348fe9&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:SLNE-Development/surf-roleplay.git",
+    "accountId": "e79b599f-83e0-4c80-b4c2-bd5ff9348fe9"
   }
-}</component>
+}]]></component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
@@ -108,7 +116,7 @@
     "git-widget-placeholder": "version/1.21.7",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Workspaces",
+    "last_opened_file_path": "S:/Workspaces/surf-roleplay/surf-roleplay-paper/src/main/kotlin/dev/slne/surf/roleplay/paper",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.stylelint": "true",
     "node.js.detected.package.tslint": "true",
@@ -116,12 +124,22 @@
     "node.js.selected.package.stylelint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "actions.on.save",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="S:\Workspaces\surf-roleplay\surf-roleplay-paper\src\main\kotlin\dev\slne\surf\roleplay\paper" />
+      <recent name="S:\Workspaces\surf-roleplay\surf-roleplay-paper\src\main\kotlin" />
+      <recent name="S:\Workspaces\surf-roleplay\surf-roleplay-mechanic\src\main\kotlin" />
+      <recent name="S:\Workspaces\surf-roleplay\surf-roleplay-api\src\main\kotlin" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="S:\Workspaces\surf-roleplay\surf-job" />
       <recent name="C:\Workspaces\surf-job" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
@@ -180,8 +198,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.27812.49" />
-        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.27812.49" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
       </set>
     </attachedChunks>
   </component>
@@ -198,6 +216,7 @@
       <workItem from="1753960474517" duration="164000" />
       <workItem from="1753967343301" duration="4000" />
       <workItem from="1753967571905" duration="4375000" />
+      <workItem from="1753988493093" duration="1845000" />
     </task>
     <servers />
   </component>

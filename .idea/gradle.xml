@@ -9,8 +9,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/surf-job-api" />
-            <option value="$PROJECT_DIR$/surf-job-paper" />
+            <option value="$PROJECT_DIR$/surf-job" />
+            <option value="$PROJECT_DIR$/surf-job/surf-job-api" />
+            <option value="$PROJECT_DIR$/surf-job/surf-job-paper" />
+            <option value="$PROJECT_DIR$/surf-roleplay-api" />
+            <option value="$PROJECT_DIR$/surf-roleplay-mechanic" />
+            <option value="$PROJECT_DIR$/surf-roleplay-paper" />
           </set>
         </option>
       </GradleProjectSettings>
