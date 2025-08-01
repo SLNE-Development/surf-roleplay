@@ -1,10 +1,11 @@
 package dev.slne.surf.roleplay.api.player
 
+import dev.slne.surf.roleplay.api.transaction.HasTransactions
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.util.*
 
-interface RpPlayer {
+interface RpPlayer : HasTransactions {
 
     /**
      * The [UUID] of the player
@@ -26,6 +27,14 @@ interface RpPlayer {
      * The Bukkit [OfflinePlayer] representation of this player.
      */
     val bukkitOfflinePlayer: OfflinePlayer
+
+    /**
+     * Checks if the player has a specific permission.
+     *
+     * @param permission The permission to check.
+     * @return `true` if the player has the permission, `false` otherwise.
+     */
+    fun hasPermission(permission: String): Boolean
 
     companion object {
         /**

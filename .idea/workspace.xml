@@ -5,31 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1617dd19-3690-4f7d-b993-ea020a7aa27c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/RpPlayer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-paper/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-paper/src/main/kotlin/dev/slne/surf/roleplay/paper/SurfRoleplay.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/utils/BalanceType.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/transaction/HasTransactions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/transaction/RpTransaction.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/License.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/licenses/DriversLicense.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/player/LicensePlayer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/player/LicensePlayerManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/utils/PermissionRegistry.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/Job.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/Job.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRegistry.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRequirement.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/JobRequirement.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/CitizenJob.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/CitizenJob.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/player/JobPlayerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/RpPlayerManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/SurfJob.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/SurfJob.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/ListenerManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/ListenerManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/OnlineListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/listener/OnlineListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerManagerImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/player/JobPlayerManagerImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/utils/PermissionRegistry.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/RpPlayer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-api/src/main/kotlin/dev/slne/surf/roleplay/api/player/RpPlayer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/Mechanic.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/Mechanic.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/MechanicRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/MechanicRegistry.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/LicenseMechanic.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/LicenseMechanic.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +44,7 @@
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="surf-job" type="f1a62948:ProjectNode" />
+                <item name="surf-roleplay" type="f1a62948:ProjectNode" />
               </path>
             </expand>
             <select />
@@ -68,8 +57,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
-        <option value="Kotlin Object" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Object" />
+        <option value="Kotlin Enum" />
         <option value="Kotlin Interface" />
       </list>
     </option>
@@ -86,12 +76,12 @@
     &quot;assignee&quot;: &quot;ammodev&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:SLNE-Development/surf-roleplay.git",
-    "accountId": "e79b599f-83e0-4c80-b4c2-bd5ff9348fe9"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:SLNE-Development/surf-roleplay.git&quot;,
+    &quot;accountId&quot;: &quot;e79b599f-83e0-4c80-b4c2-bd5ff9348fe9&quot;
   }
-}]]></component>
+}</component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
@@ -106,31 +96,31 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Gradle.Download Sources.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "version/1.21.7",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "S:/Workspaces/surf-roleplay/surf-roleplay-paper/src/main/kotlin/dev/slne/surf/roleplay/paper",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "actions.on.save",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;version/1.21.7&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;S:/Workspaces/surf-roleplay/surf-roleplay-paper/src/main/kotlin/dev/slne/surf/roleplay/paper&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="S:\Workspaces\surf-roleplay\surf-roleplay-paper\src\main\kotlin\dev\slne\surf\roleplay\paper" />
