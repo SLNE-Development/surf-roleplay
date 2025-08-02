@@ -3,8 +3,10 @@
 
 package dev.slne.surf.roleplay.mechanic.mechanics.idcard.dialogs
 
+import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCard
+import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.DialogBodyBuilder
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -20,7 +22,8 @@ import org.bukkit.entity.Player
 import java.time.LocalDate
 import java.time.Year
 
-private val nameRegex = Regex("^[a-zA-ZÄÖÜäöüß-]{3,16}")
+private val nameRegex = Regex("^[a-zA-ZÄÖÜäöüß]{3,16}")
+private val nameRegexDashes = Regex("^[a-zA-ZÄÖÜäöüß-]{3,16}")
 
 fun createIdDialog(
     firstName: String? = null,
@@ -90,18 +93,20 @@ private fun confirmCreationButton(): ActionButton = actionButton {
             val lastName = info.getText("last_name") ?: ""
             val birthDateString = info.getText("birth_date") ?: ""
 
-            val isValidFirstName = firstName.matches(nameRegex)
-            val isValidLastName = lastName.matches(nameRegex)
-            val isValidbirthDateString = validateDate(birthDateString)
+            val isValidFirstNameLength = firstName.matches(nameRegex)
+            val isValidLastNameLength = lastName.matches(nameRegex)
+            val isValidFirstName = firstName.matches(nameRegexDashes)
+            val isValidLastName = lastName.matches(nameRegexDashes)
+            val isValidBirthDateString = validateDate(birthDateString)
 
-            if (!isValidbirthDateString || !isValidFirstName || !isValidLastName) {
+            if (!isValidBirthDateString || !isValidFirstName || !isValidLastName || !isValidFirstNameLength || !isValidLastNameLength) {
                 audience.showDialog(
                     invalidInputDialog(
                         firstName,
                         lastName,
                         birthDateString
                     ) {
-                        if (!isValidFirstName) {
+                        if (!isValidFirstName || !isValidFirstNameLength) {
                             plainMessage(400) {
                                 error("Der angegebene Vorname ist ungültig. Bitte gib einen gültigen Vornamen mit ")
                                 variableValue("3 bis 16 Buchstaben ")
@@ -112,7 +117,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
                                 error(".")
                             }
                         }
-                        if (!isValidLastName) {
+                        if (!isValidLastName || !isValidLastNameLength) {
                             plainMessage(400) {
                                 error("Der angegebene Nachname ist ungültig. Bitte gib einen gültigen Vornamen mit ")
                                 variableValue("3 bis 16 Buchstaben ")
@@ -123,7 +128,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
                                 error(".")
                             }
                         }
-                        if (!isValidbirthDateString) {
+                        if (!isValidBirthDateString) {
                             val now = LocalDate.now()
                             val validYear = now.minusYears(100)
                             plainMessage(400) {
@@ -143,11 +148,19 @@ private fun confirmCreationButton(): ActionButton = actionButton {
             }
 
             val birthDate = LocalDate.parse(birthDateString, IdCard.formatter)
-            val rpPlayer = RpPlayer[player.uniqueId]
+            plugin.launch {
+                val rpPlayer = RpPlayer[player.uniqueId]
 
-            audience.showDialog(
-                idCreationSuccess(firstName, lastName, birthDate)
-            )
+                rpPlayer.updateInformation {
+                    this.firstName = firstName
+                    this.lastName = lastName
+                    this.birthDate = birthDate
+                }
+
+                audience.showDialog(
+                    idCreationSuccess(firstName, lastName, birthDate)
+                )
+            }
         }
     }
 }

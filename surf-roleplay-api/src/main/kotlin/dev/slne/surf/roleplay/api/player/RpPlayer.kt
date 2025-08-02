@@ -59,11 +59,18 @@ interface RpPlayer : HasTransactions {
      */
     suspend fun updateInformation(update: RpPlayerInformation.() -> Unit)
 
+    /**
+     * Checks if the player is a citizen.
+     * Player is citizen if they have successfully created an IDCard.
+     *
+     * @return `true` if the player is a citizen, `false` otherwise.
+     */
+    fun isCitizen(): Boolean
+
     companion object {
         /**
          * Gets a [RpPlayer] by their [UUID].
          */
         suspend operator fun get(uuid: UUID) = RpPlayerManager[uuid]
     }
-
 }
