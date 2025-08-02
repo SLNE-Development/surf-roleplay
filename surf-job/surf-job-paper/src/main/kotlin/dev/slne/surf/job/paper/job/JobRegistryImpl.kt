@@ -5,6 +5,7 @@ import dev.slne.surf.job.api.job.Job
 import dev.slne.surf.job.api.job.JobRegistry
 import dev.slne.surf.job.api.job.jobs.neutral.CitizenJob
 import dev.slne.surf.job.api.player.changeJob
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import net.kyori.adventure.util.Services
@@ -33,5 +34,9 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
         }
 
         return state
+    }
+
+    override fun findJobByPlayer(player: RpPlayer): Job {
+        TODO("Not yet implemented")
     }
 }

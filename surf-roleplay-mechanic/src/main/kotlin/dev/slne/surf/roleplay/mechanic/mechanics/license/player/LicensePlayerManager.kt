@@ -12,7 +12,7 @@ object LicensePlayerManager {
 
     fun remove(uuid: UUID) = _players.removeIf { it.rpPlayer.uuid == uuid }
 
-    operator fun get(uuid: UUID) = _players.firstOrNull { it.rpPlayer.uuid == uuid }
+    suspend operator fun get(uuid: UUID) = _players.firstOrNull { it.rpPlayer.uuid == uuid }
         ?: LicensePlayer(RpPlayerManager[uuid]).also { _players.add(it) }
 
 }

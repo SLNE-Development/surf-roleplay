@@ -27,4 +27,4 @@ class LicensePlayer(val rpPlayer: RpPlayer) {
 
 }
 
-val RpPlayer.licensePlayer get() = LicensePlayerManager[uuid]
+suspend fun RpPlayer.licensePlayer() = LicensePlayerManager[uuid]

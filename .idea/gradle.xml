@@ -5,7 +5,6 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -13,6 +12,7 @@
             <option value="$PROJECT_DIR$/surf-job/surf-job-api" />
             <option value="$PROJECT_DIR$/surf-job/surf-job-paper" />
             <option value="$PROJECT_DIR$/surf-roleplay-api" />
+            <option value="$PROJECT_DIR$/surf-roleplay-core" />
             <option value="$PROJECT_DIR$/surf-roleplay-mechanic" />
             <option value="$PROJECT_DIR$/surf-roleplay-paper" />
           </set>

@@ -57,21 +57,21 @@ interface HasTransactions {
      *
      * @return The cash balance as a [Double].
      */
-    suspend fun getCashBalance(): Double
+    suspend fun getCashBalance(): Double = getBalance(BalanceType.CASH)
 
     /**
      * Adds the specified [amount] to the player's cash balance.
      *
      * @param amount The amount to add to the cash balance.
      */
-    suspend fun addCashBalance(amount: Double)
+    suspend fun addCashBalance(amount: Double) = addBalance(BalanceType.CASH, amount)
 
     /**
      * Removes the specified [amount] from the player's cash balance.
      *
      * @param amount The amount to remove from the cash balance.
      */
-    suspend fun removeCashBalance(amount: Double)
+    suspend fun removeCashBalance(amount: Double) = removeBalance(BalanceType.CASH, amount)
 
     /**
      * Checks if the player has a sufficient cash balance for the given [amount].
@@ -79,7 +79,7 @@ interface HasTransactions {
      * @param amount The amount to check against the player's cash balance.
      * @return `true` if the player has enough cash balance, `false` otherwise.
      */
-    suspend fun hasCashBalance(amount: Double): Boolean
+    suspend fun hasCashBalance(amount: Double): Boolean = hasBalance(BalanceType.CASH, amount)
 
     /**
      * Retrieves the cash balance history.
@@ -87,28 +87,31 @@ interface HasTransactions {
      * @param limit The maximum number of transactions to retrieve. Defaults to 10.
      * @return A list of [RpTransaction] representing the cash balance history.
      */
-    suspend fun getCashBalanceHistory(limit: Int = 10): List<RpTransaction>
+    suspend fun getCashBalanceHistory(limit: Int = 10): List<RpTransaction> = getBalanceHistory(
+        BalanceType.CASH,
+        limit
+    )
 
     /**
      * Retrieves the player's bank balance.
      *
      * @return The bank balance as a [Double].
      */
-    suspend fun getBankBalance(): Double
+    suspend fun getBankBalance(): Double = getBalance(BalanceType.BANK)
 
     /**
      * Adds the specified [amount] to the player's bank balance.
      *
      * @param amount The amount to add to the bank balance.
      */
-    suspend fun addBankBalance(amount: Double)
+    suspend fun addBankBalance(amount: Double) = addBalance(BalanceType.BANK, amount)
 
     /**
      * Removes the specified [amount] from the player's bank balance.
      *
      * @param amount The amount to remove from the bank balance.
      */
-    suspend fun removeBankBalance(amount: Double)
+    suspend fun removeBankBalance(amount: Double) = removeBalance(BalanceType.BANK, amount)
 
     /**
      * Checks if the player has a sufficient bank balance for the given [amount].
@@ -116,7 +119,7 @@ interface HasTransactions {
      * @param amount The amount to check against the player's bank balance.
      * @return `true` if the player has enough bank balance, `false` otherwise.
      */
-    suspend fun hasBankBalance(amount: Double): Boolean
+    suspend fun hasBankBalance(amount: Double): Boolean = hasBalance(BalanceType.BANK, amount)
 
     /**
      * Retrieves the bank balance history.
@@ -124,28 +127,31 @@ interface HasTransactions {
      * @param limit The maximum number of transactions to retrieve. Defaults to 10.
      * @return A list of [RpTransaction] representing the bank balance history.
      */
-    suspend fun getBankBalanceHistory(limit: Int = 10): List<RpTransaction>
+    suspend fun getBankBalanceHistory(limit: Int = 10): List<RpTransaction> = getBalanceHistory(
+        BalanceType.BANK,
+        limit
+    )
 
     /**
      * Retrieves the player's crypto balance.
      *
      * @return The crypto balance as a [Double].
      */
-    suspend fun getCryptoBalance(): Double
+    suspend fun getCryptoBalance(): Double = getBalance(BalanceType.CRYPTO)
 
     /**
      * Adds the specified [amount] to the player's crypto balance.
      *
      * @param amount The amount to add to the crypto balance.
      */
-    suspend fun addCryptoBalance(amount: Double)
+    suspend fun addCryptoBalance(amount: Double) = addBalance(BalanceType.CRYPTO, amount)
 
     /**
      * Removes the specified [amount] from the player's crypto balance.
      *
      * @param amount The amount to remove from the crypto balance.
      */
-    suspend fun removeCryptoBalance(amount: Double)
+    suspend fun removeCryptoBalance(amount: Double) = removeBalance(BalanceType.CRYPTO, amount)
 
     /**
      * Checks if the player has a sufficient crypto balance for the given [amount].
@@ -153,7 +159,7 @@ interface HasTransactions {
      * @param amount The amount to check against the player's crypto balance.
      * @return `true` if the player has enough crypto balance, `false` otherwise.
      */
-    suspend fun hasCryptoBalance(amount: Double): Boolean
+    suspend fun hasCryptoBalance(amount: Double): Boolean = hasBalance(BalanceType.CRYPTO, amount)
 
     /**
      * Retrieves the crypto balance history.
@@ -161,5 +167,8 @@ interface HasTransactions {
      * @param limit The maximum number of transactions to retrieve. Defaults to 10.
      * @return A list of [RpTransaction] representing the crypto balance history.
      */
-    suspend fun getCryptoBalanceHistory(limit: Int = 10): List<RpTransaction>
+    suspend fun getCryptoBalanceHistory(limit: Int = 10): List<RpTransaction> = getBalanceHistory(
+        BalanceType.CRYPTO,
+        limit
+    )
 }

@@ -46,12 +46,12 @@ abstract class License(
             return false to UnobtainableReason.NoPermissions
         }
 
-        if (player.licensePlayer.hasLicense(this)) {
+        if (player.licensePlayer().hasLicense(this)) {
             return false to UnobtainableReason.AlreadyHasLicense()
         }
 
         val missingDependencies = dependencies
-            .filterNot { player.licensePlayer.hasLicense(it) }
+            .filterNot { player.licensePlayer().hasLicense(it) }
             .toObjectSet()
 
         if (missingDependencies.isNotEmpty()) {

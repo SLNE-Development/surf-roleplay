@@ -1,7 +1,6 @@
 package dev.slne.surf.job.paper
 
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
-import dev.slne.surf.job.paper.listener.ListenerManager
 import dev.slne.surf.job.paper.utils.PermissionRegistry
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -15,7 +14,6 @@ class SurfJob : SuspendingJavaPlugin() {
 
     override suspend fun onEnableAsync() {
         PermissionRegistry.createJobJoinPermissions()
-        ListenerManager.register()
     }
 
     override suspend fun onDisableAsync() {

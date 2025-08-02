@@ -1,6 +1,7 @@
 package dev.slne.surf.roleplay.mechanic
 
 import dev.slne.surf.roleplay.mechanic.mechanics.license.LicenseMechanic
+import dev.slne.surf.roleplay.mechanic.mechanics.test.TestMechanic
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 
@@ -10,6 +11,7 @@ object MechanicRegistry {
 
     fun registerMechanics() {
         mechanics.add(LicenseMechanic)
+        mechanics.add(TestMechanic)
     }
 
     fun registerBukkitHandlers() {

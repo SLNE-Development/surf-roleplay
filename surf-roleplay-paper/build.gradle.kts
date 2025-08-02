@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":surf-roleplay-api"))
+    api(project(":surf-roleplay-core"))
     api(project(":surf-roleplay-mechanic"))
 
     api(project(":surf-job:surf-job-paper"))
@@ -14,7 +14,7 @@ dependencies {
 }
 
 surfPaperPluginApi {
-    mainClass("dev.slne.surf.cloud.bukkit.BukkitMain")
+    mainClass("dev.slne.surf.roleplay.paper.SurfRoleplay")
     generateLibraryLoader(false)
     authors.add("Ammo")
 

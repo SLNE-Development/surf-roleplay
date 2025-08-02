@@ -15,7 +15,12 @@ interface RpPlayer : HasTransactions {
     /**
      * The username of the player.
      */
-    val username: String?
+    var username: String?
+
+    /**
+     * Information about the player, such as first name, last name, and birth date.
+     */
+    val information: RpPlayerInformation
 
     /**
      * The Bukkit [Player] representation of this player, if they are online.
@@ -34,13 +39,13 @@ interface RpPlayer : HasTransactions {
      * @param permission The permission to check.
      * @return `true` if the player has the permission, `false` otherwise.
      */
-    fun hasPermission(permission: String): Boolean
+    fun hasPermission(permission: String): Boolean = bukkitPlayer?.hasPermission(permission) == true
 
     companion object {
         /**
          * Gets a [RpPlayer] by their [UUID].
          */
-        operator fun get(uuid: UUID) = RpPlayerManager[uuid]
+        suspend operator fun get(uuid: UUID) = RpPlayerManager[uuid]
     }
 
 }
