@@ -14,12 +14,16 @@ import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
+import it.unimi.dsi.fastutil.objects.ObjectSet
 import kotlinx.coroutines.withContext
 
-class LicensePlayerImpl(val rpPlayer: RpPlayer) : LicensePlayer {
-
-    private val _licenses = mutableObjectSetOf<PlayerLicense>()
+class LicensePlayerImpl(
+    override val rpPlayer: RpPlayer,
+) : LicensePlayer {
+    private val _licenses: ObjectSet<PlayerLicense> = mutableObjectSetOf<PlayerLicense>()
     override val licenses get() = _licenses.freeze()
+
+    fun addLicensesInternal(licenses: ObjectSet<PlayerLicense>) = _licenses.addAll(licenses)
 
     override suspend fun addLicense(license: License): Pair<Boolean, UnobtainableReason?> {
         val (canObtain, reason) = license.canObtain(rpPlayer)
@@ -56,7 +60,7 @@ class LicensePlayerImpl(val rpPlayer: RpPlayer) : LicensePlayer {
         withContext(plugin.globalRegionDispatcher) {
             server.pluginManager.callEvent(event)
         }
-        
+
         if (event.isCancelled) {
             return false
         }
@@ -77,4 +81,4 @@ class LicensePlayerImpl(val rpPlayer: RpPlayer) : LicensePlayer {
         _licenses.any { it.license::class.java == license }
 }
 
-suspend fun RpPlayer.licensePlayer() = LicensePlayerManager[uuid]
+suspend fun RpPlayer.licensePlayer() = LicensePlayerService[uuid]

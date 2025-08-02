@@ -4,6 +4,7 @@ import dev.slne.surf.roleplay.api.mechanic.license.License
 import dev.slne.surf.roleplay.api.mechanic.license.PlayerLicense
 import dev.slne.surf.roleplay.api.mechanic.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.mechanic.license.utils.UnobtainableReason
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 
 interface LicensePlayer {
@@ -12,6 +13,11 @@ interface LicensePlayer {
      * The licenses owned by the player.
      */
     val licenses: ObjectSet<PlayerLicense>
+
+    /**
+     * The [RpPlayer] associated with this license player.
+     */
+    val rpPlayer: RpPlayer
 
     /**
      * Adds a license to the player.
