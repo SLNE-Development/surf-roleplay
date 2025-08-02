@@ -7,12 +7,12 @@ import java.util.*
 
 object LicensePlayerManager {
 
-    private val _players = mutableObjectSetOf<LicensePlayer>()
+    private val _players = mutableObjectSetOf<LicensePlayerImpl>()
     val players get() = _players.freeze()
 
     fun remove(uuid: UUID) = _players.removeIf { it.rpPlayer.uuid == uuid }
 
     suspend operator fun get(uuid: UUID) = _players.firstOrNull { it.rpPlayer.uuid == uuid }
-        ?: LicensePlayer(RpPlayerManager[uuid]).also { _players.add(it) }
+        ?: LicensePlayerImpl(RpPlayerManager[uuid]).also { _players.add(it) }
 
 }

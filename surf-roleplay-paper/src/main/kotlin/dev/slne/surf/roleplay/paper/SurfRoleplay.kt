@@ -2,7 +2,8 @@ package dev.slne.surf.roleplay.paper
 
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import dev.slne.surf.roleplay.core.RpDatabase
-import dev.slne.surf.roleplay.mechanic.MechanicRegistry
+import dev.slne.surf.roleplay.mechanic.mechanicRegistryImpl
+import dev.slne.surf.roleplay.paper.listeners.ListenerManager
 import org.bukkit.plugin.java.JavaPlugin
 
 val plugin get() = JavaPlugin.getPlugin(SurfRoleplay::class.java)
@@ -13,19 +14,24 @@ class SurfRoleplay : SuspendingJavaPlugin() {
 
     override suspend fun onLoadAsync() {
         rpDatabase = RpDatabase(dataPath)
+
+        mechanicRegistryImpl.registerMechanics()
+        mechanicRegistryImpl.registerDatabaseTables(rpDatabase)
+
         rpDatabase.onLoad()
 
-        MechanicRegistry.registerMechanics()
-        MechanicRegistry.loadMechanics()
+        mechanicRegistryImpl.loadMechanics(this)
     }
 
     override suspend fun onEnableAsync() {
-        MechanicRegistry.enableMechanics()
-        MechanicRegistry.registerBukkitHandlers()
+        ListenerManager.registerListeners()
+
+        mechanicRegistryImpl.enableMechanics(this)
+        mechanicRegistryImpl.registerBukkitHandlers()
     }
 
     override suspend fun onDisableAsync() {
-        MechanicRegistry.disableMechanics()
+        mechanicRegistryImpl.disableMechanics(this)
 
         rpDatabase.onDisable()
     }
