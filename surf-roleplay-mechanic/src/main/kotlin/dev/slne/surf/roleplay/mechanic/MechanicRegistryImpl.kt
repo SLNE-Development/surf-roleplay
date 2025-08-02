@@ -12,8 +12,13 @@ import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import net.kyori.adventure.util.Services
 
+val plugin get() = mechanicRegistryImpl.plugin
+
 @AutoService(MechanicRegistry::class)
 class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
+
+    lateinit var plugin: SuspendingJavaPlugin
+        private set
 
     private val mechanics = mutableObjectSetOf<MechanicImpl>()
 
@@ -38,14 +43,16 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
     }
 
     fun loadMechanics(plugin: SuspendingJavaPlugin) {
+        this.plugin = plugin
+
         mechanics.forEach { it.onLoad(plugin) }
     }
 
-    fun enableMechanics(plugin: SuspendingJavaPlugin) {
+    fun enableMechanics() {
         mechanics.forEach { it.onEnable(plugin) }
     }
 
-    fun disableMechanics(plugin: SuspendingJavaPlugin) {
+    fun disableMechanics() {
         mechanics.forEach { it.onDisable(plugin) }
     }
 }
