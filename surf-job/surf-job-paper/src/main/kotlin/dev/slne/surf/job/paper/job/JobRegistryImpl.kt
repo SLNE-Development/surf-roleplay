@@ -96,7 +96,6 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
         return state
     }
 
-    override fun findJobByPlayer(player: RpPlayer): Job {
-        TODO("Not yet implemented")
-    }
+    override fun findJobByPlayer(player: RpPlayer): Job =
+        _jobs.first { it.players.contains(player) }
 }
