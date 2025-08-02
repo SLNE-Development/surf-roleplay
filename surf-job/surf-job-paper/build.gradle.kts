@@ -1,19 +1,9 @@
-import dev.slne.surf.surfapi.gradle.util.withSurfApiBukkit
-
 plugins {
-    id("dev.slne.surf.surfapi.gradle.paper-plugin")
+    id("dev.slne.surf.surfapi.gradle.paper-raw")
 }
 
 dependencies {
     api(project(":surf-job:surf-job-api"))
-}
-
-surfPaperPluginApi {
-    mainClass("dev.slne.surf.job.paper.SurfJob")
-    generateLibraryLoader(false)
-    authors.add("Ammo")
-
-    runServer {
-        withSurfApiBukkit()
-    }
+    
+    compileOnly(libs.surf.database)
 }

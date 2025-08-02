@@ -7,6 +7,10 @@ plugins {
 dependencies {
     api(project(":surf-roleplay-api"))
     api(project(":surf-roleplay-mechanic"))
+
+    api(project(":surf-job:surf-job-paper"))
+
+    runtimeOnly(libs.surf.database)
 }
 
 surfPaperPluginApi {

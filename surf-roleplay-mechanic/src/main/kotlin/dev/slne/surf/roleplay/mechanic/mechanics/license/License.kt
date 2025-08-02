@@ -75,7 +75,7 @@ abstract class License(
             error("Du hast nicht genug Geld, um diese Lizenz zu erwerben.")
             appendNewline(2)
 
-            variableKey("Dein Barggeld: ")
+            variableKey("Dein Bargeld: ")
             variableValue(currentAmount)
             appendNewline(2)
 
@@ -91,7 +91,7 @@ abstract class License(
         })
 
         class AlreadyHasLicense : UnobtainableReason(buildText {
-            info("Du hast diese Lizenz bereits erworben erworben.")
+            info("Du hast diese Lizenz bereits erworben.")
         })
 
         class DependenciesNotMet(

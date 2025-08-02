@@ -4,4 +4,6 @@ plugins {
 
 dependencies {
     api(project(":surf-roleplay-api"))
+
+    compileOnly(libs.surf.database)
 }
