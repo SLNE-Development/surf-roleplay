@@ -5,6 +5,7 @@ import com.google.auto.service.AutoService
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.MechanicRegistry
 import dev.slne.surf.roleplay.core.RpDatabase
+import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.LicenseMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.test.TestMechanicImpl
 import dev.slne.surf.surfapi.bukkit.api.event.register
@@ -24,6 +25,7 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
     fun registerMechanics() {
         mechanics.add(LicenseMechanicImpl)
         mechanics.add(TestMechanicImpl)
+        mechanics.add(IdCardMechanicImpl)
     }
 
     fun registerBukkitHandlers() {
