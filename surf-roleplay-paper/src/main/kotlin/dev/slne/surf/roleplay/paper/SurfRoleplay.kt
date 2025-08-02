@@ -26,12 +26,12 @@ class SurfRoleplay : SuspendingJavaPlugin() {
     override suspend fun onEnableAsync() {
         ListenerManager.registerListeners()
 
-        mechanicRegistryImpl.enableMechanics(this)
+        mechanicRegistryImpl.enableMechanics()
         mechanicRegistryImpl.registerBukkitHandlers()
     }
 
     override suspend fun onDisableAsync() {
-        mechanicRegistryImpl.disableMechanics(this)
+        mechanicRegistryImpl.disableMechanics()
 
         rpDatabase.onDisable()
     }
