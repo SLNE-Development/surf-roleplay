@@ -62,4 +62,8 @@ class RpPlayerImpl(
         balanceType: BalanceType,
         amount: Double
     ) = balances.getOrDefault(balanceType, 0.0) >= amount
+
+    override fun isCitizen() = information.firstName != null &&
+            information.lastName != null &&
+            information.birthDate != null
 }
