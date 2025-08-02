@@ -32,6 +32,17 @@ sealed class UnobtainableReason(message: Component) {
         info("Du hast diese Lizenz bereits erworben.")
     })
 
+    class EventCancelled(
+        val reason: String? = null
+    ) : UnobtainableReason(buildText {
+        error("Der Erwerb dieser Lizenz wurde abgebrochen.")
+        reason?.let {
+            appendNewline(2)
+            variableValue("Grund: ")
+            variableKey(it)
+        }
+    })
+
     class DependenciesNotMet(
         val missingDependencies: ObjectSet<License>
     ) : UnobtainableReason(buildText {

@@ -7,7 +7,6 @@ import dev.slne.surf.roleplay.api.mechanic.MechanicRegistry
 import dev.slne.surf.roleplay.core.RpDatabase
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.LicenseMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.test.TestMechanicImpl
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import net.kyori.adventure.util.Services
@@ -20,16 +19,15 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
     lateinit var plugin: SuspendingJavaPlugin
         private set
 
-    private val mechanics = mutableObjectSetOf<MechanicImpl>()
+    private val mechanics = mutableObjectSetOf<Mechanic>()
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : Mechanic> getMechanic(clazz: Class<T>) =
-        mechanics.firstOrNull { it::class.java == clazz } as? T
+        mechanics.firstOrNull { clazz.isAssignableFrom(it.javaClass) } as? T
             ?: throw IllegalArgumentException("No mechanic of class ${clazz.name} is registered.")
 
     fun registerMechanics() {
         mechanics.add(LicenseMechanicImpl)
-        mechanics.add(TestMechanicImpl)
         mechanics.add(IdCardMechanicImpl)
     }
 
@@ -38,7 +36,7 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
     }
 
     fun registerDatabaseTables(rpDatabase: RpDatabase) {
-        mechanics.flatMap { it.getDatabaseTables() }
+        mechanics.map { it as MechanicImpl }.flatMap { it.getDatabaseTables() }
             .forEach { rpDatabase.registerMechanicTable(it) }
     }
 

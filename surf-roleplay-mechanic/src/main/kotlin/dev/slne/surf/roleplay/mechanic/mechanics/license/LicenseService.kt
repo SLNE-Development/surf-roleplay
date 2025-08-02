@@ -5,6 +5,7 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.core.player.rpPlayerManagerImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.db.PlayerLicenseModel
 import dev.slne.surf.roleplay.mechanic.mechanics.license.db.PlayerLicenseTable
+import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -32,18 +33,24 @@ object LicenseService {
         rpPlayer: RpPlayer,
         license: License
     ) = newSuspendedTransaction(Dispatchers.IO) {
+        val rpPlayerModel = rpPlayerManagerImpl.findOrCreate(rpPlayer.uuid)
+        val playerLicense = PlayerLicenseModel.find {
+            (PlayerLicenseTable.rpPlayer eq rpPlayerModel.id) and
+                    (PlayerLicenseTable.license eq license.key.asString())
+        }.firstOrNull() ?: return@newSuspendedTransaction false
 
+        playerLicense.delete()
+        
         true
     }
 
-    suspend fun removeAllExpiredLicenses() = newSuspendedTransaction(Dispatchers.IO) {
+    suspend fun getAllExpiredLicenses() = newSuspendedTransaction(Dispatchers.IO) {
         val licenses = PlayerLicenseModel.find {
             PlayerLicenseTable.expiresAt.isNotNull() and
                     (PlayerLicenseTable.expiresAt lessEq ZonedDateTime.now())
         }
 
-        licenses.forEach { it.delete() }
-        licenses.map { it.toApi() }
+        licenses.map { it.toApi() }.toObjectSet()
     }
 
 }

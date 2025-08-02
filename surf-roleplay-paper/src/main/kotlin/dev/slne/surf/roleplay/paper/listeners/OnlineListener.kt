@@ -1,9 +1,9 @@
 package dev.slne.surf.roleplay.paper.listeners
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.events.RpPlayerJoinEvent
-import dev.slne.surf.roleplay.api.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.api.player.RpPlayerManager
+import dev.slne.surf.roleplay.api.player.events.RpPlayerJoinEvent
+import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import org.bukkit.event.EventHandler

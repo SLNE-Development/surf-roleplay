@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.license.db
 
+import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.license.LicenseMechanic
 import dev.slne.surf.roleplay.api.mechanic.license.PlayerLicense
 import dev.slne.surf.roleplay.api.player.RpPlayerManager
@@ -20,7 +21,7 @@ class PlayerLicenseModel(id: EntityID<Long>) : LongEntity(id) {
 
     suspend fun toApi() = PlayerLicense(
         player = RpPlayerManager[rpPlayer.uuid],
-        license = LicenseMechanic.getLicenseByKey(key(license)),
+        license = Mechanic.getMechanic<LicenseMechanic>().getLicenseByKey(key(license)),
         expiresAt = expiresAt,
         createdAt = createdAt
     )

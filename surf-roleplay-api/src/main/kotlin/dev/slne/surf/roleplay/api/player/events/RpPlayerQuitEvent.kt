@@ -1,10 +1,10 @@
-package dev.slne.surf.roleplay.api.events
+package dev.slne.surf.roleplay.api.player.events
 
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class RpPlayerJoinEvent(
+class RpPlayerQuitEvent(
     val rpPlayer: RpPlayer,
     async: Boolean = false
 ) : Event(async) {
