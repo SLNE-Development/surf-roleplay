@@ -1,15 +1,16 @@
 package dev.slne.surf.roleplay.paper.listeners
 
+import com.github.shynixn.mccoroutine.folia.globalRegionDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.job.api.job.JobRegistry
-import dev.slne.surf.job.api.job.getJob
 import dev.slne.surf.job.api.job.jobs.neutral.CitizenJob
 import dev.slne.surf.job.api.player.changeJob
+import dev.slne.surf.job.paper.job.player.jobPlayer
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.extensions.server
+import kotlinx.coroutines.withContext
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -22,23 +23,27 @@ object OnlineListener : Listener {
         plugin.launch {
             val player = RpPlayer[event.player.uniqueId]
 
-            server.pluginManager.callEvent(
-                RpPlayerJoinEvent(player)
-            )
+            withContext(plugin.globalRegionDispatcher) {
+                server.pluginManager.callEvent(
+                    RpPlayerJoinEvent(player)
+                )
+            }
 
-            player.changeJob(JobRegistry.getJob<CitizenJob>())
+            player.jobPlayer().changeJob<CitizenJob>()
         }
     }
 
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         plugin.launch {
-            server.pluginManager.callEvent(
-                RpPlayerQuitEvent(
-                    RpPlayer[event.player.uniqueId],
-                    true
+            withContext(plugin.globalRegionDispatcher) {
+                server.pluginManager.callEvent(
+                    RpPlayerQuitEvent(
+                        RpPlayer[event.player.uniqueId],
+                        true
+                    )
                 )
-            )
+            }
         }
     }
 }

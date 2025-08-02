@@ -1,6 +1,6 @@
 package dev.slne.surf.job.api.job
 
-import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.job.api.player.JobPlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
 
@@ -40,24 +40,24 @@ interface Job {
     /**
      * The players that are currently in the job
      */
-    val players: ObjectSet<RpPlayer>
+    val players: ObjectSet<JobPlayer>
 
     /**
      * Checks if a player can join the job based on the join requirements
      * and the maximum number of players allowed in the job.
      *
-     * @param player the [RpPlayer] to check if they can join the job
+     * @param player the [JobPlayer] to check if they can join the job
      * @return true if the player can join the job, false otherwise
      */
-    fun canJoin(player: RpPlayer): Boolean
+    fun canJoin(player: JobPlayer): Boolean
 
     /**
      * Checks if a player can keep the job based on the keep requirements
      *
-     * @param player the [RpPlayer] to check if they can keep the job
+     * @param player the [JobPlayer] to check if they can keep the job
      * @return true if the player can keep the job, false otherwise
      */
-    fun canKeep(player: RpPlayer): Boolean
+    fun canKeep(player: JobPlayer): Boolean
 
     /**
      * Assigns a player to the job.
@@ -69,16 +69,16 @@ interface Job {
      *
      * @param player the [JobPlayer] to assign to the job
      */
-    fun assignPlayer(player: RpPlayer): Boolean
+    fun assignPlayer(player: JobPlayer): Boolean
 
     /**
      * Removes a player from the job.
      * This method sets the player's current job to citizen.
      *
-     * @param player the [RpPlayer] to remove from the job
+     * @param player the [JobPlayer] to remove from the job
      * @return true if the player was successfully removed, false otherwise
      */
-    fun removePlayer(player: RpPlayer): Boolean
+    fun removePlayer(player: JobPlayer): Boolean
 
     /**
      * Checks if all players in the job still meet their keep requirements.

@@ -3,12 +3,13 @@ package dev.slne.surf.job.paper.job
 import dev.slne.surf.job.api.job.Job
 import dev.slne.surf.job.api.job.JobRequirement
 import dev.slne.surf.job.api.job.jobs.neutral.CitizenJob
+import dev.slne.surf.job.api.player.JobPlayer
 import dev.slne.surf.job.api.player.changeJob
-import dev.slne.surf.job.api.player.currentJob
+import dev.slne.surf.job.paper.job.player.JobPlayerImpl
+import dev.slne.surf.job.paper.job.player.JobPlayerService
 import dev.slne.surf.job.paper.utils.PermissionRegistry
-import dev.slne.surf.roleplay.api.player.RpPlayer
-import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
+import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
 
@@ -21,38 +22,40 @@ open class JobImpl(
     override val keepRequirements: ObjectSet<JobRequirement> = joinRequirements
 ) : Job {
 
+    private val _finalJoinRequirements = mutableObjectSetOf<JobRequirement>()
+    private val _finalKeepRequirements = mutableObjectSetOf<JobRequirement>()
+
     init {
-        // Default join requirement: job must have fewer players than maxPlayers
-        joinRequirements.add { job, player ->
+        _finalJoinRequirements.add { job, player ->
             job.maxPlayers == -1 || job.players.size < job.maxPlayers ||
-                    player.bukkitPlayer?.hasPermission(
+                    player.rpPlayer.bukkitPlayer?.hasPermission(
                         PermissionRegistry.JOB_JOIN_IGNORE_MAX_PLAYERS
                     ) == true
         }
+        _finalJoinRequirements.addAll(joinRequirements)
+        _finalKeepRequirements.addAll(keepRequirements)
     }
 
-    private val _players = mutableObjectSetOf<RpPlayer>()
-    override val players get() = _players.freeze()
+    override val players = JobPlayerService.players.filter { it.currentJob == this }.toObjectSet()
 
-    override fun canJoin(player: RpPlayer) = joinRequirements.all { it.check(this, player) }
-    override fun canKeep(player: RpPlayer) = keepRequirements.all { it.check(this, player) }
+    override fun canJoin(player: JobPlayer) = _finalJoinRequirements.all { it.check(this, player) }
+    override fun canKeep(player: JobPlayer) = _finalKeepRequirements.all { it.check(this, player) }
 
-    override fun assignPlayer(player: RpPlayer): Boolean {
+    override fun assignPlayer(player: JobPlayer): Boolean {
+        val player = player as JobPlayerImpl
+
         if (!canJoin(player)) {
-            throw IllegalStateException("Player ${player.uuid} cannot join job $name due to requirements not met.")
+            throw IllegalStateException("Player ${player.rpPlayer.uuid} cannot join job $name due to requirements not met.")
         }
 
         val oldJob = player.currentJob
-        oldJob.removePlayer(player)
-
-        _players.add(player)
+        player.currentJob = this
+        oldJob.performKeepRequirementsCheck()
 
         return true
     }
 
-    override fun removePlayer(player: RpPlayer): Boolean {
-        _players.remove(player)
-
+    override fun removePlayer(player: JobPlayer): Boolean {
         if (player.currentJob == this) {
             player.changeJob<CitizenJob>()
         }
@@ -65,7 +68,7 @@ open class JobImpl(
     override fun performKeepRequirementsCheck(): Boolean {
         var state = true
 
-        _players.forEach { player ->
+        players.forEach { player ->
             if (!canKeep(player)) {
                 player.changeJob<CitizenJob>()
                 state = false
@@ -74,4 +77,9 @@ open class JobImpl(
 
         return state
     }
+
+    override fun toString(): String {
+        return "JobImpl(_finalKeepRequirements=$_finalKeepRequirements, _finalJoinRequirements=$_finalJoinRequirements, maxPlayers=$maxPlayers, income=$income, displayName=$displayName, name='$name', players=$players)"
+    }
+    
 }

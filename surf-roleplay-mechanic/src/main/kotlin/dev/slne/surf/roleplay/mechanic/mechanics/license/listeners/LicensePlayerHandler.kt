@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
 object LicensePlayerHandler : Listener {
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     fun onPlayerQuit(event: RpPlayerQuitEvent) {
         LicensePlayerService.remove(event.rpPlayer.uuid)
     }

@@ -1,11 +1,10 @@
 package dev.slne.surf.job.api.job
 
-import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.core.api.util.requiredService
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.jetbrains.annotations.Unmodifiable
 
-private val jobRegistry get() = requiredService<JobRegistry>()
+private val jobRegistry = requiredService<JobRegistry>()
 
 interface JobRegistry {
 
@@ -29,14 +28,6 @@ interface JobRegistry {
      * @return true if all jobs meet their keep requirements, false otherwise
      */
     fun checkJobKeepRequirements(): Boolean
-
-    /**
-     * Finds the job associated with the specified player.
-     *
-     * @param player The [RpPlayer] whose job is to be found.
-     * @return The [Job] associated with the player.
-     */
-    fun findJobByPlayer(player: RpPlayer): Job
 
     companion object : JobRegistry by jobRegistry {
         /**

@@ -15,7 +15,6 @@ import dev.slne.surf.job.paper.job.jobs.seller.*
 import dev.slne.surf.job.paper.job.jobs.state.*
 import dev.slne.surf.job.paper.job.jobs.state.FirefighterJobImpl.FirefighterChiefJobImpl
 import dev.slne.surf.job.paper.job.jobs.state.PoliceJobImpl.SergeantJobImpl
-import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import net.kyori.adventure.util.Services
@@ -78,7 +77,7 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : Job> getJob(jobClass: Class<T>) =
-        _jobs.firstOrNull { it::class.java == jobClass } as? T
+        jobs.firstOrNull { jobClass.isAssignableFrom(it.javaClass) } as? T
             ?: throw IllegalArgumentException("Job of class ${jobClass.name} is not registered in the JobRegistry.")
 
     override fun checkJobKeepRequirements(): Boolean {
@@ -95,7 +94,6 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
 
         return state
     }
-
-    override fun findJobByPlayer(player: RpPlayer): Job =
-        _jobs.first { it.players.contains(player) }
 }
+
+val jobRegistryImpl get() = JobRegistry.INSTANCE as JobRegistryImpl
