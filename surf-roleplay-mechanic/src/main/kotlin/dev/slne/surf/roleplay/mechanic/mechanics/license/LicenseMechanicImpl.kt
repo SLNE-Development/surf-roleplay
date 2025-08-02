@@ -2,12 +2,13 @@ package dev.slne.surf.roleplay.mechanic.mechanics.license
 
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import com.github.shynixn.mccoroutine.folia.launch
-import com.google.auto.service.AutoService
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.commandAPICommand
 import dev.jorel.commandapi.kotlindsl.getValue
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import dev.jorel.commandapi.kotlindsl.textArgument
+import dev.slne.surf.roleplay.api.mechanic.MechanicRegistry
+import dev.slne.surf.roleplay.api.mechanic.getMechanic
 import dev.slne.surf.roleplay.api.mechanic.license.License
 import dev.slne.surf.roleplay.api.mechanic.license.LicenseMechanic
 import dev.slne.surf.roleplay.api.player.RpPlayer
@@ -15,26 +16,24 @@ import dev.slne.surf.roleplay.mechanic.MechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.db.PlayerLicenseTable
 import dev.slne.surf.roleplay.mechanic.mechanics.license.licenses.DriversLicenseImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.licenses.FishingLicenseImpl
+import dev.slne.surf.roleplay.mechanic.mechanics.license.listeners.LicenseChangedHandler
 import dev.slne.surf.roleplay.mechanic.mechanics.license.listeners.LicensePlayerHandler
-import dev.slne.surf.roleplay.mechanic.mechanics.license.listeners.LicenseRemovedHandler
 import dev.slne.surf.roleplay.mechanic.mechanics.license.player.licensePlayer
 import dev.slne.surf.surfapi.core.api.messages.adventure.key
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import net.kyori.adventure.key.Key
-import net.kyori.adventure.util.Services
 import org.jetbrains.exposed.sql.Table
 import kotlin.time.Duration.Companion.seconds
 
-@AutoService(LicenseMechanic::class)
-class LicenseMechanicImpl : MechanicImpl(
+object LicenseMechanicImpl : MechanicImpl(
     "LicenseMechanic",
     handlers = objectSetOf(
         LicensePlayerHandler,
-        LicenseRemovedHandler
+        LicenseChangedHandler
     )
-), LicenseMechanic, Services.Fallback {
+), LicenseMechanic {
 
     private val _licenses = mutableObjectSetOf<License>()
     override val licenses get() = _licenses.freeze()
@@ -55,7 +54,7 @@ class LicenseMechanicImpl : MechanicImpl(
             textArgument("licenseName") {
                 replaceSuggestions(
                     ArgumentSuggestions.stringCollection {
-                        LicenseMechanic.licenses.map { it.key.asString() }
+                        MechanicRegistry.getMechanic<LicenseMechanic>().licenses.map { it.key.asString() }
                     }
                 )
             }
@@ -85,13 +84,11 @@ class LicenseMechanicImpl : MechanicImpl(
         expirationChecker.stop()
     }
 
-    override fun getLicense(license: Class<out License>) =
-        licenses.firstOrNull { it::class.java == license }
+    override fun getLicense(license: Class<License>) =
+        licenses.firstOrNull { license.isAssignableFrom(it.javaClass) }
             ?: throw IllegalArgumentException("License of type ${license.simpleName} not found")
 
     override fun getLicenseByKey(name: Key) =
         licenses.firstOrNull { it.key == name }
             ?: throw IllegalArgumentException("License with key $name not found")
 }
-
-val licenseMechanicImpl get() = LicenseMechanic.INSTANCE as LicenseMechanicImpl
