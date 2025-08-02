@@ -5,13 +5,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1617dd19-3690-4f7d-b993-ea020a7aa27c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/LicenseExpirationJob.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/LicenseService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-roleplay-mechanic/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/License.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/License.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/LicenseMechanic.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-mechanic/src/main/kotlin/dev/slne/surf/roleplay/mechanic/mechanics/license/LicenseMechanic.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surf-roleplay-paper/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/surf-roleplay-paper/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/gang/ContractKillerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/gang/GangsterJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/gang/MafiaJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/gang/RebelJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/gang/TerroristJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/gang/ThiefJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/FarmerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/HomelessJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/MinerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/OilRefinerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/neutral/PriestJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/seller/BlackMarketDealerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/seller/ButcherJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/seller/CookJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/seller/MechanicJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/seller/WeaponDealerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/CustomOfficerJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/DispatchJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/DoctorJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/FirefighterJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/MayorJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/PoliceJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/PrisonGuardJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/RescueServiceJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/SecretServiceJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/jobs/state/TaskForceJob.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/HasMayorJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/HasPoliceJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/MinGangsterJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/MinMafiaRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/MinPlayersJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/MinPoliceJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/MinRebelJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-api/src/main/kotlin/dev/slne/surf/job/api/job/requirements/MinTheifJobRequirement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/gang/ContractKillerJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/gang/GangsterJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/gang/MafiaJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/gang/RebelJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/gang/TerroristJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/gang/ThiefJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/neutral/CitizenJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/neutral/FarmerJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/neutral/HomelessJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/neutral/MinerJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/neutral/PriestJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/seller/BlackMarketDealerJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/seller/ButcherJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/seller/CookJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/seller/MechanicJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/seller/WeaponDealerJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/CustomOfficerJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/DispatchJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/DoctorJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/FirefighterJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/MayorJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/PoliceJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/PrisonGuardJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/RescueServiceJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/SecretServiceJobImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/state/TaskForceJobImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/JobRegistryImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/CitizenJobImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/surf-job/surf-job-paper/src/main/kotlin/dev/slne/surf/job/paper/job/jobs/neutral/OilRefinerJobImpl.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,8 +110,9 @@
       <list>
         <option value="package-info" />
         <option value="Kotlin Enum" />
-        <option value="Kotlin Interface" />
+        <option value="Class" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin Object" />
       </list>
     </option>
@@ -69,12 +129,12 @@
     &quot;assignee&quot;: &quot;ammodev&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:SLNE-Development/surf-roleplay.git&quot;,
-    &quot;accountId&quot;: &quot;e79b599f-83e0-4c80-b4c2-bd5ff9348fe9&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/JoField08/surf-roleplay",
+    "accountId": "4cd4754e-792e-48ea-a390-bb47fbb67c3a"
   }
-}</component>
+}]]></component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
@@ -125,7 +185,15 @@
       <recent name="S:\Workspaces\surf-roleplay\surf-job" />
       <recent name="C:\Workspaces\surf-job" />
     </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="dev.slne.surf.job.paper.job.jobs.neutral" />
+      <recent name="dev.slne.surf.job.paper.job.jobs.seller" />
+      <recent name="dev.slne.surf.job.api.job.jobs.seller" />
+      <recent name="dev.slne.surf.job.api.job.requirements" />
+      <recent name="dev.slne.surf.job.paper.job.jobs.gang" />
+    </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="dev.slne.surf.job.paper.job.jobs.neutral" />
       <recent name="dev.slne.surf.job.api.job.jobs.neutral" />
       <recent name="dev.slne.surf.job.api.job.jobs" />
       <recent name="dev.slne.surf.job.api.job" />
@@ -177,14 +245,6 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

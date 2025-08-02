@@ -18,7 +18,7 @@ open class JobImpl(
     override val income: Int,
     override val maxPlayers: Int,
     override val joinRequirements: ObjectSet<JobRequirement> = mutableObjectSetOf(),
-    override val keepRequirements: ObjectSet<JobRequirement> = mutableObjectSetOf()
+    override val keepRequirements: ObjectSet<JobRequirement> = joinRequirements
 ) : Job {
 
     init {
