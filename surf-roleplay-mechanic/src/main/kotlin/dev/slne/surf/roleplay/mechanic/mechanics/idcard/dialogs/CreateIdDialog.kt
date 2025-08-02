@@ -244,7 +244,7 @@ private fun cancelCreationButton() = actionButton {
     }
 }
 
-fun validateDate(dateString: String): Boolean {
+private fun validateDate(dateString: String): Boolean {
     val parts = dateString.split(".")
 
     if (parts.size != 3) {
