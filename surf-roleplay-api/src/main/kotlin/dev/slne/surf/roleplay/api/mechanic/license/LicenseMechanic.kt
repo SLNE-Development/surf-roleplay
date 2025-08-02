@@ -1,11 +1,18 @@
 package dev.slne.surf.roleplay.api.mechanic.license
 
+import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.surfapi.core.api.util.requiredService
+import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 
 private val licenseMechanic = requiredService<LicenseMechanic>()
 
-interface LicenseMechanic {
+interface LicenseMechanic : Mechanic {
+
+    /**
+     * A set of all registered [License] instances.
+     */
+    val licenses: ObjectSet<License>
 
     /**
      * Gets the [License] by its class type.

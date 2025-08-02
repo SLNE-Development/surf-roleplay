@@ -5,8 +5,7 @@ import com.google.auto.service.AutoService
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.MechanicRegistry
 import dev.slne.surf.roleplay.core.RpDatabase
-import dev.slne.surf.roleplay.mechanic.mechanics.license.LicenseMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.test.TestMechanicImpl
+import dev.slne.surf.roleplay.mechanic.mechanics.license.licenseMechanicImpl
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import net.kyori.adventure.util.Services
@@ -27,8 +26,7 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
             ?: throw IllegalArgumentException("No mechanic of class ${clazz.name} is registered.")
 
     fun registerMechanics() {
-        mechanics.add(LicenseMechanicImpl)
-        mechanics.add(TestMechanicImpl)
+        mechanics.add(licenseMechanicImpl)
     }
 
     fun registerBukkitHandlers() {
