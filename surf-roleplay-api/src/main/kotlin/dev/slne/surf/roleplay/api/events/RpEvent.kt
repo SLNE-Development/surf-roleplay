@@ -11,7 +11,9 @@ open class RpEvent(
     override fun getHandlers() = handlerList
 
     companion object {
-        @JvmStatic
         private val handlerList = HandlerList()
+        
+        @JvmStatic
+        fun getHandlerList(): HandlerList = handlerList
     }
 }

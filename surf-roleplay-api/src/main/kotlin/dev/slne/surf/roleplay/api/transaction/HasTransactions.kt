@@ -18,16 +18,18 @@ interface HasTransactions {
      *
      * @param balanceType The type of balance to add to.
      * @param amount The amount to add to the balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
-    suspend fun addBalance(balanceType: BalanceType, amount: Double)
+    suspend fun addBalance(balanceType: BalanceType, amount: Double): Boolean
 
     /**
      * Removes the specified [amount] from the player's balance of the given [BalanceType].
      *
      * @param balanceType The type of balance to remove from.
      * @param amount The amount to remove from the balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
-    suspend fun removeBalance(balanceType: BalanceType, amount: Double)
+    suspend fun removeBalance(balanceType: BalanceType, amount: Double): Boolean
 
     /**
      * Retrieves the balance history for the specified [BalanceType].
@@ -51,7 +53,7 @@ interface HasTransactions {
     suspend fun hasBalance(
         balanceType: BalanceType,
         amount: Double
-    ): Boolean
+    ): Boolean = getBalance(balanceType) >= amount
 
     /**
      * Retrieves the player's cash balance.
@@ -64,6 +66,7 @@ interface HasTransactions {
      * Adds the specified [amount] to the player's cash balance.
      *
      * @param amount The amount to add to the cash balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
     suspend fun addCashBalance(amount: Double) = addBalance(BalanceType.CASH, amount)
 
@@ -71,6 +74,7 @@ interface HasTransactions {
      * Removes the specified [amount] from the player's cash balance.
      *
      * @param amount The amount to remove from the cash balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
     suspend fun removeCashBalance(amount: Double) = removeBalance(BalanceType.CASH, amount)
 
@@ -102,6 +106,7 @@ interface HasTransactions {
      * Adds the specified [amount] to the player's bank balance.
      *
      * @param amount The amount to add to the bank balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
     suspend fun addBankBalance(amount: Double) = addBalance(BalanceType.BANK, amount)
 
@@ -109,6 +114,7 @@ interface HasTransactions {
      * Removes the specified [amount] from the player's bank balance.
      *
      * @param amount The amount to remove from the bank balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
     suspend fun removeBankBalance(amount: Double) = removeBalance(BalanceType.BANK, amount)
 
@@ -140,6 +146,7 @@ interface HasTransactions {
      * Adds the specified [amount] to the player's crypto balance.
      *
      * @param amount The amount to add to the crypto balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
     suspend fun addCryptoBalance(amount: Double) = addBalance(BalanceType.CRYPTO, amount)
 
@@ -147,6 +154,7 @@ interface HasTransactions {
      * Removes the specified [amount] from the player's crypto balance.
      *
      * @param amount The amount to remove from the crypto balance.
+     * @return `true` if the operation was successful, `false` otherwise.
      */
     suspend fun removeCryptoBalance(amount: Double) = removeBalance(BalanceType.CRYPTO, amount)
 
