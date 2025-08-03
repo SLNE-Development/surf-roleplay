@@ -6,18 +6,21 @@ import dev.slne.surf.job.api.job.jobs.neutral.CitizenJob
 import dev.slne.surf.job.api.player.changeJob
 import dev.slne.surf.job.paper.job.player.jobPlayer
 import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.player.events.RpPlayerDeathEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.paper.plugin
 import kotlinx.coroutines.withContext
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
 object OnlineListener : Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun onJoin(event: PlayerJoinEvent) {
         plugin.launch {
             val player = RpPlayer[event.player.uniqueId]
@@ -30,11 +33,20 @@ object OnlineListener : Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun onQuit(event: PlayerQuitEvent) {
         plugin.launch {
             withContext(plugin.globalRegionDispatcher) {
                 RpPlayerQuitEvent(RpPlayer[event.player.uniqueId]).callEvent()
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    fun onPlayerDeath(event: PlayerDeathEvent) {
+        plugin.launch {
+            withContext(plugin.globalRegionDispatcher) {
+                RpPlayerDeathEvent(RpPlayer[event.player.uniqueId], event).callEvent()
             }
         }
     }

@@ -3,6 +3,7 @@ package dev.slne.surf.job.api.job
 import dev.slne.surf.job.api.player.JobPlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
+import java.util.*
 
 interface Job {
 
@@ -20,6 +21,15 @@ interface Job {
      * The income of the job
      */
     val income: Int
+
+    /**
+     * Formats the income of the job to a localized string representation.
+     * This method uses the German locale for formatting, which uses a comma as the decimal separator
+     *
+     * @param locale the [Locale] to use for formatting the income
+     * @return a string representation of the income formatted according to the German locale
+     */
+    fun formatIncome(locale: Locale): String
 
     /**
      * The amount of players that can accept the job at once

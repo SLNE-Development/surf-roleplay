@@ -12,6 +12,8 @@ import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
+import java.text.NumberFormat
+import java.util.*
 
 open class JobImpl(
     override val name: String,
@@ -37,6 +39,9 @@ open class JobImpl(
     }
 
     override val players get() = JobPlayerService.players.filter { it.currentJob == this }.toObjectSet()
+
+    override fun formatIncome(locale: Locale): String =
+        NumberFormat.getNumberInstance(locale).format(income)
 
     override fun canJoin(player: JobPlayer) = _finalJoinRequirements.all { it.check(this, player) }
     override fun canKeep(player: JobPlayer) = _finalKeepRequirements.all { it.check(this, player) }
@@ -81,5 +86,5 @@ open class JobImpl(
     override fun toString(): String {
         return "JobImpl(_finalKeepRequirements=$_finalKeepRequirements, _finalJoinRequirements=$_finalJoinRequirements, maxPlayers=$maxPlayers, income=$income, displayName=$displayName, name='$name', players=$players)"
     }
-    
+
 }
