@@ -24,6 +24,8 @@ object OnlineListener : Listener {
     fun onJoin(event: PlayerJoinEvent) {
         plugin.launch {
             val player = RpPlayer[event.player.uniqueId]
+            
+            player.updateUsername(event.player.name)
 
             withContext(plugin.globalRegionDispatcher) {
                 RpPlayerJoinEvent(player).callEvent()

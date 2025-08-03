@@ -38,6 +38,9 @@ class RpPlayerImpl(
     override suspend fun updateInformation(update: RpPlayerInformation.() -> Unit) =
         rpPlayerManagerImpl.updatePlayerInformation(this, update)
 
+    override suspend fun updateUsername(username: String) =
+        rpPlayerManagerImpl.updateUsername(this, username)
+
     override suspend fun getBalance(balanceType: BalanceType): Double {
         if (balanceType == BalanceType.CASH) {
             val result = Mechanic.getMechanic<CashMechanic>().getCashBalance(this)
