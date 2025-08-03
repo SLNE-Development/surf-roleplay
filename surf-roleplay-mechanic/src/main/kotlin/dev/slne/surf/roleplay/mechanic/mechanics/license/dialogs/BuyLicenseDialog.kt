@@ -12,65 +12,62 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
+import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
+import it.unimi.dsi.fastutil.objects.ObjectSet
 
-fun buyLicenseDialog(
+suspend fun buyLicenseDialog(
     licensePlayer: LicensePlayer,
     license: License,
-): Dialog = dialog {
-    base {
-        title { primary("Lizenzen kaufen") }
-        externalTitle(license.displayName)
-        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+): Dialog {
+    val canObtain = license.canObtain(licensePlayer)
 
-        body {
-            plainMessage(400) {
-                info("Hier kannst du die ")
-                append(license.displayName)
-                info(" Lizenz erwerben.")
-            }
-            plainMessage(400) {}
-            plainMessage(400) {
-                info("Die Lizenz kostet ")
-                variableValue(license.price)
-                info(".")
-            }
-            plainMessage(400) {}
-            plainMessage(400) {
-                variableKey("Voraussetzungen: ")
+    return dialog {
+        base {
+            title { primary("Lizenzen kaufen") }
+            externalTitle(license.displayName)
+            afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
 
-                if (license.dependencies.isEmpty()) {
-                    variableValue("Keine")
-                }
-            }
-            for (dependency in license.dependencies) {
+            body {
                 plainMessage(400) {
-                    info("- ")
-                    append(dependency.displayName)
+                    info("Hier kannst du die ")
+                    append(license.displayName)
+                    info(" Lizenz erwerben.")
+                    appendNewline(2)
 
-                    if (licensePlayer.hasLicense(dependency)) {
-                        success(" (Erfüllt)")
+                    variableKey("Kosten: ")
+                    variableValue(license.price)
+                    appendNewline(2)
+
+                    appendLicenseDependencies(licensePlayer, license.dependencies)
+                    appendNewline(2)
+
+                    if (canObtain.first) {
+                        info("Klicke auf ")
+                        variableValue(""""Erwerben"""")
+                        info(", um die Lizenz zu kaufen.")
                     } else {
-                        error(" (Nicht erfüllt)")
+                        error("Du kannst diese Lizenz nicht erwerben:")
+                        appendNewline(2)
+                        canObtain.second.forEachIndexed { index, reason ->
+                            if (index > 0) {
+                                appendNewline(2)
+                            }
+
+                            reason.message(this)
+                        }
                     }
                 }
             }
-            plainMessage(400) {}
-            plainMessage(400) {}
-            plainMessage(400) {
-                info("Klicke auf ")
-                variableValue(""""Erwerben"""")
-                info(", um die Lizenz zu kaufen.")
-            }
         }
-    }
 
-    type {
-        multiAction {
-            columns(1)
-            action(buyLicenseButton(licensePlayer, license))
-            exitAction(backButton(licensePlayer))
+        type {
+            if (canObtain.first) {
+                confirmation(buyLicenseButton(licensePlayer, license), backButton(licensePlayer))
+            } else {
+                notice(backButton(licensePlayer))
+            }
         }
     }
 }
@@ -82,26 +79,25 @@ private fun buyLicenseButton(licensePlayer: LicensePlayer, license: License) = a
         append(license.displayName)
         info(" Lizenz zu erwerben.")
     }
-    width(200)
 
     action {
         playerCallback { player ->
             plugin.launch {
                 val result = licensePlayer.addLicense(license)
 
-                if (!result.first) {
+                if (!result.success) {
                     player.showDialog(
                         cannotBuyLicenseNotice(
                             licensePlayer,
                             license,
-                            result.second!!
+                            result.reason
                         )
                     )
 
                     return@launch
                 }
 
-                player.showDialog(boughtLicenseNotice(licensePlayer, result.third!!))
+                player.showDialog(boughtLicenseNotice(licensePlayer, result.playerLicense!!))
             }
         }
     }
@@ -145,7 +141,7 @@ private fun boughtLicenseNotice(
 private fun cannotBuyLicenseNotice(
     licensePlayer: LicensePlayer,
     license: License,
-    reason: UnobtainableReason
+    reason: ObjectSet<UnobtainableReason>,
 ): Dialog = dialog {
     base {
         title { error("Lizenz kann nicht erworben werden") }
@@ -162,7 +158,13 @@ private fun cannotBuyLicenseNotice(
                 variableKey("Grund: ")
             }
             plainMessage(400) {
-                reason.message(this)
+                reason.forEachIndexed { index, unobtainableReason ->
+                    if (index > 0) {
+                        appendNewline(2)
+                    }
+
+                    unobtainableReason.message(this)
+                }
             }
         }
     }
@@ -178,7 +180,9 @@ private fun cannotBuyLicenseNotice(
 
             action {
                 playerCallback { player ->
-                    player.showDialog(buyLicenseDialog(licensePlayer, license))
+                    plugin.launch {
+                        player.showDialog(buyLicenseDialog(licensePlayer, license))
+                    }
                 }
             }
         }

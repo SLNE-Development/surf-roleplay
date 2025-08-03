@@ -41,7 +41,8 @@ object VehicleLicenseImpl {
         price = 2000.0,
         expiresIn = null,
         dependencies = objectSetOf(
-            DriversLicenseImpl
+            DriversLicenseImpl,
+            BusLicenseImpl
         )
     ), VehicleLicense.TruckLicense
 

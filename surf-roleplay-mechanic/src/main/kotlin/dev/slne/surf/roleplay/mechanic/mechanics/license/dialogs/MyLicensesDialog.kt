@@ -7,6 +7,7 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
+import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import io.papermc.paper.registry.data.dialog.DialogBase
 
@@ -16,20 +17,15 @@ fun myLicensesDialog(licensePlayer: LicensePlayer) = dialog {
     base {
         title { primary("Meine Lizenzen") }
         afterAction(DialogBase.DialogAfterAction.NONE)
-        
+
         body {
             plainMessage(400) {
                 info("Hier findest du eine Übersicht über alle deine Lizenzen.")
-            }
-            plainMessage(400) {}
-            plainMessage(400) {
+                appendNewline(2)
                 info("Du kannst auf eine Lizenz klicken, um weitere Details zu sehen.")
-            }
 
-            if (dialogList.isEmpty()) {
-                plainMessage(400) {}
-                plainMessage(400) {}
-                plainMessage(400) {
+                if (dialogList.isEmpty()) {
+                    appendNewline(2)
                     info("Du hast derzeit keine Lizenzen.")
                 }
             }

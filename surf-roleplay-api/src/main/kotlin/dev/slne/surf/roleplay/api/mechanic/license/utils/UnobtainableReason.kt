@@ -10,7 +10,7 @@ sealed class UnobtainableReason(val message: SurfComponentBuilder.() -> Unit) {
     class NotEnoughCash(
         val currentAmount: Double, val neededAmount: Double
     ) : UnobtainableReason({
-        error("Du hast nicht genug Geld, um diese Lizenz zu erwerben.")
+        error("Du hast nicht genug Bargeld, um diese Lizenz zu erwerben.")
         appendNewline(2)
 
         variableKey("Dein Bargeld: ")
@@ -28,7 +28,7 @@ sealed class UnobtainableReason(val message: SurfComponentBuilder.() -> Unit) {
         error("Du hast nicht die nötigen Berechtigungen, um diese Lizenz zu erwerben.")
     })
 
-    class AlreadyHasLicense : UnobtainableReason({
+    object AlreadyHasLicense : UnobtainableReason({
         info("Du hast diese Lizenz bereits erworben.")
     })
 

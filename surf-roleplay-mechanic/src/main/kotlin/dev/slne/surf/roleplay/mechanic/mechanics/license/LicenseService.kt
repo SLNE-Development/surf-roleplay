@@ -1,6 +1,7 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.license
 
 import dev.slne.surf.roleplay.api.mechanic.license.License
+import dev.slne.surf.roleplay.api.mechanic.license.PlayerLicense
 import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.roleplay.api.mechanic.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.player.RpPlayer
@@ -16,34 +17,55 @@ import java.time.ZonedDateTime
 object LicenseService {
 
     suspend fun createPlayerLicense(
-        license: License,
-        player: RpPlayer
+        playerLicense: PlayerLicense
     ) = newSuspendedTransaction(Dispatchers.IO) {
+        val (player, license, expiresAt) = playerLicense
         val rpPlayerModel = rpPlayerManagerImpl.findOrCreate(player.uuid)
 
         PlayerLicenseModel.new {
             this.rpPlayer = rpPlayerModel
             this.license = license.key.asString()
-            this.expiresAt = license.expiresIn?.let {
-                ZonedDateTime.now().plusSeconds(it.inWholeSeconds)
-            }
+            this.expiresAt = expiresAt
             this.createdAt = ZonedDateTime.now()
         }.toApi()
     }
 
+    suspend fun createPlayerLicense(
+        license: License,
+        player: RpPlayer
+    ) = createPlayerLicense(
+        PlayerLicense(
+            player = player,
+            license = license,
+            expiresAt = license.expiresIn?.let {
+                ZonedDateTime.now().plusSeconds(it.inWholeSeconds)
+            }
+        )
+    )
+
     suspend fun confiscateLicense(
         player: LicensePlayer,
-        license: License
+        license: License,
+        confiscatedBy: RpPlayer,
+        confiscatedReason: String
     ) = newSuspendedTransaction(Dispatchers.IO) {
         val parentLicense =
             player.getLicense(license.javaClass) ?: return@newSuspendedTransaction false
-        val parentResult = player.removeLicense(license, LicenseRemovedReason.Confiscated)
+        
+        val parentResult = player.removeLicense(
+            license,
+            LicenseRemovedReason.Confiscated(confiscatedBy, confiscatedReason)
+        )
 
         val childrenResults = license.children.map { childLicense ->
             if (player.hasLicense(childLicense)) {
                 player.removeLicense(
                     childLicense,
-                    LicenseRemovedReason.ConfiscatedChild(parentLicense)
+                    LicenseRemovedReason.ConfiscatedChild(
+                        parentLicense,
+                        confiscatedBy,
+                        confiscatedReason
+                    )
                 )
                 return@map true
             }

@@ -63,5 +63,5 @@ interface License {
      * @param player The player who is trying to obtain the license.
      * @return A pair containing a boolean indicating if the player can obtain the license,
      */
-    suspend fun canObtain(player: LicensePlayer): Pair<Boolean, UnobtainableReason?>
+    suspend fun canObtain(player: LicensePlayer): Pair<Boolean, ObjectSet<UnobtainableReason>>
 }

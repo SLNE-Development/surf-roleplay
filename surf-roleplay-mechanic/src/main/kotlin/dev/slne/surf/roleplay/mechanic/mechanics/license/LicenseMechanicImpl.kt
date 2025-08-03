@@ -113,8 +113,12 @@ object LicenseMechanicImpl : MechanicImpl(
         }
     }
 
-    override suspend fun confiscateLicense(player: LicensePlayer, license: License) =
-        LicenseService.confiscateLicense(player, license)
+    override suspend fun confiscateLicense(
+        player: LicensePlayer,
+        license: License,
+        confiscatedBy: RpPlayer,
+        confiscatedReason: String
+    ) = LicenseService.confiscateLicense(player, license, confiscatedBy, confiscatedReason)
 
     override fun getLicense(license: Class<License>) =
         licenses.firstOrNull { license.isAssignableFrom(it.javaClass) }

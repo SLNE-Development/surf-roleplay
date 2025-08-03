@@ -2,6 +2,7 @@ package dev.slne.surf.roleplay.api.mechanic.license.player
 
 import dev.slne.surf.roleplay.api.mechanic.license.License
 import dev.slne.surf.roleplay.api.mechanic.license.PlayerLicense
+import dev.slne.surf.roleplay.api.mechanic.license.utils.LicenseCreateResult
 import dev.slne.surf.roleplay.api.mechanic.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.mechanic.license.utils.UnobtainableReason
 import dev.slne.surf.roleplay.api.player.RpPlayer
@@ -26,7 +27,7 @@ interface LicensePlayer {
      * @return A triple containing a boolean indicating success or failure, an [UnobtainableReason] if the license could not be obtained
      * and the [PlayerLicense] if successfully added.
      */
-    suspend fun addLicense(license: License): Triple<Boolean, UnobtainableReason?, PlayerLicense?>
+    suspend fun addLicense(license: License): LicenseCreateResult
 
     /**
      * Removes a license from the player.

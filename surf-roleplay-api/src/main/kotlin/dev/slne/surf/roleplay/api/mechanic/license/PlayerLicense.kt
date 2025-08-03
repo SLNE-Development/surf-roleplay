@@ -11,8 +11,6 @@ data class PlayerLicense(
 ) {
     val isExpired get() = expiresAt?.isBefore(ZonedDateTime.now()) ?: false
 
-    fun confiscate()
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PlayerLicense) return false

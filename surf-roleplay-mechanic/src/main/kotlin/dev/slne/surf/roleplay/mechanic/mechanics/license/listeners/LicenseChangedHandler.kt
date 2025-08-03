@@ -5,9 +5,9 @@ import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.mechanic.license.event.PlayerLicenseAddedEvent
 import dev.slne.surf.roleplay.api.mechanic.license.event.PlayerLicenseRemovedEvent
 import dev.slne.surf.roleplay.mechanic.plugin
+import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
-import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -24,7 +24,7 @@ object LicenseChangedHandler : Listener {
                 appendPrefix()
 
                 info("Du hast eine ")
-                append(license.displayName)
+                append(license.license.displayName)
                 info(" Lizenz erhalten.")
             }
 
@@ -40,16 +40,10 @@ object LicenseChangedHandler : Listener {
     fun onPlayerLicenseRemoved(event: PlayerLicenseRemovedEvent) {
         val license = event.license
         val bukkitPlayer = event.player.bukkitPlayer ?: return
-        val reason = SurfComponentBuilder.builder().apply(event.reason.message(license))
+        val reason = buildText { event.reason.apply { message(license) } }
 
         plugin.launch(plugin.entityDispatcher(bukkitPlayer)) {
-            bukkitPlayer.sendText {
-                appendPrefix()
-
-                info("Deine ")
-                append(license.displayName)
-                info(" Lizenz ist abgelaufen.")
-            }
+            bukkitPlayer.sendMessage(reason)
 
             bukkitPlayer.playSound(true) {
                 type(Sound.ENTITY_VILLAGER_HURT)

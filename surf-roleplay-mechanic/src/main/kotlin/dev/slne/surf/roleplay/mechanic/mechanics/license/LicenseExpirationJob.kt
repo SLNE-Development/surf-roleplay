@@ -29,7 +29,7 @@ class LicenseExpirationJob(val delay: Duration) {
 
         expiredLicenses.forEach { playerLicense ->
             playerLicense.player.licensePlayer()
-                .removeLicense(playerLicense.license, LicenseRemovedReason.EXPIRED)
+                .removeLicense(playerLicense.license, LicenseRemovedReason.Expired)
         }
     }
 }

@@ -9,7 +9,6 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.paper.plugin
-import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import kotlinx.coroutines.withContext
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -24,9 +23,7 @@ object OnlineListener : Listener {
             val player = RpPlayer[event.player.uniqueId]
 
             withContext(plugin.globalRegionDispatcher) {
-                server.pluginManager.callEvent(
-                    RpPlayerJoinEvent(player)
-                )
+                RpPlayerJoinEvent(player).callEvent()
             }
 
             player.jobPlayer().changeJob<CitizenJob>()
@@ -37,12 +34,7 @@ object OnlineListener : Listener {
     fun onQuit(event: PlayerQuitEvent) {
         plugin.launch {
             withContext(plugin.globalRegionDispatcher) {
-                server.pluginManager.callEvent(
-                    RpPlayerQuitEvent(
-                        RpPlayer[event.player.uniqueId],
-                        true
-                    )
-                )
+                RpPlayerQuitEvent(RpPlayer[event.player.uniqueId]).callEvent()
             }
         }
     }

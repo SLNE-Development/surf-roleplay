@@ -7,6 +7,7 @@ import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
+import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
 import java.time.Duration
@@ -16,6 +17,8 @@ import java.time.format.DateTimeFormatter
 private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
 fun myLicenseDialog(licensePlayer: LicensePlayer, playerLicense: PlayerLicense): Dialog = dialog {
+    val license = playerLicense.license
+
     base {
         title(playerLicense.license.displayName)
         externalTitle { append(playerLicense.license.displayName) }
@@ -24,22 +27,21 @@ fun myLicenseDialog(licensePlayer: LicensePlayer, playerLicense: PlayerLicense):
         body {
             plainMessage(400) {
                 info("Hier findest du Details zu deiner Lizenz.")
-            }
-            plainMessage(400) {}
-            plainMessage(400) {}
-            plainMessage(400) {
+                appendNewline(2)
+
                 variableKey("Lizenz: ")
-                append(playerLicense.license.displayName)
-            }
+                append(license.displayName)
+                appendNewline(2)
 
-            plainMessage(400) {
                 variableKey("Ablaufdatum: ")
-
                 val (formatted, relative) = calculateExpiresAt(playerLicense)
                 variableValue(formatted)
                 if (relative != null) {
                     spacer(" ($relative)")
                 }
+                appendNewline(2)
+
+                appendLicenseDependencies(licensePlayer, license.dependencies)
             }
         }
     }

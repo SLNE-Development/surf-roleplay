@@ -2,6 +2,7 @@ package dev.slne.surf.roleplay.api.mechanic.license
 
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 
@@ -33,9 +34,16 @@ interface LicenseMechanic : Mechanic {
      *
      * @param player The player from whom the license will be confiscated.
      * @param license The license to be confiscated.
+     * @param confiscatedBy The player who is confiscating the license.
+     * @param confiscatedReason The reason for confiscating the license.
      * @return `true` if the license was successfully confiscated, `false` otherwise.
      */
-    suspend fun confiscateLicense(player: LicensePlayer, license: License): Boolean
+    suspend fun confiscateLicense(
+        player: LicensePlayer,
+        license: License,
+        confiscatedBy: RpPlayer,
+        confiscatedReason: String
+    ): Boolean
 }
 
 /**

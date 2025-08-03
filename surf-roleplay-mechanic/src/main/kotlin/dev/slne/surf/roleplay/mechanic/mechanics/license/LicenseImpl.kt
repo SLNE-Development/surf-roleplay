@@ -5,6 +5,7 @@ import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.roleplay.api.mechanic.license.utils.UnobtainableReason
 import dev.slne.surf.roleplay.mechanic.mechanics.utils.PermissionRegistry
 import dev.slne.surf.surfapi.bukkit.api.builder.LoreBuilder
+import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import it.unimi.dsi.fastutil.objects.ObjectSet
@@ -33,13 +34,15 @@ abstract class LicenseImpl(
             )
         }.toObjectSet()
 
-    override suspend fun canObtain(player: LicensePlayer): Pair<Boolean, UnobtainableReason?> {
+    override suspend fun canObtain(player: LicensePlayer): Pair<Boolean, ObjectSet<UnobtainableReason>> {
+        val reasons = mutableObjectSetOf<UnobtainableReason>()
+
         if (!player.rpPlayer.hasPermission(permission)) {
-            return false to UnobtainableReason.NoPermissions
+            reasons.add(UnobtainableReason.NoPermissions)
         }
 
         if (player.hasLicense(this)) {
-            return false to UnobtainableReason.AlreadyHasLicense()
+            reasons.add(UnobtainableReason.AlreadyHasLicense)
         }
 
         val missingDependencies = dependencies
@@ -47,17 +50,19 @@ abstract class LicenseImpl(
             .toObjectSet()
 
         if (missingDependencies.isNotEmpty()) {
-            return false to UnobtainableReason.DependenciesNotMet(missingDependencies)
+            reasons.add(UnobtainableReason.DependenciesNotMet(missingDependencies))
         }
 
         if (!player.rpPlayer.hasCashBalance(price)) {
-            return false to UnobtainableReason.NotEnoughCash(
-                currentAmount = player.rpPlayer.getCashBalance(),
-                neededAmount = price
+            reasons.add(
+                UnobtainableReason.NotEnoughCash(
+                    currentAmount = player.rpPlayer.getCashBalance(),
+                    neededAmount = price
+                )
             )
         }
 
-        return true to null
+        return reasons.isEmpty() to reasons
     }
 
     override fun equals(other: Any?): Boolean {
