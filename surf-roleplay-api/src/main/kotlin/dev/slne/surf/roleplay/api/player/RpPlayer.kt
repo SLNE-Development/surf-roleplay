@@ -74,3 +74,10 @@ interface RpPlayer : HasTransactions {
         suspend operator fun get(uuid: UUID) = RpPlayerManager[uuid]
     }
 }
+
+/**
+ * Gets the [RpPlayer] associated with this [Player].
+ *
+ * @return The [RpPlayer] instance for this player.
+ */
+suspend fun Player.rpPlayer() = RpPlayer[uniqueId]
