@@ -14,7 +14,8 @@ object JobWagesMechanicImpl : MechanicImpl(
     )
 ), JobWagesMechanic {
 
-    private lateinit var jobWagesChecker: JobWagesJob
+    lateinit var jobWagesChecker: JobWagesJob
+        private set
 
     override suspend fun onEnable() {
         jobWagesChecker = JobWagesJob(

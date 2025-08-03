@@ -3,11 +3,14 @@ package dev.slne.surf.roleplay.mechanic.mechanics.jobwages.listeners
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.mechanic.jobwages.event.PlayerPaycheckEvent
+import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
+import dev.slne.surf.roleplay.mechanic.mechanics.jobwages.JobWagesMechanicImpl
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 
 object JobWagesHandler : Listener {
@@ -36,4 +39,10 @@ object JobWagesHandler : Listener {
             }
         }
     }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    fun onRpPlayerQuit(event: RpPlayerQuitEvent) {
+        JobWagesMechanicImpl.jobWagesChecker.playerDisconnect(event.rpPlayer)
+    }
+
 }

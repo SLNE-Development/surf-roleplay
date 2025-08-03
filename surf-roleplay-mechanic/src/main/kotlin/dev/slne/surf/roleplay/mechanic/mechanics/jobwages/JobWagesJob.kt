@@ -3,9 +3,9 @@ package dev.slne.surf.roleplay.mechanic.mechanics.jobwages
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import dev.slne.surf.job.api.job.JobRegistry
 import dev.slne.surf.roleplay.api.mechanic.jobwages.event.PlayerPaycheckEvent
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.core.api.util.logger
 import kotlinx.coroutines.*
-import java.time.ZonedDateTime
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration
@@ -15,9 +15,14 @@ class JobWagesJob(
     val delay: Duration,
     val plugin: SuspendingJavaPlugin
 ) {
-    private val map = ConcurrentHashMap<UUID, ZonedDateTime>()
+    private val map = ConcurrentHashMap<UUID, Long>()
+
     private val playerDelay = 1.hours
     private val log = logger()
+
+    fun playerDisconnect(rpPlayer: RpPlayer) {
+        map.remove(rpPlayer.uuid)
+    }
 
     private val scope =
         CoroutineScope(SupervisorJob() + CoroutineName("JobWagesJob") + CoroutineExceptionHandler { _, throwable ->
@@ -38,35 +43,26 @@ class JobWagesJob(
     suspend fun tick() {
         JobRegistry.jobs.forEach { job ->
             job.players.forEach { player ->
-
                 val rpPlayer = player.rpPlayer
-                val latest = map.get(rpPlayer.uuid)
-                val now = ZonedDateTime.now()
+                val current = map.getOrDefault(rpPlayer.uuid, 0)
 
-                if(latest == null){
-                    map.put(rpPlayer.uuid, now)
+                if (current == playerDelay.inWholeSeconds) {
+                    val event = PlayerPaycheckEvent(
+                        player = rpPlayer,
+                        amount = job.income
+                    )
+
+                    if (event.callEvent()) {
+                        if (event.amount > 0) {
+                            rpPlayer.addBankBalance(event.amount.toDouble())
+                        }
+                    }
+
+                    map[rpPlayer.uuid] = 0
                     return@forEach
                 }
 
-                if (latest.plusSeconds(playerDelay.inWholeSeconds).isAfter(now)) {
-                    return@forEach
-                }
-
-                val event = PlayerPaycheckEvent(
-                    player = rpPlayer,
-                    amount = job.income
-                )
-
-                if (!event.callEvent()) {
-                    return@forEach
-                }
-
-                if(event.amount <= 0) {
-                    return@forEach
-                }
-
-                rpPlayer.addBankBalance(event.amount.toDouble())
-                map.put(rpPlayer.uuid, now)
+                map[rpPlayer.uuid] = current + 1
             }
         }
     }
