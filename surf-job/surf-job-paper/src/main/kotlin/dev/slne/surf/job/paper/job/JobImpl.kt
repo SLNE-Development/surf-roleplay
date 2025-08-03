@@ -38,7 +38,7 @@ open class JobImpl(
         _finalKeepRequirements.addAll(keepRequirements)
     }
 
-    override val players = JobPlayerService.players.filter { it.currentJob == this }.toObjectSet()
+    override val players get() = JobPlayerService.players.filter { it.currentJob == this }.toObjectSet()
 
     override fun formatIncome(locale: Locale): String =
         NumberFormat.getNumberInstance(locale).format(income)
