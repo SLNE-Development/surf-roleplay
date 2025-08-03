@@ -46,7 +46,9 @@ fun licenseDialog(licensePlayer: LicensePlayer) = dialog {
 
     type {
         multiAction {
+            columns(1)
             action(myLicensesButton(licensePlayer))
+            action(buyLicensesButton(licensePlayer))
         }
     }
 }
@@ -54,10 +56,23 @@ fun licenseDialog(licensePlayer: LicensePlayer) = dialog {
 private fun myLicensesButton(licensePlayer: LicensePlayer): ActionButton = actionButton {
     label { text("Meine Lizenzen") }
     tooltip { info("Klicke, um deine Lizenzen zu sehen.") }
+    width(400)
 
     action {
         playerCallback { player ->
             player.showDialog(myLicensesDialog(licensePlayer))
+        }
+    }
+}
+
+private fun buyLicensesButton(licensePlayer: LicensePlayer): ActionButton = actionButton {
+    label { text("Lizenz erwerben") }
+    tooltip { info("Klicke, um eine Lizenz zu erwerben.") }
+    width(400)
+
+    action {
+        playerCallback { player ->
+            player.showDialog(buyLicensesDialog(licensePlayer))
         }
     }
 }

@@ -1,6 +1,5 @@
 package dev.slne.surf.roleplay.mechanic
 
-import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import it.unimi.dsi.fastutil.objects.ObjectSet
@@ -14,7 +13,7 @@ abstract class MechanicImpl(
 
     open fun getDatabaseTables(): ObjectSet<Table> = objectSetOf()
 
-    override fun onLoad(plugin: SuspendingJavaPlugin) {}
-    override fun onEnable(plugin: SuspendingJavaPlugin) {}
-    override fun onDisable(plugin: SuspendingJavaPlugin) {}
+    override suspend fun onLoad() {}
+    override suspend fun onEnable() {}
+    override suspend fun onDisable() {}
 }

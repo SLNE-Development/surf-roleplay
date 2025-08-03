@@ -2,14 +2,14 @@ package dev.slne.surf.roleplay.api.mechanic.license.utils
 
 import dev.slne.surf.roleplay.api.mechanic.license.License
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
-import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
+import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
 
-sealed class UnobtainableReason(message: Component) {
+sealed class UnobtainableReason(val message: SurfComponentBuilder.() -> Unit) {
     class NotEnoughCash(
         val currentAmount: Double, val neededAmount: Double
-    ) : UnobtainableReason(buildText {
+    ) : UnobtainableReason({
         error("Du hast nicht genug Geld, um diese Lizenz zu erwerben.")
         appendNewline(2)
 
@@ -24,17 +24,17 @@ sealed class UnobtainableReason(message: Component) {
         info("Du benötigst ${neededAmount - currentAmount} mehr Bargeld, um diese Lizenz zu erwerben.")
     })
 
-    object NoPermissions : UnobtainableReason(buildText {
+    object NoPermissions : UnobtainableReason({
         error("Du hast nicht die nötigen Berechtigungen, um diese Lizenz zu erwerben.")
     })
 
-    class AlreadyHasLicense : UnobtainableReason(buildText {
+    class AlreadyHasLicense : UnobtainableReason({
         info("Du hast diese Lizenz bereits erworben.")
     })
 
     class EventCancelled(
         val reason: String? = null
-    ) : UnobtainableReason(buildText {
+    ) : UnobtainableReason({
         error("Der Erwerb dieser Lizenz wurde abgebrochen.")
         reason?.let {
             appendNewline(2)
@@ -45,11 +45,11 @@ sealed class UnobtainableReason(message: Component) {
 
     class DependenciesNotMet(
         val missingDependencies: ObjectSet<License>
-    ) : UnobtainableReason(buildText {
+    ) : UnobtainableReason({
         error("Du erfüllst nicht die Voraussetzungen, um diese Lizenz zu erwerben.")
         appendNewline(2)
 
         info("Fehlende Lizenzen:")
-        appendCollectionNewLine(missingDependencies) { it.displayName }
+        appendCollectionNewLine(missingDependencies, Component.empty()) { it.displayName }
     })
 }

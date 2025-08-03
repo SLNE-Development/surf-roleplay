@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     compileOnly(project(":surf-roleplay-core"))
+    compileOnlyApi(libs.surf.npc.api)
 }

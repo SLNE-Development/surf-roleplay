@@ -23,9 +23,10 @@ interface LicensePlayer {
      * Adds a license to the player.
      *
      * @param license The license to add.
-     * @return A pair containing a boolean indicating success or failure, and an [UnobtainableReason] if the license could not be obtained.
+     * @return A triple containing a boolean indicating success or failure, an [UnobtainableReason] if the license could not be obtained
+     * and the [PlayerLicense] if successfully added.
      */
-    suspend fun addLicense(license: License): Pair<Boolean, UnobtainableReason?>
+    suspend fun addLicense(license: License): Triple<Boolean, UnobtainableReason?, PlayerLicense?>
 
     /**
      * Removes a license from the player.

@@ -7,6 +7,7 @@ import dev.slne.surf.roleplay.api.mechanic.license.event.PlayerLicenseRemovedEve
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
+import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -39,6 +40,7 @@ object LicenseChangedHandler : Listener {
     fun onPlayerLicenseRemoved(event: PlayerLicenseRemovedEvent) {
         val license = event.license
         val bukkitPlayer = event.player.bukkitPlayer ?: return
+        val reason = SurfComponentBuilder.builder().apply(event.reason.message(license))
 
         plugin.launch(plugin.entityDispatcher(bukkitPlayer)) {
             bukkitPlayer.sendText {

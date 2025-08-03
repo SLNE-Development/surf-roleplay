@@ -1,6 +1,8 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.license
 
 import dev.slne.surf.roleplay.api.mechanic.license.License
+import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
+import dev.slne.surf.roleplay.api.mechanic.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.core.player.rpPlayerManagerImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.db.PlayerLicenseModel
@@ -29,6 +31,29 @@ object LicenseService {
         }.toApi()
     }
 
+    suspend fun confiscateLicense(
+        player: LicensePlayer,
+        license: License
+    ) = newSuspendedTransaction(Dispatchers.IO) {
+        val parentLicense =
+            player.getLicense(license.javaClass) ?: return@newSuspendedTransaction false
+        val parentResult = player.removeLicense(license, LicenseRemovedReason.Confiscated)
+
+        val childrenResults = license.children.map { childLicense ->
+            if (player.hasLicense(childLicense)) {
+                player.removeLicense(
+                    childLicense,
+                    LicenseRemovedReason.ConfiscatedChild(parentLicense)
+                )
+                return@map true
+            }
+
+            false
+        }
+
+        parentResult && childrenResults.all { it }
+    }
+
     suspend fun removePlayerLicense(
         rpPlayer: RpPlayer,
         license: License
@@ -40,7 +65,7 @@ object LicenseService {
         }.firstOrNull() ?: return@newSuspendedTransaction false
 
         playerLicense.delete()
-        
+
         true
     }
 

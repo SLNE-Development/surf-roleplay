@@ -1,6 +1,7 @@
 package dev.slne.surf.roleplay.api.mechanic.license
 
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
+import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 
@@ -25,6 +26,16 @@ interface LicenseMechanic : Mechanic {
      * @return The [License] instance or throws an exception if not found.
      */
     fun getLicenseByKey(name: Key): License
+
+    /**
+     * Confiscates the specified [license] from the [player].
+     * This method also removes all children licenses of the specified license.
+     *
+     * @param player The player from whom the license will be confiscated.
+     * @param license The license to be confiscated.
+     * @return `true` if the license was successfully confiscated, `false` otherwise.
+     */
+    suspend fun confiscateLicense(player: LicensePlayer, license: License): Boolean
 }
 
 /**

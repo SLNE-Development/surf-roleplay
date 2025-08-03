@@ -1,9 +1,8 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.license
 
 import dev.slne.surf.roleplay.api.mechanic.license.License
+import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.roleplay.api.mechanic.license.utils.UnobtainableReason
-import dev.slne.surf.roleplay.api.player.RpPlayer
-import dev.slne.surf.roleplay.mechanic.mechanics.license.player.licensePlayer
 import dev.slne.surf.roleplay.mechanic.mechanics.utils.PermissionRegistry
 import dev.slne.surf.surfapi.bukkit.api.builder.LoreBuilder
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
@@ -17,7 +16,7 @@ abstract class LicenseImpl(
     override val key: Key,
     override val displayName: Component,
     override val description: LoreBuilder.() -> Unit,
-    override val cost: Double,
+    override val price: Double,
     override val expiresIn: Duration? = null,
     override val dependencies: ObjectSet<License> = objectSetOf(),
     override val permission: String = PermissionRegistry.create(
@@ -26,30 +25,49 @@ abstract class LicenseImpl(
         }"
     )
 ) : License {
-    override suspend fun canObtain(player: RpPlayer): Pair<Boolean, UnobtainableReason?> {
-        if (!player.hasPermission(permission)) {
+
+    override val children
+        get() = LicenseMechanicImpl.licenses.filter {
+            it.dependencies.contains(
+                this
+            )
+        }.toObjectSet()
+
+    override suspend fun canObtain(player: LicensePlayer): Pair<Boolean, UnobtainableReason?> {
+        if (!player.rpPlayer.hasPermission(permission)) {
             return false to UnobtainableReason.NoPermissions
         }
 
-        if (player.licensePlayer().hasLicense(this)) {
+        if (player.hasLicense(this)) {
             return false to UnobtainableReason.AlreadyHasLicense()
         }
 
         val missingDependencies = dependencies
-            .filterNot { player.licensePlayer().hasLicense(it) }
+            .filterNot { player.hasLicense(it) }
             .toObjectSet()
 
         if (missingDependencies.isNotEmpty()) {
             return false to UnobtainableReason.DependenciesNotMet(missingDependencies)
         }
 
-        if (!player.hasCashBalance(cost)) {
+        if (!player.rpPlayer.hasCashBalance(price)) {
             return false to UnobtainableReason.NotEnoughCash(
-                currentAmount = player.getCashBalance(),
-                neededAmount = cost
+                currentAmount = player.rpPlayer.getCashBalance(),
+                neededAmount = price
             )
         }
 
         return true to null
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is LicenseImpl) return false
+
+        if (key != other.key) return false
+
+        return true
+    }
+
+    override fun hashCode() = key.hashCode()
 }

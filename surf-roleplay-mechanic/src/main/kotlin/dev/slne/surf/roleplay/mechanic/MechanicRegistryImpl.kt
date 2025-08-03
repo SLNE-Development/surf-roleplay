@@ -26,7 +26,9 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
         mechanics.firstOrNull { clazz.isAssignableFrom(it.javaClass) } as? T
             ?: throw IllegalArgumentException("No mechanic of class ${clazz.name} is registered.")
 
-    fun registerMechanics() {
+    fun registerMechanics(plugin: SuspendingJavaPlugin) {
+        this.plugin = plugin
+
         mechanics.add(LicenseMechanicImpl)
         mechanics.add(IdCardMechanicImpl)
     }
@@ -40,18 +42,16 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
             .forEach { rpDatabase.registerMechanicTable(it) }
     }
 
-    fun loadMechanics(plugin: SuspendingJavaPlugin) {
-        this.plugin = plugin
-
-        mechanics.forEach { it.onLoad(plugin) }
+    suspend fun loadMechanics() {
+        mechanics.forEach { it.onLoad() }
     }
 
-    fun enableMechanics() {
-        mechanics.forEach { it.onEnable(plugin) }
+    suspend fun enableMechanics() {
+        mechanics.forEach { it.onEnable() }
     }
 
-    fun disableMechanics() {
-        mechanics.forEach { it.onDisable(plugin) }
+    suspend fun disableMechanics() {
+        mechanics.forEach { it.onDisable() }
     }
 }
 

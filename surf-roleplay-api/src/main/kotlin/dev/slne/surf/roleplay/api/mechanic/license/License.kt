@@ -1,7 +1,7 @@
 package dev.slne.surf.roleplay.api.mechanic.license
 
+import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.roleplay.api.mechanic.license.utils.UnobtainableReason
-import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.bukkit.api.builder.LoreBuilder
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
@@ -26,10 +26,10 @@ interface License {
     val description: LoreBuilder.() -> Unit
 
     /**
-     * The cost of the license in the game currency.
+     * The price of the license in the game currency.
      * This is the amount a player must pay to obtain the license.
      */
-    val cost: Double
+    val price: Double
 
     /**
      * The duration for which the license is valid.
@@ -42,6 +42,12 @@ interface License {
      * This allows for dependencies between licenses.
      */
     val dependencies: ObjectSet<License>
+
+    /**
+     * A set of child licenses that can be obtained after this one.
+     * This allows for a hierarchy of licenses.
+     */
+    val children: ObjectSet<License>
 
     /**
      * The permission required to obtain this license.
@@ -57,5 +63,5 @@ interface License {
      * @param player The player who is trying to obtain the license.
      * @return A pair containing a boolean indicating if the player can obtain the license,
      */
-    suspend fun canObtain(player: RpPlayer): Pair<Boolean, UnobtainableReason?>
+    suspend fun canObtain(player: LicensePlayer): Pair<Boolean, UnobtainableReason?>
 }

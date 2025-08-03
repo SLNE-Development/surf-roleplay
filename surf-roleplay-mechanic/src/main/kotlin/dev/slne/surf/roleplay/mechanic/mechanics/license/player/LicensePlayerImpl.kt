@@ -25,11 +25,11 @@ class LicensePlayerImpl(
 
     fun addLicensesInternal(licenses: ObjectSet<PlayerLicense>) = _licenses.addAll(licenses)
 
-    override suspend fun addLicense(license: License): Pair<Boolean, UnobtainableReason?> {
-        val (canObtain, reason) = license.canObtain(rpPlayer)
+    override suspend fun addLicense(license: License): Triple<Boolean, UnobtainableReason?, PlayerLicense?> {
+        val (canObtain, reason) = license.canObtain(this)
 
         if (!canObtain) {
-            return false to reason
+            return Triple(false, reason, null)
         }
 
         val event = PlayerLicenseAddedEvent(
@@ -42,12 +42,13 @@ class LicensePlayerImpl(
         }
 
         if (event.isCancelled) {
-            return false to UnobtainableReason.EventCancelled(event.cancelReason)
+            return Triple(false, UnobtainableReason.EventCancelled(event.cancelReason), null)
         }
 
-        _licenses.add(LicenseService.createPlayerLicense(license, rpPlayer))
+        val playerLicense = LicenseService.createPlayerLicense(license, rpPlayer)
+        _licenses.add(playerLicense)
 
-        return true to null
+        return Triple(true, null, playerLicense)
     }
 
     override suspend fun removeLicense(license: License, reason: LicenseRemovedReason): Boolean {

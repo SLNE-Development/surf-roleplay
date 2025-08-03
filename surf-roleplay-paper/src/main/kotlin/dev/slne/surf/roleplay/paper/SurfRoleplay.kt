@@ -16,12 +16,12 @@ class SurfRoleplay : SuspendingJavaPlugin() {
     override suspend fun onLoadAsync() {
         rpDatabase = RpDatabase(dataPath)
 
-        mechanicRegistryImpl.registerMechanics()
+        mechanicRegistryImpl.registerMechanics(this)
         mechanicRegistryImpl.registerDatabaseTables(rpDatabase)
 
         rpDatabase.onLoad()
 
-        mechanicRegistryImpl.loadMechanics(this)
+        mechanicRegistryImpl.loadMechanics()
 
         SurfJob.onLoad(this)
     }

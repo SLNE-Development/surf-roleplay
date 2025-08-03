@@ -1,6 +1,5 @@
 package dev.slne.surf.roleplay.api.mechanic
 
-import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.bukkit.event.Listener
 
@@ -20,17 +19,17 @@ interface Mechanic {
     /**
      * Called when the mechanic is loaded.
      */
-    fun onLoad(plugin: SuspendingJavaPlugin)
+    suspend fun onLoad()
 
     /**
      * Called when the mechanic is enabled.
      */
-    fun onEnable(plugin: SuspendingJavaPlugin)
+    suspend fun onEnable()
 
     /**
      * Called when the mechanic is disabled.
      */
-    fun onDisable(plugin: SuspendingJavaPlugin)
+    suspend fun onDisable()
 
     companion object {
         /**
