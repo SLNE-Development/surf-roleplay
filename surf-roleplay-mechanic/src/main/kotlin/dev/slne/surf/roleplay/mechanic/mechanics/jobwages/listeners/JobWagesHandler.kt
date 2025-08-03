@@ -29,7 +29,7 @@ object JobWagesHandler : Listener {
 
                 info("Du hast eine Überweisung in Höhe von ")
                 variableValue(event.amount)
-                variableKey(" €€€ ")
+                variableKey(" € ")
                 info("erhalten.")
             }
             bukkitPlayer.playSound {
