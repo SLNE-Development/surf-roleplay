@@ -36,7 +36,7 @@ open class JobImpl(
         _finalKeepRequirements.addAll(keepRequirements)
     }
 
-    override val players = JobPlayerService.players.filter { it.currentJob == this }.toObjectSet()
+    override val players get() = JobPlayerService.players.filter { it.currentJob == this }.toObjectSet()
 
     override fun canJoin(player: JobPlayer) = _finalJoinRequirements.all { it.check(this, player) }
     override fun canKeep(player: JobPlayer) = _finalKeepRequirements.all { it.check(this, player) }

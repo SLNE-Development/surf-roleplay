@@ -6,6 +6,7 @@ import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.MechanicRegistry
 import dev.slne.surf.roleplay.core.RpDatabase
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardMechanicImpl
+import dev.slne.surf.roleplay.mechanic.mechanics.jobwages.JobWagesMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.LicenseMechanicImpl
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
@@ -31,6 +32,7 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
 
         mechanics.add(LicenseMechanicImpl)
         mechanics.add(IdCardMechanicImpl)
+        mechanics.add(JobWagesMechanicImpl)
     }
 
     fun registerBukkitHandlers() {
