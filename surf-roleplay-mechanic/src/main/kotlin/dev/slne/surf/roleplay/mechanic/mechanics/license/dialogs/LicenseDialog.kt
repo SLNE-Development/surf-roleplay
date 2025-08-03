@@ -3,6 +3,7 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.license.dialogs
 
 import dev.slne.surf.roleplay.api.mechanic.license.License
+import dev.slne.surf.roleplay.api.mechanic.license.PlayerLicense
 import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -16,6 +17,9 @@ import io.papermc.paper.registry.data.dialog.DialogBase
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.JoinConfiguration
 import net.kyori.adventure.text.format.TextDecoration
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 fun SurfComponentBuilder.appendLicenseDependencies(
     licensePlayer: LicensePlayer,
@@ -39,6 +43,78 @@ fun SurfComponentBuilder.appendLicenseDependencies(
             }
         }))
     }
+}
+
+private val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+
+fun SurfComponentBuilder.appendLicenseExpiresAt(playerLicense: PlayerLicense) {
+    val (formatted, relative) = calculateExpiresAt(playerLicense)
+
+    variableKey("Ablaufdatum: ")
+    variableValue(formatted)
+
+    if (relative != null) {
+        spacer(" ($relative)")
+    }
+}
+
+private fun calculateExpiresAt(
+    playerLicense: PlayerLicense
+): Pair<String, String?> {
+    val expiresAt = playerLicense.expiresAt?.toLocalDateTime()
+
+    if (expiresAt == null) {
+        return "Unbegrenzt" to null
+    }
+
+    val formattedDate = expiresAt.format(formatter)
+
+    val now = LocalDateTime.now()
+    val relative = buildRelativeString(now, expiresAt)
+
+    return formattedDate to relative
+}
+
+private fun buildRelativeString(from: LocalDateTime, to: LocalDateTime): String {
+    if (from == to) return "gerade jetzt"
+
+    val duration = if (to.isAfter(from)) {
+        Duration.between(from, to)
+    } else {
+        Duration.between(to, from)
+    }
+
+    var seconds = duration.seconds
+
+    val days = seconds / (24 * 3600)
+    seconds %= 24 * 3600
+    val hours = seconds / 3600
+    seconds %= 3600
+    val minutes = seconds / 60
+    seconds %= 60
+
+    fun part(value: Long, singular: String, plural: String): String? {
+        return when (value) {
+            0L -> null
+            1L -> "1 $singular"
+            else -> "$value $plural"
+        }
+    }
+
+    val parts = listOfNotNull(
+        part(days, "Tag", "Tage"),
+        part(hours, "Stunde", "Stunden"),
+        part(minutes, "Minute", "Minuten"),
+        part(seconds, "Sekunde", "Sekunden")
+    )
+
+    if (parts.isEmpty()) {
+        return if (to.isAfter(from)) "in weniger als einer Sekunde" else "vor weniger als einer Sekunde"
+    }
+
+    val joined = parts.joinToString(", ")
+
+    return if (to.isAfter(from)) "in $joined" else "vor $joined"
 }
 
 fun licenseDialog(licensePlayer: LicensePlayer) = dialog {
