@@ -1,7 +1,6 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.jobwages
 
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
-import com.github.shynixn.mccoroutine.folia.scope
 import dev.slne.surf.job.api.job.JobRegistry
 import dev.slne.surf.roleplay.api.mechanic.jobwages.event.PlayerPaycheckEvent
 import dev.slne.surf.surfapi.core.api.util.logger
@@ -10,14 +9,14 @@ import java.time.ZonedDateTime
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.hours
 
 class JobWagesJob(
     val delay: Duration,
     val plugin: SuspendingJavaPlugin
 ) {
     private val map = ConcurrentHashMap<UUID, ZonedDateTime>()
-    private val playerDelay = 10.seconds
+    private val playerDelay = 1.hours
     private val log = logger()
 
     private val scope =
