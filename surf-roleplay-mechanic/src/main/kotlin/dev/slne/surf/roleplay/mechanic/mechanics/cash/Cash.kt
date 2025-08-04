@@ -222,7 +222,7 @@ sealed class Cash(val item: ItemStack) {
 
         private fun dropItem(location: Location, item: ItemStack, amount: Int) {
             for (i in 1..amount) {
-                location.world.dropItem(location, item.clone())
+                location.world.dropItemNaturally(location, item.clone())
             }
         }
 
