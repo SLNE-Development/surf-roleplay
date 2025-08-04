@@ -13,14 +13,14 @@ import kotlin.time.Duration
 class VaultStorageContainer(
     rentable: Rentable,
     location: Location,
-    size: StorageContainer.StorageContainerSize
+    size: StorageContainer.StorageContainerSize,
+    override val crackDuration: Duration = size.vaultCrackDuration
 ) : StorageContainerImpl(
     rentable = rentable,
     location = location,
     type = StorageContainer.StorageContainerType.VAULT,
     size = size,
 ), Crackable {
-    override val crackDuration: Duration = size.vaultCrackDuration
     override var cracked: Boolean = false
 
     override suspend fun crack(

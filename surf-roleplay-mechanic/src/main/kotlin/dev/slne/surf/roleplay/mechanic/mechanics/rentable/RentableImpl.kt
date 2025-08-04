@@ -127,7 +127,7 @@ abstract class RentableImpl(
             return RentableMemberAddEvent.MemberAddResult.Failure(RentableMemberAddEvent.MemberAddFailureReason.AlreadyMember)
         }
 
-        val event = RentableMemberRemoveEvent(this, player)
+        val event = RentableMemberAddEvent(this, player)
 
         if (!event.callEvent()) {
             return RentableMemberAddEvent.MemberAddResult.Failure(RentableMemberAddEvent.MemberAddFailureReason.EventCancelled)
