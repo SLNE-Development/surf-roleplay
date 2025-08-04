@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.api.mechanic
 
+import dev.slne.surf.roleplay.api.coroutine.RpJob
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.bukkit.event.Listener
 
@@ -15,6 +16,13 @@ interface Mechanic {
      * Returns an object set of handlers for this mechanic.
      */
     val handlers: ObjectSet<Listener>
+
+    /**
+     * Returns an object set of all rp jobs associated with this mechanic.
+     * Rp jobs are tasks that can be scheduled to run periodically or at specific times.
+     * This is used for mechanics that require periodic updates or tasks.
+     */
+    val rpJobs: ObjectSet<RpJob>
 
     /**
      * Called when the mechanic is loaded.
