@@ -13,17 +13,17 @@ object PlayerInteractWithAtmHandler : Listener {
 
     @EventHandler()
     fun onPlayerInteract(event: PlayerInteractEvent) {
-        val players = event.player
+        val player = event.player
 
-        if (!players.isSneaking) return
+        if (!player.isSneaking) return
 
         val clickedBlock = event.clickedBlock ?: return
 
         if (clickedBlock.type != Material.ANVIL) return
 
         plugin.launch {
-            val rpPlayer = RpPlayer[players.uniqueId]
-            players.showDialog(createAtmMainMenuDialog(rpPlayer))
+            val rpPlayer = RpPlayer[player.uniqueId]
+            player.showDialog(createAtmMainMenuDialog(player, rpPlayer))
         }
     }
 }

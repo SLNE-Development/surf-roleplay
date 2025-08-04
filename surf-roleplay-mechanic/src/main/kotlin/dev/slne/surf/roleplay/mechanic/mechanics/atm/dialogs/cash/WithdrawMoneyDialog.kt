@@ -6,6 +6,7 @@ package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
+import dev.slne.surf.roleplay.core.utils.formatNumber
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -16,9 +17,10 @@ import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
+import org.bukkit.entity.Player
 
 
-suspend fun createWithdrawDialog(player: RpPlayer): Dialog {
+suspend fun createWithdrawDialog(bukkitPlayer: Player, player: RpPlayer): Dialog {
     val balance = player.getBalance(BalanceType.BANK)
 
     return dialog {
@@ -36,30 +38,30 @@ suspend fun createWithdrawDialog(player: RpPlayer): Dialog {
                 }
                 plainMessage(400) {
                     info("Dein aktueller Kontostand beträgt: ")
-                    variableValue(balance)
+                    variableValue(bukkitPlayer.formatNumber(balance))
                     variableKey(" €€€")
                     info(".")
                     appendNewline(2)
                 }
             }
             input {
-                numberRange("deposit_out_amount", 1f..balance.toFloat()) {
+                numberRange("deposit_amount", 0..balance.toInt()) {
                     label { text("Betrag wählen") }
                     step(1.0f)
+                    width(800)
                 }
             }
         }
         type {
             confirmation(
-                withdrawMoneyButton(player),
-                exitWithdrawMoneyButton(player)
-
+                withdrawMoneyButton(bukkitPlayer, player),
+                exitWithdrawMoneyButton(bukkitPlayer, player)
             )
         }
     }
 }
 
-private fun withdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
+private fun withdrawMoneyButton(bukkitPlayer: Player, player: RpPlayer): ActionButton = actionButton {
     label { text("Geld auszahlen") }
     tooltip {
         info("Klicke hier, um dir den angegebenen Geldbetrag auszahlen zu lassen.")
@@ -71,13 +73,13 @@ private fun withdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
             //feedback screen error / success
 
             plugin.launch {
-                audience.showDialog(createAtmMainMenuDialog(player))
+                audience.showDialog(createAtmMainMenuDialog(bukkitPlayer, player))
             }
         }
     }
 }
 
-fun exitWithdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
+fun exitWithdrawMoneyButton(bukkitPlayer: Player, player: RpPlayer): ActionButton = actionButton {
     label { text("Abbrechen") }
     tooltip {
         info("Klicke hier, um die Auszahlung abzubrechen.")
@@ -85,7 +87,7 @@ fun exitWithdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
     action {
         customClick { info, audience ->
             plugin.launch {
-                audience.showDialog(createAtmMainMenuDialog(player))
+                audience.showDialog(createAtmMainMenuDialog(bukkitPlayer, player))
             }
         }
     }

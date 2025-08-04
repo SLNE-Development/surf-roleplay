@@ -26,7 +26,7 @@ class RpPlayerImpl(
     private val balances = mutableMapOf<BalanceType, Double>()
 
     init {
-        balances[BalanceType.BANK] = 100_000_000.0
+        balances[BalanceType.BANK] = 100_000.0
         balances[BalanceType.CRYPTO] = 10.0
     }
 
