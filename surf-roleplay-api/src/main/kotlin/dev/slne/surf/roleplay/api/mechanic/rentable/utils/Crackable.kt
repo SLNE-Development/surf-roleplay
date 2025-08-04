@@ -3,6 +3,10 @@ package dev.slne.surf.roleplay.api.mechanic.rentable.utils
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import kotlin.time.Duration
 
+/**
+ * Represents an entity that can be cracked, such as a lock on a door or a vault.
+ * This interface defines the properties and methods required for cracking functionality.
+ */
 interface Crackable {
 
     /**

@@ -14,6 +14,10 @@ import org.jetbrains.annotations.Unmodifiable
 import java.time.ZonedDateTime
 import kotlin.time.Duration
 
+/**
+ * Represents a rentable property in the game.
+ * A rentable property can be owned, rented, and have members associated with it.
+ */
 interface Rentable : ComponentLike {
 
     /**
