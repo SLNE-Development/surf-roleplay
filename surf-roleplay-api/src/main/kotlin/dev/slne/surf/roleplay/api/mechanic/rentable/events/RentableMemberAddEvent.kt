@@ -44,7 +44,7 @@ class RentableMemberAddEvent(
         data object AlreadyMember : MemberAddFailureReason()
 
         /**
-         * Indicates that the rentable property is full and cannot accommodate more members.
+         * Indicates that the addition of the member was cancelled by an event handler.
          */
         data object EventCancelled : MemberAddFailureReason()
     }
