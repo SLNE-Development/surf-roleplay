@@ -20,7 +20,7 @@ object IdCardHandler : Listener {
         get() = surfNpcApi.getNpc(IdCardMechanicImpl.NPC_NAME)
             ?: error("The IDCard NPC is not registered")
 
-    @EventHandler()
+    @EventHandler
     fun onNpcInteract(event: NpcInteractEvent) {
         val player = event.player
         val npc = event.npc
