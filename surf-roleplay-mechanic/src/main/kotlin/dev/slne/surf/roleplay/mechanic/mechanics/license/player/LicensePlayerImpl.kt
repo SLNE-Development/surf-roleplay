@@ -52,6 +52,8 @@ class LicensePlayerImpl(
             )
         }
 
+        rpPlayer.removeCashBalance(license.price)
+
         val createdPlayerLicense = LicenseService.createPlayerLicense(playerLicense)
         _licenses.add(createdPlayerLicense)
 

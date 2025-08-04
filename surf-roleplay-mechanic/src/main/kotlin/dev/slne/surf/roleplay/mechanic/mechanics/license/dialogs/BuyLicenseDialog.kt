@@ -16,6 +16,7 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
 import it.unimi.dsi.fastutil.objects.ObjectSet
+import java.time.ZonedDateTime
 
 suspend fun buyLicenseDialog(
     licensePlayer: LicensePlayer,
@@ -38,6 +39,19 @@ suspend fun buyLicenseDialog(
 
                     variableKey("Kosten: ")
                     variableValue(license.price)
+                    appendNewline(2)
+
+                    appendLicenseExpiresAt(
+                        PlayerLicense(
+                            player = licensePlayer.rpPlayer,
+                            license = license,
+                            expiresAt = license.expiresIn?.let {
+                                ZonedDateTime.now().plusSeconds(it.inWholeSeconds)
+                            }
+                        ))
+                    appendNewline(2)
+
+                    appendLicenseDescription(license)
                     appendNewline(2)
 
                     appendLicenseDependencies(licensePlayer, license.dependencies)

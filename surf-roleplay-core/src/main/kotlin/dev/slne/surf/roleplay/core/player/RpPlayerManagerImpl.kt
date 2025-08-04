@@ -35,6 +35,19 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
         }
     }
 
+    suspend fun updateUsername(
+        rpPlayer: RpPlayerImpl,
+        username: String
+    ): Unit = newSuspendedTransaction(Dispatchers.IO) {
+        rpPlayer.username = username
+        rpPlayer.updatedAt = ZonedDateTime.now()
+
+        RpPlayerModel.findSingleByAndUpdate((RpPlayerTable.uuid eq rpPlayer.uuid)) {
+            it.username = username
+            it.updatedAt = rpPlayer.updatedAt
+        }
+    }
+
     suspend fun updatePlayerInformation(
         rpPlayer: RpPlayerImpl,
         update: RpPlayerInformation.() -> Unit

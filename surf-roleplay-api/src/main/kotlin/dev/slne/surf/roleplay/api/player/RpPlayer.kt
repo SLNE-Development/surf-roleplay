@@ -53,6 +53,13 @@ interface RpPlayer : HasTransactions {
     fun hasPermission(permission: String): Boolean = bukkitPlayer?.hasPermission(permission) == true
 
     /**
+     * Updates the player's username.
+     *
+     * @param username The new username to set for the player.
+     */
+    suspend fun updateUsername(username: String)
+
+    /**
      * Updates the player's roleplay information.
      *
      * @param update A lambda function that modifies the player's information.
@@ -82,3 +89,10 @@ interface RpPlayer : HasTransactions {
         suspend fun getByName(username: String) = RpPlayerManager.getByName(username)
     }
 }
+
+/**
+ * Gets the [RpPlayer] associated with this [Player].
+ *
+ * @return The [RpPlayer] instance for this player.
+ */
+suspend fun Player.rpPlayer() = RpPlayer[uniqueId]

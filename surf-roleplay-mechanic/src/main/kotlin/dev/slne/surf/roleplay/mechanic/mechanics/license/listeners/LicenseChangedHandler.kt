@@ -40,7 +40,11 @@ object LicenseChangedHandler : Listener {
     fun onPlayerLicenseRemoved(event: PlayerLicenseRemovedEvent) {
         val license = event.license
         val bukkitPlayer = event.player.bukkitPlayer ?: return
-        val reason = buildText { event.reason.apply { message(license) } }
+        val reason = buildText {
+            appendPrefix()
+            
+            event.reason.apply { message(license) }
+        }
 
         plugin.launch(plugin.entityDispatcher(bukkitPlayer)) {
             bukkitPlayer.sendMessage(reason)

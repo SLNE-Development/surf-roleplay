@@ -7,6 +7,6 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 object CitizenJobImpl : JobImpl(
     name = "citizen",
     displayName = buildText { primary("Bürger") },
-    income = 0,
+    income = 100,
     maxPlayers = -1
 ), CitizenJob
