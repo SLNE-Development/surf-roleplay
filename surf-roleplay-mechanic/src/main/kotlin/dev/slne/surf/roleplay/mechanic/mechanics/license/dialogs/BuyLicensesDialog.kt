@@ -15,6 +15,8 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.registry.data.dialog.DialogBase
 
 fun buyLicensesDialog(licensePlayer: LicensePlayer) = dialog {
+    val actions = buildDialogList(licensePlayer)
+
     base {
         title { primary("Lizenzen erwerben") }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -29,15 +31,24 @@ fun buyLicensesDialog(licensePlayer: LicensePlayer) = dialog {
 
                 appendNewline(2)
                 info("Du findest die Voraussetzungen in der Beschreibung der Lizenz.")
+
+                if (actions.isEmpty()) {
+                    appendNewline(2)
+                    info("Du hast bereits alle verfügbaren Lizenzen erworben.")
+                }
             }
         }
     }
 
     type {
-        multiAction {
-            buildDialogList(licensePlayer).forEach { action(it) }
-            columns(1)
-            exitAction(backButton(licensePlayer))
+        if (actions.isEmpty()) {
+            notice(backButton(licensePlayer))
+        } else {
+            multiAction {
+                actions.forEach { action(it) }
+                columns(1)
+                exitAction(backButton(licensePlayer))
+            }
         }
     }
 }

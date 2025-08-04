@@ -11,39 +11,44 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
 
-fun myLicenseDialog(licensePlayer: LicensePlayer, playerLicense: PlayerLicense): Dialog = dialog {
-    val license = playerLicense.license
+fun myLicenseDialog(licensePlayer: LicensePlayer, playerLicense: PlayerLicense): Dialog {
+    return dialog {
+        val license = playerLicense.license
 
-    base {
-        title(playerLicense.license.displayName)
-        externalTitle { append(playerLicense.license.displayName) }
-        afterAction(DialogBase.DialogAfterAction.NONE)
+        base {
+            title(license.displayName)
+            externalTitle { append(license.displayName) }
+            afterAction(DialogBase.DialogAfterAction.NONE)
 
-        body {
-            plainMessage(400) {
-                info("Hier findest du Details zu deiner Lizenz.")
-                appendNewline(2)
+            body {
+                plainMessage(400) {
+                    info("Hier findest du Details zu deiner Lizenz.")
+                    appendNewline(2)
 
-                variableKey("Lizenz: ")
-                append(license.displayName)
-                appendNewline(2)
+                    variableKey("Lizenz: ")
+                    append(license.displayName)
+                    appendNewline(2)
 
-                appendLicenseExpiresAt(playerLicense)
-                appendNewline(2)
+                    appendLicenseDescription(license)
+                    appendNewline(2)
 
-                appendLicenseDependencies(licensePlayer, license.dependencies)
+                    appendLicenseExpiresAt(playerLicense)
+                    appendNewline(2)
+
+                    appendLicenseDependencies(licensePlayer, license.dependencies)
+                }
             }
         }
-    }
 
-    type {
-        notice {
-            label { text("Zurück") }
-            tooltip { info("Klicke, um zur Übersicht deiner Lizenzen zurückzukehren.") }
+        type {
+            notice {
+                label { text("Zurück") }
+                tooltip { info("Klicke, um zur Übersicht deiner Lizenzen zurückzukehren.") }
 
-            action {
-                playerCallback { player ->
-                    player.showDialog(myLicensesDialog(licensePlayer))
+                action {
+                    playerCallback { player ->
+                        player.showDialog(myLicensesDialog(licensePlayer))
+                    }
                 }
             }
         }

@@ -51,6 +51,9 @@ suspend fun buyLicenseDialog(
                         ))
                     appendNewline(2)
 
+                    appendLicenseDescription(license)
+                    appendNewline(2)
+
                     appendLicenseDependencies(licensePlayer, license.dependencies)
                     appendNewline(2)
 

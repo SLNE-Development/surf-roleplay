@@ -5,6 +5,7 @@ package dev.slne.surf.roleplay.mechanic.mechanics.license.dialogs
 import dev.slne.surf.roleplay.api.mechanic.license.License
 import dev.slne.surf.roleplay.api.mechanic.license.PlayerLicense
 import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
+import dev.slne.surf.surfapi.bukkit.api.builder.LoreBuilder
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
@@ -42,6 +43,18 @@ fun SurfComponentBuilder.appendLicenseDependencies(
                 append(dependency.displayName)
             }
         }))
+    }
+}
+
+fun SurfComponentBuilder.appendLicenseDescription(license: License) {
+    variableKey("Beschreibung:")
+    appendNewline()
+
+    LoreBuilder().apply(license.description).build().forEachIndexed { index, line ->
+        if (index > 0) {
+            appendNewline()
+        }
+        append(line)
     }
 }
 
