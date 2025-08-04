@@ -10,6 +10,8 @@ import dev.slne.surf.roleplay.api.player.RpPlayerInformation
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.transaction.RpTransaction
 import dev.slne.surf.surfapi.bukkit.api.extensions.server
+import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
+import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.util.objectListOf
 import it.unimi.dsi.fastutil.objects.ObjectList
 import org.bukkit.OfflinePlayer
@@ -93,4 +95,28 @@ class RpPlayerImpl(
     override fun isCitizen() = information.firstName != null &&
             information.lastName != null &&
             information.birthDate != null
+
+    override fun asComponent() = buildText {
+        val firstName = information.firstName
+        val lastName = information.lastName
+
+        val usableName = if (firstName != null && lastName != null) {
+            "$firstName $lastName"
+        } else {
+            username ?: uuid.toString()
+        }
+
+        variableValue(usableName)
+
+        hoverEvent(buildText {
+            variableKey("UUID: ")
+            variableValue(uuid.toString())
+            appendNewline(2)
+
+            username?.let {
+                variableKey("Username: ")
+                variableValue(it)
+            }
+        })
+    }
 }
