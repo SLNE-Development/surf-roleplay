@@ -3,6 +3,9 @@ package dev.slne.surf.roleplay.api.mechanic.rentable.utils
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 
+/**
+ * Represents a lock pick that can be used to pick locks.
+ */
 interface LockPick {
 
     /**

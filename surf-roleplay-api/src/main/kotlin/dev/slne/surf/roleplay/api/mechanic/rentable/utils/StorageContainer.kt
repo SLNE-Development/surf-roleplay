@@ -6,6 +6,9 @@ import org.bukkit.Material
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+/**
+ * Represents a storage container that can be placed in the world and is associated with a rentable property.
+ */
 interface StorageContainer {
 
     /**

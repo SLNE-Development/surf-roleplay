@@ -5,6 +5,10 @@ import dev.slne.surf.roleplay.api.mechanic.rentable.utils.Crackable
 import dev.slne.surf.roleplay.api.mechanic.rentable.utils.Lockable
 import org.bukkit.Location
 
+/**
+ * Represents a door in the game that can be locked and cracked.
+ * A door is associated with a rentable property and has a specific location in the world.
+ */
 interface Door : Lockable, Crackable {
 
     /**

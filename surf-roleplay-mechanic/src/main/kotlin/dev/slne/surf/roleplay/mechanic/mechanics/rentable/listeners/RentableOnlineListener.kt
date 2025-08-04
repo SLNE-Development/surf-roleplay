@@ -19,7 +19,7 @@ object RentableOnlineListener : Listener {
 
         plugin.launch {
             ownedRentables.forEach { rentable ->
-                rentable.setOwner(null, RentableOwnerChangeEvent.OwnerChangeReason.PlayerQuit)
+                rentable.setOwner(null, RentableOwnerChangeEvent.OwnerChangeReason.OwnerQuit)
             }
         }
     }

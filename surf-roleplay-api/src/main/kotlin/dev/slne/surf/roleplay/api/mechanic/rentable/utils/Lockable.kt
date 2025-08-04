@@ -2,6 +2,9 @@ package dev.slne.surf.roleplay.api.mechanic.rentable.utils
 
 import dev.slne.surf.roleplay.api.player.RpPlayer
 
+/**
+ * Represents an entity that can be locked and accessed by players.
+ */
 interface Lockable {
     /**
      * Checks if the player can access this lockable.
