@@ -23,6 +23,7 @@ import dev.slne.surf.surfapi.bukkit.api.builder.displayName
 import dev.slne.surf.surfapi.core.api.util.mutableObjectListOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -194,6 +195,35 @@ sealed class Cash(val item: ItemStack) {
             }
 
             return RemoveCashFromInventoryResult.SUCCESS
+        }
+
+        fun dropAndRemoveCash(player: RpPlayer) {
+            val bukkitPlayer = player.bukkitPlayer ?: return
+
+            val cashBalance = getCashBalanceFromInventory(player)
+            if (cashBalance !is CashInInventoryResult.Success) {
+                return
+            }
+
+            val location = bukkitPlayer.location
+
+            dropItem(location, Cash1.item, cashBalance.amount1)
+            dropItem(location, Cash2.item, cashBalance.amount2)
+            dropItem(location, Cash5.item, cashBalance.amount5)
+            dropItem(location, Cash10.item, cashBalance.amount10)
+            dropItem(location, Cash20.item, cashBalance.amount20)
+            dropItem(location, Cash50.item, cashBalance.amount50)
+            dropItem(location, Cash100.item, cashBalance.amount100)
+            dropItem(location, Cash200.item, cashBalance.amount200)
+            dropItem(location, Cash500.item, cashBalance.amount500)
+
+            removeFromPlayerInventory(player, cashBalance.totalAmount)
+        }
+
+        private fun dropItem(location: Location, item: ItemStack, amount: Int) {
+            for (i in 1..amount) {
+                location.world.dropItem(location, item.clone())
+            }
         }
 
         fun getCashBalanceFromInventory(player: RpPlayer): CashInInventoryResult {
