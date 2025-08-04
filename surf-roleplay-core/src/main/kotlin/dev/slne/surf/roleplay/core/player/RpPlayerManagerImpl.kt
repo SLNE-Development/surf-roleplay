@@ -9,6 +9,7 @@ import dev.slne.surf.roleplay.api.player.RpPlayerManager
 import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
 import dev.slne.surf.roleplay.core.player.db.RpPlayerTable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.future.await
 import net.kyori.adventure.util.Services
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -51,6 +52,16 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
     }
 
     override suspend fun get(uuid: UUID) = cache.get(uuid)
+
+    override suspend fun getByName(username: String) = newSuspendedTransaction(Dispatchers.IO) {
+        val cacheValue = cache.asynchronous().asMap().values.map { it.await() }.find { it.username == username }
+
+        if (cacheValue != null) {
+            return@newSuspendedTransaction cacheValue
+        }
+
+        RpPlayerModel.find { RpPlayerTable.username eq username }.singleOrNull()?.toApi()
+    }
 }
 
 val rpPlayerManagerImpl get() = RpPlayerManager.INSTANCE as RpPlayerManagerImpl

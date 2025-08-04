@@ -72,5 +72,13 @@ interface RpPlayer : HasTransactions {
          * Gets a [RpPlayer] by their [UUID].
          */
         suspend operator fun get(uuid: UUID) = RpPlayerManager[uuid]
+
+        /**
+         * Gets a [RpPlayer] by their username.
+         *
+         * @param username The username of the player.
+         * @return The [RpPlayer] with the given username, or `null` if not found.
+         */
+        suspend fun getByName(username: String) = RpPlayerManager.getByName(username)
     }
 }

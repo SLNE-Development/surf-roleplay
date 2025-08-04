@@ -15,6 +15,14 @@ interface RpPlayerManager {
      */
     suspend operator fun get(uuid: UUID): RpPlayer
 
+    /**
+     * Gets a [RpPlayer] by their username.
+     *
+     * @param username the username of the player
+     * @return the [RpPlayer] associated with the username, or null if not found
+     */
+    suspend fun getByName(username: String): RpPlayer?
+
     companion object : RpPlayerManager by rpPlayerManager {
         /**
          * The singleton instance of [RpPlayerManager].

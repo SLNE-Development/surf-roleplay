@@ -37,6 +37,13 @@ class RpPlayerImpl(
     override suspend fun getBalance(balanceType: BalanceType) =
         balances.getOrDefault(balanceType, 0.0)
 
+    override suspend fun transferBankBalance(receiver: RpPlayer, amount: Double): Boolean {
+        removeBankBalance(amount)
+        receiver.addBankBalance(amount)
+
+        return true
+    }
+
     override suspend fun addBalance(
         balanceType: BalanceType,
         amount: Double

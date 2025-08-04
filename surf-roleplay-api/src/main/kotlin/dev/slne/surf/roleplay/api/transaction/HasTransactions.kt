@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.api.transaction
 
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import it.unimi.dsi.fastutil.objects.ObjectList
 
@@ -97,6 +98,15 @@ interface HasTransactions {
      * @return The bank balance as a [Double].
      */
     suspend fun getBankBalance(): Double = getBalance(BalanceType.BANK)
+
+    /**
+     * Transfers the specified [amount] from the player's bank balance to another [RpPlayer]'s bank balance.
+     *
+     * @param receiver The player to whom the bank balance will be transferred.
+     * @param amount The amount to transfer.
+     * @return `true` if the transfer was successful, `false` otherwise.
+     */
+    suspend fun transferBankBalance(receiver: RpPlayer, amount: Double): Boolean
 
     /**
      * Adds the specified [amount] to the player's bank balance.
