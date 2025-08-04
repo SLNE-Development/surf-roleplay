@@ -29,4 +29,6 @@ class VaultStorageContainer(
     ) = Cracker.crack(player, this, lockPick) {
         cracked = true
     }
+
+    override fun canAccess(player: RpPlayer) = cracked || rentable.isMember(player)
 }

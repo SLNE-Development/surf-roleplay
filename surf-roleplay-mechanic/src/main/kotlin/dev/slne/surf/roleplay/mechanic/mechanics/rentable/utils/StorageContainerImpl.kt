@@ -4,7 +4,6 @@ package dev.slne.surf.roleplay.mechanic.mechanics.rentable.utils
 
 import com.github.shynixn.mccoroutine.folia.regionDispatcher
 import dev.slne.surf.roleplay.api.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.Crackable
 import dev.slne.surf.roleplay.api.mechanic.rentable.utils.Lockable
 import dev.slne.surf.roleplay.api.mechanic.rentable.utils.StorageContainer
 import dev.slne.surf.roleplay.api.player.RpPlayer
@@ -22,13 +21,9 @@ open class StorageContainerImpl(
 
     override suspend fun placeInWorld() = withContext(plugin.regionDispatcher(location)) {
         val block = location.world.getBlockAtAsync(location.toBlock())
-        
+
         block.type = type.material
     }
 
-    override fun canAccess(player: RpPlayer): Boolean {
-        val crackableAndCracked = this is Crackable && this.cracked
-
-        return crackableAndCracked || rentable.isMember(player)
-    }
+    override fun canAccess(player: RpPlayer) = true
 }
