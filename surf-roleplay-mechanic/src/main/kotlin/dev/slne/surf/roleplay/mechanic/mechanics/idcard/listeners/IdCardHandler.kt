@@ -21,7 +21,7 @@ object IdCardHandler : Listener {
             ?: error("The IDCard NPC is not registered")
 
     @EventHandler()
-    fun onNPCInteractAtEntity(event: NpcInteractEvent) {
+    fun onNpcInteract(event: NpcInteractEvent) {
         val player = event.player
         val npc = event.npc
 
