@@ -3,6 +3,8 @@ package dev.slne.surf.roleplay.api.mechanic.map
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.map.vote.MapVote
 import it.unimi.dsi.fastutil.objects.ObjectSet
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * Represents a mechanic that is related to the map in the game.
@@ -32,6 +34,17 @@ interface MapMechanic : Mechanic {
      * @return The map of the specified type.
      */
     fun <T : Map> getMap(clazz: Class<out T>): Map
+
+    /**
+     * Changes the current map to the specified map.
+     *
+     * The server will change the map, put it into the nextMap Folder and then restart after a period of time.
+     *
+     * @param map The map to change to.
+     * @param restartAfter The duration after which the server will restart to apply the new map.
+     * @return True if the map was changed successfully, false otherwise.
+     */
+    suspend fun changeMap(map: Map, restartAfter: Duration = 5.minutes): Boolean
 }
 
 /**
