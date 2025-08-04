@@ -1,11 +1,18 @@
 package dev.slne.surf.roleplay.api.player
 
 import dev.slne.surf.surfapi.core.api.util.requiredService
+import it.unimi.dsi.fastutil.objects.ObjectSet
+import org.jetbrains.annotations.Unmodifiable
 import java.util.*
 
 private val rpPlayerManager get() = requiredService<RpPlayerManager>()
 
 interface RpPlayerManager {
+
+    /**
+     * The set of all [RpPlayer] instances currently managed by this manager.
+     */
+    val players: @Unmodifiable ObjectSet<RpPlayer>
 
     /**
      * Gets a [RpPlayer] by their UUID.
