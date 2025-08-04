@@ -10,6 +10,11 @@ import it.unimi.dsi.fastutil.objects.ObjectSet
 interface MapMechanic : Mechanic {
 
     /**
+     * The current map being played in the game.
+     */
+    val currentMap: Map
+
+    /**
      * The current map vote in progress, if any.
      */
     val currentMapVote: MapVote?
