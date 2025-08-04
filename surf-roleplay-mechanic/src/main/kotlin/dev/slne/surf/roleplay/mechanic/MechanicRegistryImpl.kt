@@ -9,6 +9,7 @@ import dev.slne.surf.roleplay.mechanic.mechanics.cash.CashMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.jobwages.JobWagesMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.LicenseMechanicImpl
+import dev.slne.surf.roleplay.mechanic.mechanics.rentable.RentableMechanicImpl
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import net.kyori.adventure.util.Services
@@ -35,6 +36,7 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
         mechanics.add(IdCardMechanicImpl)
         mechanics.add(JobWagesMechanicImpl)
         mechanics.add(CashMechanicImpl)
+        mechanics.add(RentableMechanicImpl)
     }
 
     fun registerBukkitHandlers() {
@@ -46,15 +48,27 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
             .forEach { rpDatabase.registerMechanicTable(it) }
     }
 
+    fun startAllRpJobs() {
+        mechanics.forEach { it.rpJobs.forEach { job -> job.start() } }
+    }
+
+    suspend fun stopAllRpJobs() {
+        mechanics.forEach { it.rpJobs.forEach { job -> job.stop() } }
+    }
+
     suspend fun loadMechanics() {
         mechanics.forEach { it.onLoad() }
     }
 
     suspend fun enableMechanics() {
         mechanics.forEach { it.onEnable() }
+
+        startAllRpJobs()
     }
 
     suspend fun disableMechanics() {
+        stopAllRpJobs()
+
         mechanics.forEach { it.onDisable() }
     }
 }
