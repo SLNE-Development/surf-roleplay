@@ -41,6 +41,30 @@ fun createSuccessPayDialog(bukkitPlayer: Player, player: RpPlayer, amount: Float
     }
 }
 
+fun createCashWithdrawSuccess(bukkitPlayer: Player, player: RpPlayer, amount: Double): Dialog {
+
+    return dialog {
+        base {
+            title {
+                primary("Geldautomat v1.0 ")
+                spacer("- Erfolgreich")
+            }
+
+            body {
+                plainMessage(400) {
+                    success("Dir wurden erfolgreich ")
+                    variableValue(bukkitPlayer.formatNumber(amount))
+                    variableKey(" €€€")
+                    success(" vom Konto abgebucht und ausgezahlt.")
+                }
+            }
+            type {
+                notice(exitSuccessButton(bukkitPlayer, player))
+            }
+        }
+    }
+}
+
 private fun exitSuccessButton(bukkitPlayer: Player, player: RpPlayer) = actionButton {
     label { text("Zurück") }
     tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }

@@ -8,7 +8,7 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.core.utils.formatNumber
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createGenericErrorDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountError
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountPayError
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createSuccessPayDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -76,14 +76,12 @@ private fun confirmPayButton(bukkitPlayer: Player, player: RpPlayer, selectedPla
         }
         action {
             customPlayerClick { info, audience ->
-                //get value, remove money, add items
-                //feedback screen error / success
 
                 plugin.launch {
                     val amount = info.getFloat("pay_amount") ?: 0.0f
 
                     if (amount <= 0 || amount > player.getBalance(BalanceType.BANK)) {
-                        audience.showDialog(createInvalidAmountError(bukkitPlayer, player, selectedPlayer))
+                        audience.showDialog(createInvalidAmountPayError(bukkitPlayer, player, selectedPlayer))
                         return@launch
                     }
 

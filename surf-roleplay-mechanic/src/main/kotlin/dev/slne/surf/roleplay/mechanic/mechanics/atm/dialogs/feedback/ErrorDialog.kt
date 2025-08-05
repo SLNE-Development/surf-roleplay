@@ -81,7 +81,7 @@ fun createGenericErrorDialog(bukkitPlayer: Player, player: RpPlayer): Dialog {
     }
 }
 
-fun createInvalidAmountError(bukkitPlayer: Player, player: RpPlayer, selectedPlayer: RpPlayer): Dialog {
+fun createInvalidAmountPayError(bukkitPlayer: Player, player: RpPlayer, selectedPlayer: RpPlayer): Dialog {
 
     return dialog {
         base {
@@ -96,7 +96,71 @@ fun createInvalidAmountError(bukkitPlayer: Player, player: RpPlayer, selectedPla
                 }
             }
             type {
-                notice(exitInvalidAmountButton(bukkitPlayer, player, selectedPlayer))
+                notice(exitInvalidAmountPayButton(bukkitPlayer, player, selectedPlayer))
+            }
+        }
+    }
+}
+
+fun createInvalidAmountCashError(bukkitPlayer: Player, player: RpPlayer): Dialog {
+
+    return dialog {
+        base {
+            title {
+                primary("Geldautomat v1.0 ")
+                spacer("- Systemfehler")
+            }
+
+            body {
+                plainMessage(400) {
+                    error("Du kannst dir diesen Betrag nicht auszahlen lassen.")
+                }
+            }
+            type {
+                notice(exitInvalidAmountCashWithdrawButton(bukkitPlayer, player))
+            }
+        }
+    }
+}
+
+
+fun createCashWithdrawError(bukkitPlayer: Player, player: RpPlayer): Dialog {
+
+    return dialog {
+        base {
+            title {
+                primary("Geldautomat v1.0 ")
+                spacer("- Systemfehler")
+            }
+
+            body {
+                plainMessage(400) {
+                    error("Die Auszahlung ist fehlgeschlagen, bitte versuche es später erneut.")
+                }
+            }
+            type {
+                notice(exitInvalidAmountCashWithdrawButton(bukkitPlayer, player))
+            }
+        }
+    }
+}
+
+fun createCashDepositError(bukkitPlayer: Player, player: RpPlayer): Dialog {
+
+    return dialog {
+        base {
+            title {
+                primary("Geldautomat v1.0 ")
+                spacer("- Systemfehler")
+            }
+
+            body {
+                plainMessage(400) {
+                    error("Die Einzahlung ist fehlgeschlagen, bitte versuche es später erneut.")
+                }
+            }
+            type {
+                notice(exitInvalidAmountCashWithdrawButton(bukkitPlayer, player))
             }
         }
     }
@@ -122,18 +186,33 @@ fun createNoPlayersError(bukkitPlayer: Player, player: RpPlayer): Dialog {
     }
 }
 
-private fun exitInvalidAmountButton(bukkitPlayer: Player, player: RpPlayer, selectedPlayer: RpPlayer) = actionButton {
-    label { text("Zurück") }
-    tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
+private fun exitInvalidAmountPayButton(bukkitPlayer: Player, player: RpPlayer, selectedPlayer: RpPlayer) =
+    actionButton {
+        label { text("Zurück") }
+        tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
 
-    action {
-        playerCallback {
-            plugin.launch {
-                it.showDialog(createAmountDialog(bukkitPlayer, player, selectedPlayer))
+        action {
+            playerCallback {
+                plugin.launch {
+                    it.showDialog(createAmountDialog(bukkitPlayer, player, selectedPlayer))
+                }
             }
         }
     }
-}
+
+private fun exitInvalidAmountCashWithdrawButton(bukkitPlayer: Player, player: RpPlayer) =
+    actionButton {
+        label { text("Zurück") }
+        tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
+
+        action {
+            playerCallback {
+                plugin.launch {
+                    it.showDialog(createAtmMainMenuDialog(bukkitPlayer, player))
+                }
+            }
+        }
+    }
 
 private fun exitErrorButton(bukkitPlayer: Player, player: RpPlayer) = actionButton {
     label { text("Zurück") }

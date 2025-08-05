@@ -8,6 +8,9 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.core.utils.formatNumber
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashDepositError
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashWithdrawSuccess
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountCashError
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -37,15 +40,15 @@ suspend fun createDepositDialog(bukkitPlayer: Player, player: RpPlayer): Dialog 
                     appendNewline(2)
                 }
                 plainMessage(400) {
-                    info("Dein aktueller Kontostand beträgt: ")
-                    variableValue(bukkitPlayer.formatNumber(balance))
+                    info("Du führst aktuell ")
+                    variableValue(bukkitPlayer.formatNumber(balanceCash))
                     variableKey(" €€€")
-                    info(".")
+                    info(" mit dir.")
                     appendNewline(2)
                 }
             }
             input {
-                numberRange("deposit_in_amount", 1f..balanceCash.toFloat()) {
+                numberRange("deposit_amount", 1f..balanceCash.toFloat()) {
                     label { text("Betrag wählen") }
                     step(1.0f)
                 }
@@ -72,6 +75,30 @@ private fun depositMoneyButton(bukkitPlayer: Player, player: RpPlayer): ActionBu
             //feedback screen error / success
 
             plugin.launch {
+                val balance = player.getBalance(BalanceType.BANK)
+                val balanceCash = player.getBalance(BalanceType.CASH)
+
+                val amount = info.getFloat("deposit_amount") ?: 0.0f
+
+                if (amount <= 0 || amount > balanceCash) {
+                    audience.showDialog(
+                        createInvalidAmountCashError(bukkitPlayer, player)
+                    )
+                    return@launch
+                }
+
+                val stateBank = player.removeCashBalance(amount.toDouble())
+                val stateCash = player.addBankBalance(amount.toDouble())
+
+                if (!stateCash || !stateBank) {
+                    audience.showDialog(
+                        createCashDepositError(bukkitPlayer, player)
+                    )
+                    return@launch
+                }
+
+                audience.showDialog(createCashWithdrawSuccess(bukkitPlayer, player, amount.toDouble()))
+
                 audience.showDialog(createAtmMainMenuDialog(bukkitPlayer, player))
             }
         }
