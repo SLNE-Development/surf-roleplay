@@ -1,6 +1,6 @@
 [versions]
 surf-database = "2.2.1-SNAPSHOT"
-surf-npc-api = "1.21.7-1.1.0-SNAPSHOT"
+surf-npc-api = "1.21.7-1.3.1-SNAPSHOT"
 
 [libraries]
 surf-database = { module = "dev.slne.surf:surf-database", version.ref = "surf-database" }

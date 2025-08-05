@@ -1,4 +1,4 @@
-package dev.slne.surf.job.paper.utils
+package dev.slne.surf.job.api.job.utils
 
 import dev.slne.surf.job.api.job.Job
 import dev.slne.surf.job.api.job.JobRegistry
@@ -11,11 +11,11 @@ object PermissionRegistry : PermissionRegistry() {
 
     val JOB_JOIN_IGNORE_MAX_PLAYERS = create("$PREFIX.join.ignore-max-players")
 
-    private fun createJobJoinPermission(job: Job) =
-        create("$COMMAND_PREFIX.join.${job.name.lowercase().replace(" ", "-")}")
+    fun createJobJoinPermission(job: Job) =
+        create("$PREFIX.join.${job.name.lowercase().replace(" ", "-")}")
 
     fun createJobJoinPermissions() = JobRegistry.jobs.forEach {
-        createJobJoinPermission(it)
+        it.permission
     }
 
 }

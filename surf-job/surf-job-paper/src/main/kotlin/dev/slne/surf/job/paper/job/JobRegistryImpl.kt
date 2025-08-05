@@ -3,8 +3,6 @@ package dev.slne.surf.job.paper.job
 import com.google.auto.service.AutoService
 import dev.slne.surf.job.api.job.Job
 import dev.slne.surf.job.api.job.JobRegistry
-import dev.slne.surf.job.api.job.jobs.neutral.CitizenJob
-import dev.slne.surf.job.api.player.changeJob
 import dev.slne.surf.job.paper.job.jobs.gang.*
 import dev.slne.surf.job.paper.job.jobs.gang.GangsterJobImpl.GangsterChiefJobImpl
 import dev.slne.surf.job.paper.job.jobs.gang.MafiaJobImpl.MafiaChiefJobImpl
@@ -22,6 +20,8 @@ import net.kyori.adventure.util.Services
 @AutoService(JobRegistry::class)
 class JobRegistryImpl : JobRegistry, Services.Fallback {
 
+    val VERSION = "v1.0"
+
     private val _jobs = mutableObjectSetOf<Job>()
     override val jobs get() = _jobs.freeze()
 
@@ -29,7 +29,7 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
         // neutral jobs
         registerJob(BankerJobImpl)
         registerJob(CitizenJobImpl)
-        registerJob(DiscJockeyJobImpl)
+        registerJob(DjJobImpl)
         registerJob(FarmerJobImpl)
         registerJob(HomelessJobImpl)
         registerJob(LawyerJobImpl)
@@ -47,16 +47,17 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
         registerJob(WeaponDealerJobImpl)
 
         // state jobs
-        registerJob(CustomOfficerJobImpl)
-        registerJob(DispatchJobImpl)
-        registerJob(DoctorJobImpl)
         registerJob(FirefighterJobImpl)
         registerJob(FirefighterChiefJobImpl)
-        registerJob(MayorJobImpl)
         registerJob(PoliceJobImpl)
         registerJob(SergeantJobImpl)
-        registerJob(PrisonGuardJobImpl)
         registerJob(RescueServiceJobImpl)
+        registerJob(DispatchJobImpl)
+
+        registerJob(CustomOfficerJobImpl)
+        registerJob(DoctorJobImpl)
+        registerJob(MayorJobImpl)
+        registerJob(PrisonGuardJobImpl)
         registerJob(SecretServiceJobImpl)
         registerJob(TaskForceJobImpl)
 
@@ -80,20 +81,7 @@ class JobRegistryImpl : JobRegistry, Services.Fallback {
         jobs.firstOrNull { jobClass.isAssignableFrom(it.javaClass) } as? T
             ?: throw IllegalArgumentException("Job of class ${jobClass.name} is not registered in the JobRegistry.")
 
-    override fun checkJobKeepRequirements(): Boolean {
-        var state = true
-
-        _jobs.forEach { job ->
-            job.players.forEach { player ->
-                if (!job.canKeep(player)) {
-                    player.changeJob<CitizenJob>()
-                    state = false
-                }
-            }
-        }
-
-        return state
-    }
+    override fun checkJobKeepRequirements() = _jobs.all { it.performKeepRequirementsCheck() }
 }
 
 val jobRegistryImpl get() = JobRegistry.INSTANCE as JobRegistryImpl

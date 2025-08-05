@@ -4,10 +4,12 @@ import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.jorel.commandapi.kotlindsl.commandAPICommand
 import dev.jorel.commandapi.kotlindsl.playerExecutor
+import dev.slne.surf.job.api.job.utils.PermissionRegistry
+import dev.slne.surf.job.paper.job.JobNpc
 import dev.slne.surf.job.paper.job.jobRegistryImpl
+import dev.slne.surf.job.paper.job.listener.JobNpcHandler
 import dev.slne.surf.job.paper.job.player.JobPlayerHandler
 import dev.slne.surf.job.paper.job.player.jobPlayer
-import dev.slne.surf.job.paper.utils.PermissionRegistry
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
@@ -25,9 +27,11 @@ object SurfJob {
         jobRegistryImpl.registerJobs()
     }
 
-    fun onEnable() {
+    suspend fun onEnable() {
         PermissionRegistry.createJobJoinPermissions()
+
         JobPlayerHandler.register()
+        JobNpcHandler.register()
 
         commandAPICommand("current-job") {
             playerExecutor { player, arguments ->
@@ -44,6 +48,8 @@ object SurfJob {
                 }
             }
         }
+
+        JobNpc.spawnNpc()
     }
 
     fun onDisable() {

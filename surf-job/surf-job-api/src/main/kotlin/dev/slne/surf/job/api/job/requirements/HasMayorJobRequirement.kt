@@ -7,7 +7,11 @@ import dev.slne.surf.job.api.job.getJob
 import dev.slne.surf.job.api.job.jobs.state.MayorJob
 import dev.slne.surf.job.api.player.JobPlayer
 
-class HasMayorJobRequirement : JobRequirement {
+class HasMayorJobRequirement : JobRequirement({
+    line {
+        info("Es muss sich ein Bürgermeister im Spiel befinden, um diesem Job beitreten zu können.")
+    }
+}) {
     override fun check(
         job: Job,
         player: JobPlayer

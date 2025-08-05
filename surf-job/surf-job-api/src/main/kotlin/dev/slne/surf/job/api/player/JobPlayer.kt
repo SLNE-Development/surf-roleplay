@@ -20,24 +20,23 @@ interface JobPlayer {
      * Changes the player's current [Job].
      *
      * @param job The new [Job] to set.
-     * @return `true` if the job was changed successfully, `false` otherwise.
+     * @return The result of the job change operation.
      */
-    fun changeJob(job: Job): Boolean
+    fun changeJob(job: Job): Job.JobChangeResult
 
     /**
      * Changes the player's current job to the specified type.
      *
      * @param job The class of the job to change to.
-     * @return `true` if the job was changed successfully, `false` otherwise.
+     * @return The result of the job change operation.
      */
-    fun changeJob(job: Class<out Job>): Boolean = changeJob(JobRegistry.getJob(job))
-
+    fun changeJob(job: Class<out Job>): Job.JobChangeResult = changeJob(JobRegistry.getJob(job))
 }
 
 /**
  * Changes the player's current job to the specified type.
  *
  * @param T The type of the job to change to.
- * @return `true` if the job was changed successfully, `false` otherwise.
+ * @return The result of the job change operation.
  */
-inline fun <reified T : Job> JobPlayer.changeJob(): Boolean = changeJob(T::class.java)
+inline fun <reified T : Job> JobPlayer.changeJob(): Job.JobChangeResult = changeJob(T::class.java)

@@ -3,17 +3,21 @@ package dev.slne.surf.job.api.job.requirements
 import dev.slne.surf.job.api.job.Job
 import dev.slne.surf.job.api.job.JobRequirement
 import dev.slne.surf.job.api.player.JobPlayer
-import dev.slne.surf.surfapi.bukkit.api.extensions.server
 
-class MinPlayersJobRequirement(val minPlayers: Int) : JobRequirement({
+class MinJobPlayersRequirement(
+    val job: Job,
+    val minAmount: Int
+) : JobRequirement({
     line {
         info("Es müssen mindestens ")
-        variableValue(minPlayers)
-        info(" Spieler im Spiel sein, um diesem Job beitreten zu können.")
+        variableValue(minAmount)
+        appendSpace()
+        append(job)
+        info(" im Spiel sein, um diesem Job beitreten zu können.")
     }
 }) {
     override fun check(
         job: Job,
         player: JobPlayer
-    ) = server.onlinePlayers.size >= minPlayers
+    ) = job.players.size >= minAmount
 }
