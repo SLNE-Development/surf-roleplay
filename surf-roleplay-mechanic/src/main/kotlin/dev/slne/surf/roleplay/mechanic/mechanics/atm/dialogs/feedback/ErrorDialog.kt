@@ -125,7 +125,7 @@ fun createInvalidAmountEnteredCashError(player: RpPlayer): Dialog = dialog {
             }
         }
         type {
-            notice(exitErrorButton(player))
+            notice(exitDepositErrorButton(player))
         }
     }
 }
@@ -305,6 +305,19 @@ private fun exitWithdrawErrorButton(player: RpPlayer) = actionButton {
         playerCallback {
             plugin.launch {
                 it.showDialog(createWithdrawDialog(player))
+            }
+        }
+    }
+}
+
+private fun exitDepositErrorButton(player: RpPlayer) = actionButton {
+    label { text("Zurück") }
+    tooltip { info("Klicke, um zur Betragseingabe zurückzukehren.") }
+
+    action {
+        playerCallback {
+            plugin.launch {
+                it.showDialog(createDepositDialog(player))
             }
         }
     }
