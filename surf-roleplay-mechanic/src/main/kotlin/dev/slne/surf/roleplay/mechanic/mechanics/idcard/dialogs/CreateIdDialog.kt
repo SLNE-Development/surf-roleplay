@@ -22,8 +22,8 @@ import org.bukkit.entity.Player
 import java.time.LocalDate
 import java.time.Year
 
-private val nameRegex = Regex("^[a-zA-ZÄÖÜäöüß]{3,16}")
-private val nameRegexDashes = Regex("^[a-zA-ZÄÖÜäöüß-]{3,16}")
+private val nameRegex by lazy { Regex("^[a-zA-ZÄÖÜäöüß]{3,16}") }
+private val nameRegexDashes by lazy { Regex("^[a-zA-ZÄÖÜäöüß-]{3,16}") }
 
 fun createIdDialog(
     firstName: String? = null,
