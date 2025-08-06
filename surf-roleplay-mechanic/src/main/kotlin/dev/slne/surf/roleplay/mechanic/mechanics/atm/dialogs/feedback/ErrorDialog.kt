@@ -17,6 +17,7 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import io.papermc.paper.dialog.Dialog
+import io.papermc.paper.registry.data.dialog.DialogBase
 
 fun createErrorNoCashDialog(player: RpPlayer): Dialog = dialog {
     base {
@@ -24,7 +25,7 @@ fun createErrorNoCashDialog(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Du besitzt kein Bargeld.")
@@ -43,6 +44,7 @@ fun createErrorNoBankDialog(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Du besitzt kein angelegtes Geld auf deinem Konto.")
@@ -60,6 +62,7 @@ fun createGenericErrorDialog(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
 
         body {
             plainMessage(400) {
@@ -78,7 +81,7 @@ fun createInvalidAmountPayError(player: RpPlayer, receiver: RpPlayer): Dialog = 
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Der eingegebene Betrag konnte nicht überwiesen werden.")
@@ -98,6 +101,7 @@ fun createInvalidAmountEnteredPayError(player: RpPlayer, receiver: RpPlayer): Di
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Der angegebene Betrag konnte nicht ausgelesen werden.")
@@ -117,6 +121,7 @@ fun createInvalidAmountEnteredCashError(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Der angegebene Betrag konnte nicht ausgelesen werden.")
@@ -136,7 +141,7 @@ fun createInvalidAmountDepositError(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Du kannst diesen Betrag nicht einzahlen.")
@@ -156,7 +161,7 @@ fun createInvalidAmountWithdrawError(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Der angegebene Betrag konnte nicht ausgelesen werden.")
@@ -177,7 +182,7 @@ fun createCashWithdrawError(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Die Auszahlung ist fehlgeschlagen. ")
@@ -197,7 +202,7 @@ fun createCashDepositError(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Die Einzahlung ist fehlgeschlagen, bitte versuche es später erneut.")
@@ -215,6 +220,7 @@ fun createNoPlayersError(player: RpPlayer): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("— Systemfehler")
         }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 error("Es befinden sich aktuell keine Bürger in der Stadt, an welche du Geld überweisen kannst.")

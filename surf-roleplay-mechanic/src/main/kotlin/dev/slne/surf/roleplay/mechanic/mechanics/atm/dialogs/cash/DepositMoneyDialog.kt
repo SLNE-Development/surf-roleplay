@@ -22,6 +22,7 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
+import io.papermc.paper.registry.data.dialog.DialogBase
 
 suspend fun createDepositDialog(player: RpPlayer): Dialog {
     val balanceCash = player.getBalance(BalanceType.CASH)
@@ -32,7 +33,7 @@ suspend fun createDepositDialog(player: RpPlayer): Dialog {
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
                 spacer("— Einzahlung")
             }
-
+            afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
             body {
                 plainMessage(400) {
                     info("Hier kannst du Geld einzahlen.")
@@ -84,22 +85,17 @@ private fun depositMoneyButton(player: RpPlayer): ActionButton = actionButton {
                     return@launch
                 }
 
-                ////////////////////////////////////
-
-                var stateBank = false
-                var stateCash = false
-
                 val event = PlayerDepositMoneyEvent(
                     player = player,
                     amount = amount
                 )
 
                 if (event.callEvent()) {
-                    stateBank = player.removeCashBalance(amount)
-                    stateCash = player.addBankBalance(amount)
-                }
+                    return@launch
 
-                ////////////////////////////////////
+                }
+                val stateBank = player.removeCashBalance(amount)
+                val stateCash = player.addBankBalance(amount)
 
                 if (!stateCash || !stateBank) {
                     audience.showDialog(createCashDepositError(player))

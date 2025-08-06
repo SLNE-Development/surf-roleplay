@@ -20,6 +20,7 @@ import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import io.papermc.paper.dialog.Dialog
+import io.papermc.paper.registry.data.dialog.DialogBase
 
 
 suspend fun createSelectPlayersDialog(player: RpPlayer): Dialog {
@@ -34,7 +35,7 @@ suspend fun createSelectPlayersDialog(player: RpPlayer): Dialog {
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
                 spacer("— Überweisungen")
             }
-
+            afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
             body {
                 plainMessage(400) {
                     info("Hier kannst du Geld an andere Bürger überweisen.")

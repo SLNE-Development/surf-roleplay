@@ -22,6 +22,7 @@ import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
+import io.papermc.paper.registry.data.dialog.DialogBase
 
 private val validAmountInput = Regex("^\\d+$")
 
@@ -34,6 +35,7 @@ suspend fun createAmountDialog(player: RpPlayer, selectedPlayer: RpPlayer): Dial
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
                 spacer("— Einzahlung")
             }
+            afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
             externalTitle {
                 spacer(selectedPlayer.username.toString())
             }
@@ -88,8 +90,6 @@ private fun confirmPayButton(player: RpPlayer, selectedPlayer: RpPlayer): Action
                         audience.showDialog(createInvalidAmountPayError(player, selectedPlayer))
                         return@launch
                     }
-                    ////////////////////////////////////
-                    var state = false
 
                     val event = PlayerTransferBankMoneyEvent(
                         player = player,
@@ -98,9 +98,10 @@ private fun confirmPayButton(player: RpPlayer, selectedPlayer: RpPlayer): Action
                     )
 
                     if (event.callEvent()) {
-                        state = player.transferBankBalance(selectedPlayer, amount)
+                        return@launch
                     }
-                    ////////////////////////////////////
+
+                    val state = player.transferBankBalance(selectedPlayer, amount)
 
                     if (!state) {
                         audience.showDialog(createGenericErrorDialog(player))

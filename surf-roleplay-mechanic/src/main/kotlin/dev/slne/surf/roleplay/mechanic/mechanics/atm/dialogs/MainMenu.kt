@@ -31,7 +31,7 @@ suspend fun createAtmMainMenuDialog(player: RpPlayer): Dialog {
     return dialog {
         base {
             title { primary("Geldautomat ${AtmMechanicImpl.VERSION}") }
-            afterAction(DialogBase.DialogAfterAction.NONE)
+            afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
 
             body {
                 plainMessage(400) {

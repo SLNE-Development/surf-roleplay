@@ -15,6 +15,7 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import io.papermc.paper.dialog.Dialog
+import io.papermc.paper.registry.data.dialog.DialogBase
 
 fun createSuccessPayDialog(player: RpPlayer, amount: Int, receiver: RpPlayer): Dialog = dialog {
     base {
@@ -22,6 +23,7 @@ fun createSuccessPayDialog(player: RpPlayer, amount: Int, receiver: RpPlayer): D
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("- Erfolgreich")
         }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 success("Du hast erfolgreich ")
@@ -43,7 +45,7 @@ fun createCashWithdrawSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("- Erfolgreich")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 success("Dir wurden erfolgreich ")
@@ -63,7 +65,7 @@ fun createCashDepositSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
             spacer("- Erfolgreich")
         }
-
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
                 success("Du hast erfolgreich ")

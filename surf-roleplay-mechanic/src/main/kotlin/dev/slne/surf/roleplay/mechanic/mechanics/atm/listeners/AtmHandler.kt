@@ -19,7 +19,7 @@ object AtmHandler : Listener {
 
         val clickedBlock = event.clickedBlock ?: return
 
-        if (clickedBlock.type != Material.ANVIL) return
+        if (clickedBlock.type != Material.NETHERITE_BLOCK) return
 
         plugin.launch {
             val rpPlayer = RpPlayer[player.uniqueId]

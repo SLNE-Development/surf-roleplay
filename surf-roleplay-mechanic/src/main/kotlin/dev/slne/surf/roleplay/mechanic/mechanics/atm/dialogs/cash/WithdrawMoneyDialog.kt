@@ -22,6 +22,7 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
+import io.papermc.paper.registry.data.dialog.DialogBase
 
 private val validAmountInput by lazy {
     Regex("^\\d+$")
@@ -36,7 +37,7 @@ suspend fun createWithdrawDialog(player: RpPlayer): Dialog {
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
                 spacer("— Auszahlung")
             }
-
+            afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
             body {
                 plainMessage(400) {
                     info("Hier kannst du dir Geld auszahlen lassen.")
@@ -87,21 +88,17 @@ private fun withdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
                     audience.showDialog(createInvalidAmountDepositError(player))
                     return@launch
                 }
-
-                ////////////////////////////////////
-                var stateBank = false
-                var stateCash = false
-
                 val event = PlayerWithdrawMoneyEvent(
                     player = player,
                     amount = amount
                 )
 
-                if (event.callEvent()) {
-                    stateBank = player.removeBankBalance(amount)
-                    stateCash = player.addCashBalance(amount)
+                if (!event.callEvent()) {
+                    return@launch
                 }
-                ////////////////////////////////////
+
+                val stateBank = player.removeBankBalance(amount)
+                val stateCash = player.addCashBalance(amount)
 
                 if (!stateCash || !stateBank) {
                     audience.showDialog(createCashWithdrawError(player))
