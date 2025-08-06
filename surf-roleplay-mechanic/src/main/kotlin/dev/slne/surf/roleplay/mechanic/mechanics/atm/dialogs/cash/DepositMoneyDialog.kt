@@ -50,6 +50,7 @@ suspend fun createDepositDialog(player: RpPlayer): Dialog {
                 text("deposit_amount") {
                     label { text("Bitte Betrag wählen:") }
                     width(200)
+                    initial(balanceCash.toString())
                 }
             }
         }

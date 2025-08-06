@@ -12,7 +12,6 @@ import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashWithdrawError
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashWithdrawSuccess
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountDepositError
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountWithdrawError
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -85,7 +84,7 @@ private fun withdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
                 val balance = player.getBalance(BalanceType.BANK)
 
                 if (amount <= 0 || amount > balance) {
-                    audience.showDialog(createInvalidAmountDepositError(player))
+                    audience.showDialog(createInvalidAmountWithdrawError(player))
                     return@launch
                 }
                 val event = PlayerWithdrawMoneyEvent(
