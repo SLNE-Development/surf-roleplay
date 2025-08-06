@@ -1,12 +1,13 @@
 package dev.slne.surf.roleplay.api.player
 
 import dev.slne.surf.roleplay.api.transaction.HasTransactions
+import net.kyori.adventure.text.ComponentLike
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.time.ZonedDateTime
 import java.util.*
 
-interface RpPlayer : HasTransactions {
+interface RpPlayer : HasTransactions, ComponentLike {
 
     /**
      * The [UUID] of the player

@@ -30,7 +30,6 @@ import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import net.kyori.adventure.key.Key
 import org.jetbrains.exposed.sql.Table
-import kotlin.time.Duration.Companion.seconds
 
 object LicenseMechanicImpl : MechanicImpl(
     "LicenseMechanic",
@@ -38,6 +37,9 @@ object LicenseMechanicImpl : MechanicImpl(
         LicensePlayerHandler,
         LicenseChangedHandler,
         LicenseBuyHandler
+    ),
+    rpJobs = objectSetOf(
+        LicenseExpirationJob
     )
 ), LicenseMechanic {
 
@@ -45,8 +47,6 @@ object LicenseMechanicImpl : MechanicImpl(
 
     private val _licenses = mutableObjectSetOf<License>()
     override val licenses get() = _licenses.freeze()
-
-    private lateinit var expirationChecker: LicenseExpirationJob
 
     override fun getDatabaseTables() = objectSetOf<Table>(
         PlayerLicenseTable
@@ -84,13 +84,6 @@ object LicenseMechanicImpl : MechanicImpl(
 
             spawnNpc()
         }
-
-        expirationChecker = LicenseExpirationJob(delay = 1.seconds)
-        expirationChecker.start()
-    }
-
-    override suspend fun onDisable() {
-        expirationChecker.stop()
     }
 
     private suspend fun spawnNpc() {

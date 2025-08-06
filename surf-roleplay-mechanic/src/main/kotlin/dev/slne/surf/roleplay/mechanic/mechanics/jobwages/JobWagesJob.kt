@@ -1,50 +1,24 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.jobwages
 
-import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import dev.slne.surf.job.api.job.JobRegistry
+import dev.slne.surf.roleplay.api.coroutine.RpJob
 import dev.slne.surf.roleplay.api.mechanic.jobwages.event.PlayerPaycheckEvent
 import dev.slne.surf.roleplay.api.player.RpPlayer
-import dev.slne.surf.roleplay.core.utils.buildCoroutineScope
-import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.seconds
 
-class JobWagesJob(
-    val delay: Duration,
-    val plugin: SuspendingJavaPlugin
-) {
+object JobWagesJob : RpJob("JobWagesJob", 1.seconds) {
+
     private val map = ConcurrentHashMap<UUID, Long>()
-
     private val playerDelay = 1.hours
 
     fun playerDisconnect(rpPlayer: RpPlayer) {
         map.remove(rpPlayer.uuid)
     }
 
-    private val supervisor: CompletableJob
-    private val scope: CoroutineScope
-
-    init {
-        val (job, coroutineScope) = buildCoroutineScope("JobWagesJob")
-
-        supervisor = job
-        scope = coroutineScope
-    }
-
-    fun start() = scope.launch {
-        while (isActive) {
-            tick()
-            delay(delay)
-        }
-    }
-
-    suspend fun stop() {
-        supervisor.cancelAndJoin()
-    }
-
-    suspend fun tick() {
+    override suspend fun tick() {
         JobRegistry.jobs.forEach { job ->
             job.players.forEach { player ->
                 val rpPlayer = player.rpPlayer
