@@ -22,7 +22,7 @@ fun createErrorNoCashDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -41,7 +41,7 @@ fun createErrorNoBankDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
         body {
             plainMessage(400) {
@@ -58,7 +58,7 @@ fun createGenericErrorDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -76,7 +76,7 @@ fun createTransactionErrorDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION}")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -96,7 +96,7 @@ fun createInvalidAmountPayError(player: RpPlayer, receiver: RpPlayer): Dialog = 
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -116,7 +116,7 @@ fun createInvalidAmountEnteredPayError(player: RpPlayer, receiver: RpPlayer): Di
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
         body {
             plainMessage(400) {
@@ -135,7 +135,7 @@ fun createInvalidAmountEnteredCashError(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
         body {
             plainMessage(400) {
@@ -154,7 +154,7 @@ fun createInvalidAmountDepositError(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -174,7 +174,7 @@ fun createInvalidAmountWithdrawError(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -195,7 +195,7 @@ fun createCashWithdrawError(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -215,7 +215,7 @@ fun createCashDepositError(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
 
         body {
@@ -233,7 +233,7 @@ fun createNoPlayersError(player: RpPlayer): Dialog = dialog {
     base {
         title {
             primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-            spacer("- Systemfehler")
+            spacer("— Systemfehler")
         }
         body {
             plainMessage(400) {

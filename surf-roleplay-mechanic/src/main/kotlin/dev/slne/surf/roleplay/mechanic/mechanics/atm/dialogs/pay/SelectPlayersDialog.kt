@@ -32,7 +32,7 @@ suspend fun createSelectPlayersDialog(player: RpPlayer): Dialog {
         base {
             title {
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-                spacer("- Überweisungen")
+                spacer("— Überweisungen")
             }
 
             body {

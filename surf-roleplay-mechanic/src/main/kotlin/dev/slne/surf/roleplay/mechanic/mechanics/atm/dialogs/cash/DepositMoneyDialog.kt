@@ -30,7 +30,7 @@ suspend fun createDepositDialog(player: RpPlayer): Dialog {
         base {
             title {
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-                spacer("- Einzahlung")
+                spacer("— Einzahlung")
             }
 
             body {

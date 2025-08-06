@@ -26,19 +26,4 @@ object AtmHandler : Listener {
             player.showDialog(createAtmMainMenuDialog(rpPlayer))
         }
     }
-
-//    @EventHandler
-//    fun onPlayerDepositMoney(event: PlayerDepositMoneyEvent) {
-//
-//    }
-//
-//    @EventHandler
-//    fun onPlayerWithdrawMoney(event: PlayerWithdrawMoneyEvent) {
-//
-//    }
-//
-//    @EventHandler
-//    fun onPlayerMoneyTransferBankMoney(event: PlayerTransferBankMoneyEvent) {
-//
-//    }
 }

@@ -32,7 +32,7 @@ suspend fun createAmountDialog(player: RpPlayer, selectedPlayer: RpPlayer): Dial
         base {
             title {
                 primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
-                spacer("- Einzahlung")
+                spacer("— Einzahlung")
             }
             externalTitle {
                 spacer(selectedPlayer.username.toString())
@@ -41,7 +41,6 @@ suspend fun createAmountDialog(player: RpPlayer, selectedPlayer: RpPlayer): Dial
                 plainMessage(400) {
                     info("Dein aktueller Kontostand beträgt: ")
                     append(balance.formatMoneyComponent())
-                    variableKey(" €€€")
                     info(".")
                     appendNewline(2)
                 }
