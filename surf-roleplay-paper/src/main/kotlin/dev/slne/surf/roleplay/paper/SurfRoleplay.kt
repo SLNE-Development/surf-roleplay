@@ -1,7 +1,6 @@
 package dev.slne.surf.roleplay.paper
 
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
-import dev.slne.surf.job.paper.SurfJob
 import dev.slne.surf.roleplay.core.RpDatabase
 import dev.slne.surf.roleplay.mechanic.mechanicRegistryImpl
 import dev.slne.surf.roleplay.paper.listeners.ListenerManager
@@ -22,8 +21,6 @@ class SurfRoleplay : SuspendingJavaPlugin() {
         rpDatabase.onLoad()
 
         mechanicRegistryImpl.loadMechanics()
-
-        SurfJob.onLoad(this)
     }
 
     override suspend fun onEnableAsync() {
@@ -31,14 +28,11 @@ class SurfRoleplay : SuspendingJavaPlugin() {
 
         mechanicRegistryImpl.enableMechanics()
         mechanicRegistryImpl.registerBukkitHandlers()
-
-        SurfJob.onEnable()
     }
 
     override suspend fun onDisableAsync() {
         mechanicRegistryImpl.disableMechanics()
 
-        SurfJob.onDisable()
         rpDatabase.onDisable()
     }
 

@@ -1,7 +1,7 @@
 package dev.slne.surf.roleplay.api.transaction
 
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
-import it.unimi.dsi.fastutil.objects.ObjectList
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet
 
 interface HasTransactions {
 
@@ -41,7 +41,7 @@ interface HasTransactions {
     suspend fun getBalanceHistory(
         balanceType: BalanceType,
         limit: Int = 10
-    ): ObjectList<RpTransaction>
+    ): ObjectLinkedOpenHashSet<RpTransaction>
 
     /**
      * Checks if the player has a sufficient balance of the specified [BalanceType] for the given [amount].
@@ -92,7 +92,7 @@ interface HasTransactions {
      * @param limit The maximum number of transactions to retrieve. Defaults to 10.
      * @return A list of [RpTransaction] representing the cash balance history.
      */
-    suspend fun getCashBalanceHistory(limit: Int = 10): ObjectList<RpTransaction> =
+    suspend fun getCashBalanceHistory(limit: Int = 10): ObjectLinkedOpenHashSet<RpTransaction> =
         getBalanceHistory(BalanceType.CASH, limit)
 
     /**
@@ -132,7 +132,7 @@ interface HasTransactions {
      * @param limit The maximum number of transactions to retrieve. Defaults to 10.
      * @return A list of [RpTransaction] representing the bank balance history.
      */
-    suspend fun getBankBalanceHistory(limit: Int = 10): ObjectList<RpTransaction> =
+    suspend fun getBankBalanceHistory(limit: Int = 10): ObjectLinkedOpenHashSet<RpTransaction> =
         getBalanceHistory(BalanceType.BANK, limit)
 
     /**
@@ -172,6 +172,6 @@ interface HasTransactions {
      * @param limit The maximum number of transactions to retrieve. Defaults to 10.
      * @return A list of [RpTransaction] representing the crypto balance history.
      */
-    suspend fun getCryptoBalanceHistory(limit: Int = 10): ObjectList<RpTransaction> =
+    suspend fun getCryptoBalanceHistory(limit: Int = 10): ObjectLinkedOpenHashSet<RpTransaction> =
         getBalanceHistory(BalanceType.CRYPTO, limit)
 }

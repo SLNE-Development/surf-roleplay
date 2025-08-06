@@ -1,0 +1,28 @@
+package dev.slne.surf.roleplay.core.player.identity.identities
+
+import dev.slne.surf.roleplay.api.player.identity.RpIdentity
+import dev.slne.surf.roleplay.api.player.utils.BalanceType
+import dev.slne.surf.roleplay.core.player.identity.RpIdentityImpl
+import dev.slne.surf.surfapi.core.api.util.mutableObject2ObjectMapOf
+import java.time.LocalDate
+import java.time.ZonedDateTime
+
+class CivilianIdentityImpl(
+    firstName: String,
+    lastName: String,
+    dateOfBirth: LocalDate,
+    createdAt: ZonedDateTime = ZonedDateTime.now(),
+    updatedAt: ZonedDateTime = ZonedDateTime.now()
+) : RpIdentityImpl(
+    firstName,
+    lastName,
+    dateOfBirth,
+    createdAt,
+    updatedAt
+), RpIdentity.CivilianIdentity {
+    override fun getCurrencyNames() = mutableObject2ObjectMapOf(
+        BalanceType.CASH to "civilian_cash",
+        BalanceType.BANK to "civilian_bank",
+        BalanceType.CRYPTO to "civilian_crypto",
+    )
+}

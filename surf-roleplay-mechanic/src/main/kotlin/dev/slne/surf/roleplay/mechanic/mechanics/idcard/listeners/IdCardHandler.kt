@@ -30,7 +30,7 @@ object IdCardHandler : Listener {
         plugin.launch(plugin.entityDispatcher(player)) {
             val rpPlayer = RpPlayer[player.uniqueId]
 
-            if (rpPlayer.isCitizen()) {
+            if (rpPlayer.hasCompletedCitizenship()) {
                 player.sendText {
                     appendPrefix()
                     error("Du hast bereits einen Personalausweis beantragt.")

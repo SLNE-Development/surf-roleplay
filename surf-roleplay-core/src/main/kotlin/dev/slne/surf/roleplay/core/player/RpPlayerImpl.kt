@@ -1,19 +1,14 @@
 package dev.slne.surf.roleplay.core.player
 
-import dev.slne.surf.roleplay.api.mechanic.Mechanic
-import dev.slne.surf.roleplay.api.mechanic.cash.CashMechanic
-import dev.slne.surf.roleplay.api.mechanic.cash.utils.AddCashToInventoryResult
-import dev.slne.surf.roleplay.api.mechanic.cash.utils.CashInInventoryResult
-import dev.slne.surf.roleplay.api.mechanic.cash.utils.RemoveCashFromInventoryResult
 import dev.slne.surf.roleplay.api.player.RpPlayer
-import dev.slne.surf.roleplay.api.player.RpPlayerInformation
+import dev.slne.surf.roleplay.api.player.getIdentity
+import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
-import dev.slne.surf.roleplay.api.transaction.RpTransaction
 import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
-import dev.slne.surf.surfapi.core.api.util.objectListOf
-import it.unimi.dsi.fastutil.objects.ObjectList
+import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
+import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.time.ZonedDateTime
@@ -21,92 +16,80 @@ import java.util.*
 
 class RpPlayerImpl(
     override val uuid: UUID,
+    identities: ObjectSet<RpIdentity>,
     override var createdAt: ZonedDateTime = ZonedDateTime.now(),
     override var updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpPlayer {
 
-    private val balances = mutableMapOf<BalanceType, Double>()
+    private val _identities = mutableObjectSetOf<RpIdentity>()
+    override val identities: ObjectSet<RpIdentity> get() = _identities
 
     init {
-        balances[BalanceType.BANK] = 100_000_000.0
-        balances[BalanceType.CRYPTO] = 10.0
+        _identities.addAll(identities)
     }
 
-    override val information: RpPlayerInformation = RpPlayerInformationImpl()
     override var username: String? = null
     override val bukkitPlayer: Player? get() = server.getPlayer(uuid)
     override val bukkitOfflinePlayer: OfflinePlayer get() = server.getOfflinePlayer(uuid)
 
-    override suspend fun updateInformation(update: RpPlayerInformation.() -> Unit) =
-        rpPlayerManagerImpl.updatePlayerInformation(this, update)
+    override var activeIdentity: RpIdentity? = null
+
+    fun addIdentity(identity: RpIdentity) = _identities.add(identity)
+
+    override suspend fun <T : RpIdentity> createIdentity(identity: T) =
+        rpPlayerManagerImpl.createIdentity(this, identity)
+
+
+    override suspend fun <T : RpIdentity> createOrUpdateIdentity(identity: T) =
+        rpPlayerManagerImpl.createOrUpdateIdentity(this, identity)
+
+    override suspend fun <T : RpIdentity> updateIdentity(identity: T) =
+        rpPlayerManagerImpl.updateIdentity(this, identity)
 
     override suspend fun updateUsername(username: String) =
         rpPlayerManagerImpl.updateUsername(this, username)
 
-    override suspend fun getBalance(balanceType: BalanceType): Double {
-        if (balanceType == BalanceType.CASH) {
-            val result = Mechanic.getMechanic<CashMechanic>().getCashBalance(this)
-
-            return if (result is CashInInventoryResult.Success) {
-                result.totalAmount.toDouble()
-            } else {
-                0.0
-            }
-        }
-
-        return balances.getOrDefault(balanceType, 0.0)
-    }
+    override suspend fun getBalance(balanceType: BalanceType) =
+        activeIdentity?.getBalance(balanceType)
+            ?: error("Tried accessing balance of a player without an active identity $uuid")
 
     override suspend fun addBalance(
         balanceType: BalanceType,
         amount: Double
-    ): Boolean {
-        if (balanceType == BalanceType.CASH) {
-            return Mechanic.getMechanic<CashMechanic>()
-                .addCashBalance(this, amount.toInt()) == AddCashToInventoryResult.SUCCESS
-        }
-
-        balances[balanceType] = balances.getOrDefault(balanceType, 0.0) + amount
-
-        return true
-    }
+    ) = activeIdentity?.addBalance(balanceType, amount)
+        ?: error("Tried adding balance to a player without an active identity $uuid")
 
     override suspend fun removeBalance(
         balanceType: BalanceType,
         amount: Double
-    ): Boolean {
-        if (balanceType == BalanceType.CASH) {
-            return Mechanic.getMechanic<CashMechanic>()
-                .removeCashBalance(this, amount.toInt()) == RemoveCashFromInventoryResult.SUCCESS
-        }
-
-        balances[balanceType] = balances.getOrDefault(balanceType, 0.0) - amount
-
-        return true
-    }
+    ) = activeIdentity?.removeBalance(balanceType, amount)
+        ?: error("Tried removing balance from a player without an active identity $uuid")
 
     override suspend fun getBalanceHistory(
         balanceType: BalanceType,
         limit: Int
-    ): ObjectList<RpTransaction> {
-        return objectListOf()
+    ) = activeIdentity?.getBalanceHistory(balanceType, limit)
+        ?: error("Tried accessing balance history of a player without an active identity $uuid")
+
+    override fun <T : RpIdentity> getIdentity(clazz: Class<out T>) = identities.firstOrNull {
+        clazz.isAssignableFrom(it.javaClass)
     }
 
-    override fun isCitizen() = information.firstName != null &&
-            information.lastName != null &&
-            information.birthDate != null
+    override fun hasCompletedCitizenship() = getIdentity<RpIdentity.CivilianIdentity>() != null
 
     override fun asComponent() = buildText {
-        val firstName = information.firstName
-        val lastName = information.lastName
+        val activeIdentity = activeIdentity
 
-        val usableName = if (firstName != null && lastName != null) {
-            "$firstName $lastName"
-        } else {
-            username ?: uuid.toString()
+        if (activeIdentity == null) {
+            variableKey(username ?: uuid.toString())
+
+            return@buildText
         }
 
-        variableValue(usableName)
+        val firstName = activeIdentity.firstName
+        val lastName = activeIdentity.lastName
+
+        variableValue("$firstName $lastName")
 
         hoverEvent(buildText {
             variableKey("UUID: ")
