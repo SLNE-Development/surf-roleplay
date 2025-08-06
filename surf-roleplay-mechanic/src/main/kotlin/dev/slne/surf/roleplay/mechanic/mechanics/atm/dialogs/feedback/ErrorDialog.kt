@@ -170,7 +170,7 @@ fun createInvalidAmountWithdrawError(player: RpPlayer): Dialog = dialog {
             }
         }
         type {
-            notice(exitInvalidAmountDepositButton(player))
+            notice(exitInvalidAmountWithdrawButton(player))
         }
     }
 }
@@ -196,6 +196,26 @@ fun createCashWithdrawError(player: RpPlayer): Dialog = dialog {
     }
 }
 
+fun createEventError(player: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            spacer("— Systemfehler")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                error("Die Interaktion ist fehlgeschlagen")
+                appendNewline()
+                error("Bitte versuche es später erneut.")
+            }
+        }
+        type {
+            notice(exitEventErrorButton(player))
+        }
+    }
+}
+
 fun createCashDepositError(player: RpPlayer): Dialog = dialog {
     base {
         title {
@@ -205,11 +225,13 @@ fun createCashDepositError(player: RpPlayer): Dialog = dialog {
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
         body {
             plainMessage(400) {
-                error("Die Einzahlung ist fehlgeschlagen, bitte versuche es später erneut.")
+                error("Die Einzahlung ist fehlgeschlagen. ")
+                appendNewline()
+                error("Bitte versuche es erneut.")
             }
         }
         type {
-            notice(exitInvalidAmountCashWithdrawButton(player))
+            notice(exitInvalidAmountDepositButton(player))
         }
     }
 }
@@ -234,8 +256,7 @@ fun createNoPlayersError(player: RpPlayer): Dialog = dialog {
     }
 }
 
-
-private fun exitInvalidAmountCashWithdrawButton(player: RpPlayer) =
+private fun exitInvalidAmountDepositButton(player: RpPlayer) =
     actionButton {
         label { text("Zurück") }
         tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
@@ -249,20 +270,19 @@ private fun exitInvalidAmountCashWithdrawButton(player: RpPlayer) =
         }
     }
 
-private fun exitInvalidAmountDepositButton(player: RpPlayer) =
+private fun exitInvalidAmountWithdrawButton(player: RpPlayer) =
     actionButton {
         label { text("Zurück") }
-        tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
+        tooltip { info("Klicke, um zur Betragsauswahl zurückzukehren.") }
 
         action {
             playerCallback {
                 plugin.launch {
-                    it.showDialog(createDepositDialog(player))
+                    it.showDialog(createWithdrawDialog(player))
                 }
             }
         }
     }
-
 
 private fun exitErrorButton(player: RpPlayer) = actionButton {
     label { text("Zurück") }
@@ -324,6 +344,19 @@ private fun exitDepositErrorButton(player: RpPlayer) = actionButton {
         playerCallback {
             plugin.launch {
                 it.showDialog(createDepositDialog(player))
+            }
+        }
+    }
+}
+
+private fun exitEventErrorButton(player: RpPlayer) = actionButton {
+    label { text("Zurück") }
+    tooltip { info("Klicke, um zur Betragseingabe zurückzukehren.") }
+
+    action {
+        playerCallback {
+            plugin.launch {
+                it.showDialog(createAtmMainMenuDialog(player))
             }
         }
     }

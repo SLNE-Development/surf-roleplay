@@ -10,10 +10,7 @@ import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.utils.formatMoney
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashDepositError
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashDepositSuccess
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountDepositError
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountEnteredCashError
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.*
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -91,7 +88,8 @@ private fun depositMoneyButton(player: RpPlayer): ActionButton = actionButton {
                     amount = amount
                 )
 
-                if (event.callEvent()) {
+                if (!event.callEvent()) {
+                    audience.showDialog(createEventError(player))
                     return@launch
 
                 }
