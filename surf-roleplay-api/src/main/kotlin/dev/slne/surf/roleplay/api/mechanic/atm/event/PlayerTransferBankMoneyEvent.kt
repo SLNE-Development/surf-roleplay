@@ -1,9 +1,10 @@
-package dev.slne.surf.roleplay.api.mechanic.jobwages.event
+package dev.slne.surf.roleplay.api.mechanic.atm.event
 
 import dev.slne.surf.roleplay.api.events.CancellableRpEvent
 import dev.slne.surf.roleplay.api.player.RpPlayer
 
-class PlayerPaycheckEvent(
+class PlayerTransferBankMoneyEvent(
     val player: RpPlayer,
+    val receiver: RpPlayer,
     var amount: Int
 ) : CancellableRpEvent()

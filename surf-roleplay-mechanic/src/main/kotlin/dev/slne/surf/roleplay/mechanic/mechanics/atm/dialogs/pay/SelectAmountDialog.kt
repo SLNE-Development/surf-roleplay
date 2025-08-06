@@ -4,6 +4,7 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.pay
 
 import com.github.shynixn.mccoroutine.folia.launch
+import dev.slne.surf.roleplay.api.mechanic.atm.event.PlayerTransferBankMoneyEvent
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
@@ -88,8 +89,19 @@ private fun confirmPayButton(player: RpPlayer, selectedPlayer: RpPlayer): Action
                         audience.showDialog(createInvalidAmountPayError(player, selectedPlayer))
                         return@launch
                     }
+                    ////////////////////////////////////
+                    var state = false
 
-                    val state = player.transferBankBalance(selectedPlayer, amount)
+                    val event = PlayerTransferBankMoneyEvent(
+                        player = player,
+                        receiver = selectedPlayer,
+                        amount = amount
+                    )
+
+                    if (event.callEvent()) {
+                        state = player.transferBankBalance(selectedPlayer, amount)
+                    }
+                    ////////////////////////////////////
 
                     if (!state) {
                         audience.showDialog(createGenericErrorDialog(player))

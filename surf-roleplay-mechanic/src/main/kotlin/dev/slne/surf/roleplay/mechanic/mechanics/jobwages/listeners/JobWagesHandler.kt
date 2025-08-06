@@ -4,6 +4,7 @@ import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.mechanic.jobwages.event.PlayerPaycheckEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
+import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
 import dev.slne.surf.roleplay.mechanic.mechanics.jobwages.JobWagesJob
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
@@ -28,8 +29,7 @@ object JobWagesHandler : Listener {
                 appendPrefix()
 
                 info("Du hast eine Überweisung in Höhe von ")
-                variableValue(event.amount)
-                variableKey(" € ")
+                append(event.amount.formatMoneyComponent())
                 info("erhalten.")
             }
             bukkitPlayer.playSound {

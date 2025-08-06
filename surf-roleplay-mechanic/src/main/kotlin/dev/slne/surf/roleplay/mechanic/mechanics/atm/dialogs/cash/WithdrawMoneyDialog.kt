@@ -4,6 +4,7 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash
 
 import com.github.shynixn.mccoroutine.folia.launch
+import dev.slne.surf.roleplay.api.mechanic.atm.event.PlayerWithdrawMoneyEvent
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
@@ -87,8 +88,20 @@ private fun withdrawMoneyButton(player: RpPlayer): ActionButton = actionButton {
                     return@launch
                 }
 
-                val stateBank = player.removeBankBalance(amount)
-                val stateCash = player.addCashBalance(amount)
+                ////////////////////////////////////
+                var stateBank = false
+                var stateCash = false
+
+                val event = PlayerWithdrawMoneyEvent(
+                    player = player,
+                    amount = amount
+                )
+
+                if (event.callEvent()) {
+                    stateBank = player.removeBankBalance(amount)
+                    stateCash = player.addCashBalance(amount)
+                }
+                ////////////////////////////////////
 
                 if (!stateCash || !stateBank) {
                     audience.showDialog(createCashWithdrawError(player))

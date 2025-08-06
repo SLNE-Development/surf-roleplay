@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 
-object PlayerInteractWithAtmHandler : Listener {
+object AtmHandler : Listener {
 
     @EventHandler()
     fun onPlayerInteract(event: PlayerInteractEvent) {
@@ -26,4 +26,19 @@ object PlayerInteractWithAtmHandler : Listener {
             player.showDialog(createAtmMainMenuDialog(rpPlayer))
         }
     }
+
+//    @EventHandler
+//    fun onPlayerDepositMoney(event: PlayerDepositMoneyEvent) {
+//
+//    }
+//
+//    @EventHandler
+//    fun onPlayerWithdrawMoney(event: PlayerWithdrawMoneyEvent) {
+//
+//    }
+//
+//    @EventHandler
+//    fun onPlayerMoneyTransferBankMoney(event: PlayerTransferBankMoneyEvent) {
+//
+//    }
 }
