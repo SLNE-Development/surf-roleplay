@@ -25,7 +25,7 @@ interface RpTransaction {
     /**
      * The amount of money involved in the transaction.
      */
-    val amount: Double
+    val amount: Int
 
     /**
      * The type of balance this transaction affects.

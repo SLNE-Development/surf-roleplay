@@ -26,7 +26,7 @@ object VehicleLicenseImpl {
                 spacer("Der Führerschein erlaubt es dir, Fahrzeuge zu führen.")
             }
         },
-        price = 1000.0,
+        price = 1000,
         expiresIn = null
     ), VehicleLicense.DriversLicense
 
@@ -38,7 +38,7 @@ object VehicleLicenseImpl {
                 spacer("Der Lkw-Führerschein erlaubt es dir, Lastkraftwagen zu fahren.")
             }
         },
-        price = 2000.0,
+        price = 2000,
         expiresIn = null,
         dependencies = objectSetOf(
             DriversLicenseImpl,
@@ -54,7 +54,7 @@ object VehicleLicenseImpl {
                 spacer("Der Bus-Führerschein erlaubt es dir, Busse zu fahren.")
             }
         },
-        price = 2500.0,
+        price = 2500,
         expiresIn = null,
         dependencies = objectSetOf(
             DriversLicenseImpl
@@ -69,7 +69,7 @@ object VehicleLicenseImpl {
                 spacer("Der Taxi-Führerschein erlaubt es dir, Taxis zu fahren.")
             }
         },
-        price = 3000.0,
+        price = 3000,
         expiresIn = null,
         dependencies = objectSetOf(
             DriversLicenseImpl
@@ -84,7 +84,7 @@ object VehicleLicenseImpl {
                 spacer("Der Motorrad-Führerschein erlaubt es dir, Motorräder zu fahren.")
             }
         },
-        price = 1500.0,
+        price = 1500,
         expiresIn = null
     ), VehicleLicense.MotorcycleLicense
 
@@ -96,7 +96,7 @@ object VehicleLicenseImpl {
                 spacer("Der Bootsführerschein erlaubt es dir, Boote zu fahren.")
             }
         },
-        price = 1800.0,
+        price = 1800,
         expiresIn = null
     ), VehicleLicense.BoatLicense
 
@@ -108,7 +108,7 @@ object VehicleLicenseImpl {
                 spacer("Der Pilotenschein erlaubt es dir, Flugzeuge zu fliegen.")
             }
         },
-        price = 5000.0,
+        price = 5000,
         expiresIn = null
     ), VehicleLicense.PilotLicense
 }

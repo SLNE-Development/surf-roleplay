@@ -17,7 +17,7 @@ abstract class LicenseImpl(
     override val key: Key,
     override val displayName: Component,
     override val description: LoreBuilder.() -> Unit,
-    override val price: Double,
+    override val price: Int,
     override val expiresIn: Duration? = null,
     override val dependencies: ObjectSet<License> = objectSetOf(),
     override val permission: String = PermissionRegistry.create(

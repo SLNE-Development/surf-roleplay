@@ -25,11 +25,11 @@ class RpPlayerImpl(
     override var updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpPlayer {
 
-    private val balances = mutableMapOf<BalanceType, Double>()
+    private val balances = mutableMapOf<BalanceType, Int>()
 
     init {
-        balances[BalanceType.BANK] = 100_000.0
-        balances[BalanceType.CRYPTO] = 10.0
+        balances[BalanceType.BANK] = 100_000
+        balances[BalanceType.CRYPTO] = 10
     }
 
     override val information: RpPlayerInformation = RpPlayerInformationImpl()
@@ -43,21 +43,21 @@ class RpPlayerImpl(
     override suspend fun updateUsername(username: String) =
         rpPlayerManagerImpl.updateUsername(this, username)
 
-    override suspend fun getBalance(balanceType: BalanceType): Double {
+    override suspend fun getBalance(balanceType: BalanceType): Int {
         if (balanceType == BalanceType.CASH) {
             val result = Mechanic.getMechanic<CashMechanic>().getCashBalance(this)
 
             return if (result is CashInInventoryResult.Success) {
-                result.totalAmount.toDouble()
+                result.totalAmount
             } else {
-                0.0
+                0
             }
         }
 
-        return balances.getOrDefault(balanceType, 0.0)
+        return balances.getOrDefault(balanceType, 0)
     }
 
-    override suspend fun transferBankBalance(receiver: RpPlayer, amount: Double): Boolean {
+    override suspend fun transferBankBalance(receiver: RpPlayer, amount: Int): Boolean {
         removeBankBalance(amount)
         receiver.addBankBalance(amount)
 
@@ -66,28 +66,27 @@ class RpPlayerImpl(
 
     override suspend fun addBalance(
         balanceType: BalanceType,
-        amount: Double
+        amount: Int
     ): Boolean {
         if (balanceType == BalanceType.CASH) {
-            return Mechanic.getMechanic<CashMechanic>()
-                .addCashBalance(this, amount.toInt()) == AddCashToInventoryResult.SUCCESS
+            return Mechanic.getMechanic<CashMechanic>().addCashBalance(this, amount) == AddCashToInventoryResult.SUCCESS
         }
 
-        balances[balanceType] = balances.getOrDefault(balanceType, 0.0) + amount
+        balances[balanceType] = balances.getOrDefault(balanceType, 0) + amount
 
         return true
     }
 
     override suspend fun removeBalance(
         balanceType: BalanceType,
-        amount: Double
+        amount: Int
     ): Boolean {
         if (balanceType == BalanceType.CASH) {
             return Mechanic.getMechanic<CashMechanic>()
-                .removeCashBalance(this, amount.toInt()) == RemoveCashFromInventoryResult.SUCCESS
+                .removeCashBalance(this, amount) == RemoveCashFromInventoryResult.SUCCESS
         }
 
-        balances[balanceType] = balances.getOrDefault(balanceType, 0.0) - amount
+        balances[balanceType] = balances.getOrDefault(balanceType, 0) - amount
 
         return true
     }

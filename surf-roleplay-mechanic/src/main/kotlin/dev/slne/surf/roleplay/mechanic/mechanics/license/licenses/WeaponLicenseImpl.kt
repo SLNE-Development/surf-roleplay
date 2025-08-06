@@ -21,7 +21,7 @@ object WeaponLicenseImpl {
                 info("Erlaubt das Führen von leichten Waffen wie Pistolen und Revolvern.")
             }
         },
-        price = 5000.0
+        price = 5000
     ), WeaponLicense.LightWeaponLicense
 
     object HeavyWeaponLicenseImpl : LicenseImpl(
@@ -32,7 +32,7 @@ object WeaponLicenseImpl {
                 info("Erlaubt das Führen von schweren Waffen wie Maschinengewehren und Scharfschützengewehren.")
             }
         },
-        price = 10000.0,
+        price = 10000,
         dependencies = objectSetOf(
             LightWeaponLicenseImpl
         )

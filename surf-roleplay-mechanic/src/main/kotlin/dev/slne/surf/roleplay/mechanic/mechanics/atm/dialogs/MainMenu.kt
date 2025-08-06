@@ -6,7 +6,8 @@ package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
-import dev.slne.surf.roleplay.core.utils.formatNumber
+import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash.createDepositDialog
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash.createWithdrawDialog
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createErrorNoBankDialog
@@ -23,38 +24,34 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
 import io.papermc.paper.registry.data.dialog.DialogBase
-import org.bukkit.entity.Player
 
-
-suspend fun createAtmMainMenuDialog(bukkitPlayer: Player, player: RpPlayer): Dialog {
+suspend fun createAtmMainMenuDialog(player: RpPlayer): Dialog {
     val balance = player.getBalance(BalanceType.BANK)
 
     return dialog {
         base {
-            title { primary("Geldautomat v1.0") }
+            title { primary("Geldautomat ${AtmMechanicImpl.VERSION}") }
             afterAction(DialogBase.DialogAfterAction.NONE)
 
             body {
                 plainMessage(400) {
-                    info("Willkommen im Geldautomaten! Hier kannst du dein Geld verwalten.")
+                    info("Willkommen im Geldautomaten!")
+                    appendNewline()
+                    info("Hier kannst du dein Geld verwalten.")
                     appendNewline(2)
-                }
-                plainMessage(400) {
                     info("Dein aktueller Kontostand beträgt ")
-                    variableValue(bukkitPlayer.formatNumber(balance))
-                    variableKey(" €€€")
+                    append(balance.formatMoneyComponent())
                     info(".")
-                    appendNewline(2)
+                    appendNewline()
                 }
             }
-
         }
         type {
             multiAction {
                 columns(1)
-                action(payMoneyButton(bukkitPlayer))
-                action(depositInMoneyButton(bukkitPlayer))
-                action(depositOutMoneyButton(bukkitPlayer))
+                action(payMoneyButton(player))
+                action(depositInMoneyButton(player))
+                action(depositOutMoneyButton(player))
 
                 exitAction(exitAtmButton())
             }
@@ -62,7 +59,7 @@ suspend fun createAtmMainMenuDialog(bukkitPlayer: Player, player: RpPlayer): Dia
     }
 }
 
-private fun payMoneyButton(bukkitPlayer: Player): ActionButton = actionButton {
+private fun payMoneyButton(rpPlayer: RpPlayer): ActionButton = actionButton {
     label { text("Geld überweisen") }
     tooltip { info("Klicke, um anderen Bürgern Geld zu überweisen.") }
     width(200)
@@ -70,20 +67,17 @@ private fun payMoneyButton(bukkitPlayer: Player): ActionButton = actionButton {
     action {
         playerCallback { player ->
             plugin.launch {
-                val rpPlayer = RpPlayer[player.uniqueId]
-
                 if (!checkEnoughBank(rpPlayer)) {
-                    player.showDialog(createErrorNoBankDialog(bukkitPlayer, rpPlayer))
+                    player.showDialog(createErrorNoBankDialog(rpPlayer))
                     return@launch
                 }
-
-                player.showDialog(createSelectPlayersDialog(bukkitPlayer, rpPlayer))
+                player.showDialog(createSelectPlayersDialog(rpPlayer))
             }
         }
     }
 }
 
-private fun depositInMoneyButton(bukkitPlayer: Player): ActionButton = actionButton {
+private fun depositInMoneyButton(rpPlayer: RpPlayer): ActionButton = actionButton {
     label { text("Geld einzahlen") }
     tooltip { info("Klicke, um Geld in den Geldautomaten einzuzahlen.") }
     width(200)
@@ -91,20 +85,19 @@ private fun depositInMoneyButton(bukkitPlayer: Player): ActionButton = actionBut
     action {
         playerCallback { player ->
             plugin.launch {
-                val rpPlayer = RpPlayer[player.uniqueId]
 
                 if (!checkEnoughCash(rpPlayer)) {
-                    player.showDialog(createErrorNoCashDialog(bukkitPlayer, rpPlayer))
+                    player.showDialog(createErrorNoCashDialog(rpPlayer))
                     return@launch
                 }
 
-                player.showDialog(createDepositDialog(bukkitPlayer, rpPlayer))
+                player.showDialog(createDepositDialog(rpPlayer))
             }
         }
     }
 }
 
-private fun depositOutMoneyButton(bukkitPlayer: Player): ActionButton = actionButton {
+private fun depositOutMoneyButton(rpPlayer: RpPlayer): ActionButton = actionButton {
     label { text("Geld auszahlen") }
     tooltip { info("Klicke, um Geld aus dem Geldautomaten auszuzahlen.") }
     width(200)
@@ -112,13 +105,12 @@ private fun depositOutMoneyButton(bukkitPlayer: Player): ActionButton = actionBu
     action {
         playerCallback { player ->
             plugin.launch {
-                val rpPlayer = RpPlayer[player.uniqueId]
 
                 if (!checkEnoughBank(rpPlayer)) {
-                    player.showDialog(createErrorNoBankDialog(bukkitPlayer, rpPlayer))
+                    player.showDialog(createErrorNoBankDialog(rpPlayer))
                     return@launch
                 }
-                player.showDialog(createWithdrawDialog(bukkitPlayer, rpPlayer))
+                player.showDialog(createWithdrawDialog(rpPlayer))
             }
         }
     }
@@ -138,16 +130,10 @@ private fun exitAtmButton(): ActionButton = actionButton {
 
 private suspend fun checkEnoughCash(player: RpPlayer): Boolean {
     val balanceCash = player.getBalance(BalanceType.CASH)
-    if (balanceCash >= 1) {
-        return true
-    }
-    return false
+    return balanceCash >= 1
 }
 
 private suspend fun checkEnoughBank(player: RpPlayer): Boolean {
     val balanceBank = player.getBalance(BalanceType.BANK)
-    if (balanceBank >= 1) {
-        return true
-    }
-    return false
+    return balanceBank >= 1
 }

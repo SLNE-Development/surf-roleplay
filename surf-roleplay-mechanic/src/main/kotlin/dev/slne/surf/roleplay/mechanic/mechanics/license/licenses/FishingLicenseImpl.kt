@@ -14,6 +14,6 @@ object FishingLicenseImpl : LicenseImpl(
             spacer("Die Angel-Lizenz erlaubt es dir, in der Wildnis zu angeln.")
         }
     },
-    price = 500.0,
+    price = 500,
     expiresIn = 5.minutes
 ), FishingLicense

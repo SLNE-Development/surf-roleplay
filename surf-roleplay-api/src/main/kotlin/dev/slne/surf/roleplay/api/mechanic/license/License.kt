@@ -29,7 +29,7 @@ interface License {
      * The price of the license in the game currency.
      * This is the amount a player must pay to obtain the license.
      */
-    val price: Double
+    val price: Int
 
     /**
      * The duration for which the license is valid.

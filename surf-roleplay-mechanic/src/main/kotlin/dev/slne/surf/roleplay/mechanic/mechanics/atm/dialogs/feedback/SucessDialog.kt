@@ -6,7 +6,7 @@ package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
-import dev.slne.surf.roleplay.core.utils.formatNumber
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -15,64 +15,76 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import io.papermc.paper.dialog.Dialog
-import org.bukkit.entity.Player
 
-fun createSuccessPayDialog(bukkitPlayer: Player, player: RpPlayer, amount: Float, receiver: RpPlayer): Dialog {
-
-    return dialog {
-        base {
-            title {
-                primary("Geldautomat v1.0 ")
-                spacer("- Erfolgreich")
+fun createSuccessPayDialog(player: RpPlayer, amount: Int, receiver: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            spacer("- Erfolgreich")
+        }
+        body {
+            plainMessage(400) {
+                success("Du hast erfolgreich ")
+                append(amount.formatMoneyComponent())
+                success(" an den Bürger ")
+                append(receiver)
+                success(" überwiesen.")
             }
-            body {
-                plainMessage(400) {
-                    success("Du hast erfolgreich ")
-                    append(amount.formatMoneyComponent())
-                    success(" an den Bürger ")
-                    append(receiver)
-                    success(" überwiesen.")
-                }
-            }
-            type {
-                notice(exitSuccessButton(bukkitPlayer, player))
-            }
+        }
+        type {
+            notice(exitSuccessButton(player))
         }
     }
 }
 
-fun createCashWithdrawSuccess(bukkitPlayer: Player, player: RpPlayer, amount: Double): Dialog {
+fun createCashWithdrawSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            spacer("- Erfolgreich")
+        }
 
-    return dialog {
-        base {
-            title {
-                primary("Geldautomat v1.0 ")
-                spacer("- Erfolgreich")
+        body {
+            plainMessage(400) {
+                success("Dir wurden erfolgreich ")
+                append(amount.formatMoneyComponent())
+                success(" vom Konto abgebucht und ausgezahlt.")
             }
-
-            body {
-                plainMessage(400) {
-                    success("Dir wurden erfolgreich ")
-                    variableValue(bukkitPlayer.formatNumber(amount))
-                    variableKey(" €€€")
-                    success(" vom Konto abgebucht und ausgezahlt.")
-                }
-            }
-            type {
-                notice(exitSuccessButton(bukkitPlayer, player))
-            }
+        }
+        type {
+            notice(exitSuccessButton(player))
         }
     }
 }
 
-private fun exitSuccessButton(bukkitPlayer: Player, player: RpPlayer) = actionButton {
+fun createCashDepositSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            spacer("- Erfolgreich")
+        }
+
+        body {
+            plainMessage(400) {
+                success("Du hast erfolgreich ")
+                append(amount.formatMoneyComponent())
+                success(" auf dein Konto aufgebucht.")
+            }
+        }
+        type {
+            notice(exitSuccessButton(player))
+        }
+    }
+}
+
+private fun exitSuccessButton(player: RpPlayer) = actionButton {
     label { text("Zurück") }
     tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
 
     action {
         playerCallback {
             plugin.launch {
-                it.showDialog(createAtmMainMenuDialog(bukkitPlayer, player))
+                it.showDialog(createAtmMainMenuDialog(player))
             }
         }
     }

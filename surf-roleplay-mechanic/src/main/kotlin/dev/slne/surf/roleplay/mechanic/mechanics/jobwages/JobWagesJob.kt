@@ -32,7 +32,7 @@ object JobWagesJob : RpJob("JobWagesJob", 1.seconds) {
 
                     if (event.callEvent()) {
                         if (event.amount > 0) {
-                            rpPlayer.addBankBalance(event.amount.toDouble())
+                            rpPlayer.addBankBalance(event.amount)
                         }
                     }
 

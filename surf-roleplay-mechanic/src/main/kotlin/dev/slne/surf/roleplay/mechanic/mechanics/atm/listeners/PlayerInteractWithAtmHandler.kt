@@ -23,7 +23,7 @@ object PlayerInteractWithAtmHandler : Listener {
 
         plugin.launch {
             val rpPlayer = RpPlayer[player.uniqueId]
-            player.showDialog(createAtmMainMenuDialog(player, rpPlayer))
+            player.showDialog(createAtmMainMenuDialog(rpPlayer))
         }
     }
 }

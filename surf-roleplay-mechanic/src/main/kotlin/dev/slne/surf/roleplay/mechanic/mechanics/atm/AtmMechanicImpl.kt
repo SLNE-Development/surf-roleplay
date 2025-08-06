@@ -10,4 +10,6 @@ object AtmMechanicImpl : MechanicImpl(
     handlers = objectSetOf(
         PlayerInteractWithAtmHandler
     )
-), AtmMechanic
+), AtmMechanic {
+    val VERSION = "v1.0"
+}

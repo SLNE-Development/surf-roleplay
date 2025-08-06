@@ -5,7 +5,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
-private val formatter by lazy {
+private val symbols by lazy {
     DecimalFormatSymbols.getInstance(Locale.GERMAN).apply {
         groupingSeparator = '.'
         decimalSeparator = ','
@@ -13,20 +13,16 @@ private val formatter by lazy {
 }
 
 private val decimalFormatter by lazy {
-    DecimalFormat("#,##0.00", formatter).apply {
+    DecimalFormat("#,##0", symbols).apply {
         isGroupingUsed = true
-        isDecimalSeparatorAlwaysShown = true
+        isDecimalSeparatorAlwaysShown = false
     }
 }
 
-fun formatNumber(number: Number) = decimalFormatter.format(number)
-fun Number.formatNumber() = decimalFormatter.format(this)
+fun Number.formatNumber(): String = decimalFormatter.format(this)
 
-fun formatMoney(amount: Number) = "${formatNumber(amount)} €"
-fun Number.formatMoney() = formatMoney(this)
+fun Number.formatMoney(): String = "${this.formatNumber()} €"
 
-fun formatMoneyComponent(amount: Number) = buildText {
-    variableValue(formatMoney(amount))
+fun Number.formatMoneyComponent() = buildText {
+    variableValue(this@formatMoneyComponent.formatMoney())
 }
-
-fun Number.formatMoneyComponent() = formatMoneyComponent(this)

@@ -43,7 +43,7 @@ object CashMechanicImpl : MechanicImpl(
 
                     plugin.launch {
                         val rpPlayer = player.rpPlayer()
-                        val result = rpPlayer.removeCashBalance(amount.toDouble())
+                        val result = rpPlayer.removeCashBalance(amount)
 
                         if (result) {
                             player.sendText {
@@ -70,7 +70,7 @@ object CashMechanicImpl : MechanicImpl(
 
                     plugin.launch {
                         val rpPlayer = player.rpPlayer()
-                        val result = rpPlayer.addCashBalance(amount.toDouble())
+                        val result = rpPlayer.addCashBalance(amount)
 
                         if (result) {
                             player.sendText {

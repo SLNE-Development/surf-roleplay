@@ -8,7 +8,7 @@ import net.kyori.adventure.text.Component
 
 sealed class UnobtainableReason(val message: SurfComponentBuilder.() -> Unit) {
     class NotEnoughCash(
-        val currentAmount: Double, val neededAmount: Double
+        val currentAmount: Int, val neededAmount: Int
     ) : UnobtainableReason({
         error("Du hast nicht genug Bargeld, um diese Lizenz zu erwerben.")
         appendNewline(2)
