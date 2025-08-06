@@ -34,6 +34,14 @@ class RpPlayerImpl(
 
     override var activeIdentity: RpIdentity? = null
 
+    override suspend fun setActiveIdentity(identity: RpIdentity) {
+        if (!_identities.contains(identity)) {
+            error("Tried to set an active identity that is not part of the player's identities: $identity")
+        }
+
+        activeIdentity = identity
+    }
+
     fun addIdentity(identity: RpIdentity) = _identities.add(identity)
 
     override suspend fun <T : RpIdentity> createIdentity(identity: T) =

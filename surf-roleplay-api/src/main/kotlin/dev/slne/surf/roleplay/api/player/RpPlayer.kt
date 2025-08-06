@@ -53,6 +53,13 @@ interface RpPlayer : HasTransactions, ComponentLike {
     val updatedAt: ZonedDateTime
 
     /**
+     * Sets the active identity for the player.
+     *
+     * @param identity The [RpIdentity] to set as the active identity.
+     */
+    suspend fun setActiveIdentity(identity: RpIdentity)
+
+    /**
      * Gets one of the player's identities by class type.
      *
      * @param clazz The class type of the identity to retrieve.

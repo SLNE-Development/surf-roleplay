@@ -16,6 +16,7 @@ class PoliceIdentityImpl(
     createdAt: ZonedDateTime = ZonedDateTime.now(),
     updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpIdentityImpl(
+    type = RpIdentity.RpIdentityType.POLICE,
     firstName,
     lastName,
     dateOfBirth,

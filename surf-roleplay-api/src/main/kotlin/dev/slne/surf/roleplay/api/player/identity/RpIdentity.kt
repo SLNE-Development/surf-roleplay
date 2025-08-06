@@ -4,6 +4,8 @@ package dev.slne.surf.roleplay.api.player.identity
 
 import dev.slne.surf.roleplay.api.player.utils.InternalRpApi
 import dev.slne.surf.roleplay.api.transaction.HasTransactions
+import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
+import net.kyori.adventure.text.ComponentLike
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -11,6 +13,11 @@ import java.time.ZonedDateTime
  * Represents a roleplay identity of a player
  */
 interface RpIdentity : HasTransactions {
+
+    /**
+     * The type of the identity.
+     */
+    val type: RpIdentityType
 
     /**
      * The first name of the player.
@@ -37,21 +44,33 @@ interface RpIdentity : HasTransactions {
      */
     var updatedAt: ZonedDateTime
 
-    enum class RpIdentityType {
+    enum class RpIdentityType : ComponentLike {
         /**
          * Represents a player who is a member of the civilian population.
          */
-        CIVILIAN,
+        CIVILIAN {
+            override fun asComponent() = buildText {
+                text("Zivilist")
+            }
+        },
 
         /**
          * Represents a player who is a member of the emergency medical service.
          */
-        POLICE,
+        POLICE {
+            override fun asComponent() = buildText {
+                text("Polizist")
+            }
+        },
 
         /**
          * Represents a player who is a member of the rescue service.
          */
-        RESCUE_SERVICE,
+        RESCUE_SERVICE {
+            override fun asComponent() = buildText {
+                text("SAR")
+            }
+        }
     }
 
     interface CivilianIdentity : RpIdentity

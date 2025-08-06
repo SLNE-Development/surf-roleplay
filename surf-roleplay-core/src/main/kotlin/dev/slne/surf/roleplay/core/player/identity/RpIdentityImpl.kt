@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.time.ZonedDateTime
 
 abstract class RpIdentityImpl(
+    override val type: RpIdentity.RpIdentityType,
     override var firstName: String,
     override var lastName: String,
     override var dateOfBirth: LocalDate,

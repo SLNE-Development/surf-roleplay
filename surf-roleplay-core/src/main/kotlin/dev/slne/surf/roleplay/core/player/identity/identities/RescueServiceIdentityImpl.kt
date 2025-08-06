@@ -15,6 +15,7 @@ class RescueServiceIdentityImpl(
     createdAt: ZonedDateTime = ZonedDateTime.now(),
     updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpIdentityImpl(
+    type = RpIdentity.RpIdentityType.RESCUE_SERVICE,
     firstName,
     lastName,
     dateOfBirth,

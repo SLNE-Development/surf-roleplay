@@ -14,6 +14,7 @@ class CivilianIdentityImpl(
     createdAt: ZonedDateTime = ZonedDateTime.now(),
     updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpIdentityImpl(
+    type = RpIdentity.RpIdentityType.CIVILIAN,
     firstName,
     lastName,
     dateOfBirth,
