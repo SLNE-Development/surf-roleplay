@@ -5,6 +5,7 @@ package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
 import dev.slne.surf.roleplay.core.utils.formatNumber
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
 import dev.slne.surf.roleplay.mechanic.plugin
@@ -27,10 +28,9 @@ fun createSuccessPayDialog(bukkitPlayer: Player, player: RpPlayer, amount: Float
             body {
                 plainMessage(400) {
                     success("Du hast erfolgreich ")
-                    variableValue(bukkitPlayer.formatNumber(amount))
-                    variableKey(" €€€")
+                    append(amount.formatMoneyComponent())
                     success(" an den Bürger ")
-                    variableValue(receiver.username.toString())
+                    append(receiver)
                     success(" überwiesen.")
                 }
             }

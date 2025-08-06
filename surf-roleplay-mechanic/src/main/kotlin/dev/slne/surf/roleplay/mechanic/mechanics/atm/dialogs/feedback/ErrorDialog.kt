@@ -81,7 +81,7 @@ fun createGenericErrorDialog(bukkitPlayer: Player, player: RpPlayer): Dialog {
     }
 }
 
-fun createInvalidAmountPayError(bukkitPlayer: Player, player: RpPlayer, selectedPlayer: RpPlayer): Dialog {
+fun createInvalidAmountPayError(bukkitPlayer: Player, player: RpPlayer): Dialog {
 
     return dialog {
         base {
@@ -96,7 +96,7 @@ fun createInvalidAmountPayError(bukkitPlayer: Player, player: RpPlayer, selected
                 }
             }
             type {
-                notice(exitInvalidAmountPayButton(bukkitPlayer, player, selectedPlayer))
+                notice(exitErrorButton(bukkitPlayer, player))
             }
         }
     }

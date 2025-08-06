@@ -21,6 +21,8 @@ import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
 import org.bukkit.entity.Player
 
+private val validAmountInput = Regex("^\\d+$")
+
 suspend fun createAmountDialog(bukkitPlayer: Player, player: RpPlayer, selectedPlayer: RpPlayer): Dialog {
     val balance = player.getBalance(BalanceType.BANK)
 
@@ -49,13 +51,11 @@ suspend fun createAmountDialog(bukkitPlayer: Player, player: RpPlayer, selectedP
                     appendNewline(2)
                 }
                 input {
-                    input {
-                        numberRange("pay_amount", 0..balance.toInt()) {
-                            label { text("Betrag wählen") }
-                            step(1.0f)
-                            width(800)
-                        }
+                    text("pay_amount") {
+                        label { text("Betrag wählen") }
+                        width(200)
                     }
+
                 }
             }
             type {
@@ -78,10 +78,16 @@ private fun confirmPayButton(bukkitPlayer: Player, player: RpPlayer, selectedPla
             customPlayerClick { info, audience ->
 
                 plugin.launch {
-                    val amount = info.getFloat("pay_amount") ?: 0.0f
+                    val text = info.getText("pay_amount") ?: "0"
+
+                    if (!isValidAmount(text)) {
+                        audience.showDialog(createInvalidAmountPayError(bukkitPlayer, player))
+                        return@launch
+                    }
+                    val amount = text.toFloat()
 
                     if (amount <= 0 || amount > player.getBalance(BalanceType.BANK)) {
-                        audience.showDialog(createInvalidAmountPayError(bukkitPlayer, player, selectedPlayer))
+                        audience.showDialog(createInvalidAmountPayError(bukkitPlayer, player))
                         return@launch
                     }
 
@@ -111,4 +117,8 @@ fun exitPayButton(bukkitPlayer: Player, player: RpPlayer): ActionButton = action
             }
         }
     }
+}
+
+fun isValidAmount(input: String): Boolean {
+    return validAmountInput.matches(input)
 }

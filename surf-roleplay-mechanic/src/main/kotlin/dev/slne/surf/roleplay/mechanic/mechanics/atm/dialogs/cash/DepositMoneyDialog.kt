@@ -6,11 +6,12 @@ package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
-import dev.slne.surf.roleplay.core.utils.formatNumber
+import dev.slne.surf.roleplay.api.utils.formatMoney
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashDepositError
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createCashWithdrawSuccess
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountCashError
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountPayError
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -41,16 +42,16 @@ suspend fun createDepositDialog(bukkitPlayer: Player, player: RpPlayer): Dialog 
                 }
                 plainMessage(400) {
                     info("Du führst aktuell ")
-                    variableValue(bukkitPlayer.formatNumber(balanceCash))
+                    variableValue(balanceCash.formatMoney())
                     variableKey(" €€€")
                     info(" mit dir.")
                     appendNewline(2)
                 }
             }
             input {
-                numberRange("deposit_amount", 1f..balanceCash.toFloat()) {
+                text("deposit_amount") {
                     label { text("Betrag wählen") }
-                    step(1.0f)
+                    width(200)
                 }
             }
         }
@@ -70,15 +71,15 @@ private fun depositMoneyButton(bukkitPlayer: Player, player: RpPlayer): ActionBu
     }
     action {
         customClick { info, audience ->
-
-            //get value, book money, delete items
-            //feedback screen error / success
-
             plugin.launch {
-                val balance = player.getBalance(BalanceType.BANK)
-                val balanceCash = player.getBalance(BalanceType.CASH)
+                val text = info.getText("deposit_amount") ?: "0"
 
-                val amount = info.getFloat("deposit_amount") ?: 0.0f
+                if (!isValidAmount(text)) {
+                    audience.showDialog(createInvalidAmountPayError(bukkitPlayer, player))
+                    return@launch
+                }
+                val amount = text.toFloat()
+                val balanceCash = player.getBalance(BalanceType.CASH)
 
                 if (amount <= 0 || amount > balanceCash) {
                     audience.showDialog(
