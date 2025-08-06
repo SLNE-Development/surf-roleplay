@@ -72,26 +72,6 @@ fun createGenericErrorDialog(player: RpPlayer): Dialog = dialog {
     }
 }
 
-fun createTransactionErrorDialog(player: RpPlayer): Dialog = dialog {
-    base {
-        title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION}")
-            spacer("— Systemfehler")
-        }
-
-        body {
-            plainMessage(400) {
-                error("Bei der Überweisung ist ein Fehler aufgetreten.")
-                appendNewline()
-                error("Bitte versuche es später erneut.")
-            }
-        }
-        type {
-            notice(exitErrorButton(player))
-        }
-    }
-}
-
 fun createInvalidAmountPayError(player: RpPlayer, receiver: RpPlayer): Dialog = dialog {
     base {
         title {
@@ -248,19 +228,6 @@ fun createNoPlayersError(player: RpPlayer): Dialog = dialog {
     }
 }
 
-private fun exitInvalidAmountPayButton(player: RpPlayer, selectedPlayer: RpPlayer) =
-    actionButton {
-        label { text("Zurück") }
-        tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
-
-        action {
-            playerCallback {
-                plugin.launch {
-                    it.showDialog(createAmountDialog(player, selectedPlayer))
-                }
-            }
-        }
-    }
 
 private fun exitInvalidAmountCashWithdrawButton(player: RpPlayer) =
     actionButton {
@@ -290,19 +257,6 @@ private fun exitInvalidAmountDepositButton(player: RpPlayer) =
         }
     }
 
-private fun exitInvalidAmountWithdrawButton(player: RpPlayer) =
-    actionButton {
-        label { text("Zurück") }
-        tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
-
-        action {
-            playerCallback {
-                plugin.launch {
-                    it.showDialog(createWithdrawDialog(player))
-                }
-            }
-        }
-    }
 
 private fun exitErrorButton(player: RpPlayer) = actionButton {
     label { text("Zurück") }
