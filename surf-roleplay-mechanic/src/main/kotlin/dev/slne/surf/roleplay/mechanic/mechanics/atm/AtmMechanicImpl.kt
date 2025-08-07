@@ -12,4 +12,9 @@ object AtmMechanicImpl : MechanicImpl(
     )
 ), AtmMechanic {
     const val VERSION = "v1.0"
+    const val NPC_NAME = "Bank_npc"
+
+    override suspend fun onEnable() {
+        BankNpc.bankNpc()
+    }
 }

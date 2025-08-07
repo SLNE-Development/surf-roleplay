@@ -1,18 +1,18 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(NmsUseWithCaution::class)
 
-package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs
+package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash.createDepositDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash.createWithdrawDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createErrorNoBankDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createErrorNoCashDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.pay.createSelectPlayersDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.cash.createDepositDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.cash.createWithdrawDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.createErrorNoBankDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.createErrorNoCashDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.pay.createSelectPlayersDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton

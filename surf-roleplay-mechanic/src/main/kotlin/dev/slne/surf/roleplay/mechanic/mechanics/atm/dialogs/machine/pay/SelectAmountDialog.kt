@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(NmsUseWithCaution::class)
 
-package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.pay
+package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.pay
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.mechanic.atm.event.PlayerTransferBankMoneyEvent
@@ -9,10 +9,10 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createGenericErrorDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountEnteredPayError
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createInvalidAmountPayError
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.createSuccessPayDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.createGenericErrorDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.createInvalidAmountEnteredPayError
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.createInvalidAmountPayError
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.createSuccessPayDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
