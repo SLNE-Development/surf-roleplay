@@ -15,6 +15,7 @@ import dev.slne.surf.roleplay.api.mechanic.license.LicenseMechanic
 import dev.slne.surf.roleplay.api.mechanic.license.player.LicensePlayer
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.mechanic.MechanicImpl
+import dev.slne.surf.roleplay.mechanic.mechanicRegistryImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.db.PlayerLicenseTable
 import dev.slne.surf.roleplay.mechanic.mechanics.license.licenses.FishingLicenseImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.license.licenses.VehicleLicenseImpl
@@ -89,7 +90,7 @@ object LicenseMechanicImpl : MechanicImpl(
     private suspend fun spawnNpc() {
         val npcSkin = surfNpcApi.getSkin("CastCrafter")
 
-        npc {
+        npc(mechanicRegistryImpl.plugin) {
             uniqueName = NPC_NAME
             displayName = {
                 primary("Lizenzhändler")
