@@ -25,9 +25,9 @@ class RpPlayerModel(id: EntityID<Long>) : LongEntity(id) {
     var createdAt by RpPlayerTable.createdAt
     var updatedAt by RpPlayerTable.updatedAt
 
-    val civilianIdentity by RpPlayerCivilianIdentityModel optionalBackReferencedOn RpPlayerCivilianIdentityTable.rpPlayer
-    val policeIdentity by RpPlayerPoliceIdentityModel optionalBackReferencedOn RpPlayerPoliceIdentityTable.rpPlayer
-    val rescueServiceIdentity by RpPlayerRescueServiceIdentityModel optionalBackReferencedOn RpPlayerRescueServiceIdentityTable.rpPlayer
+    val civilianIdentity by RpPlayerCivilianIdentityModel optionalBackReferencedOn RpPlayerCivilianIdentityTable.player
+    val policeIdentity by RpPlayerPoliceIdentityModel optionalBackReferencedOn RpPlayerPoliceIdentityTable.player
+    val rescueServiceIdentity by RpPlayerRescueServiceIdentityModel optionalBackReferencedOn RpPlayerRescueServiceIdentityTable.player
 
     suspend fun toApi() = newSuspendedTransaction(Dispatchers.IO) {
         RpPlayerImpl(

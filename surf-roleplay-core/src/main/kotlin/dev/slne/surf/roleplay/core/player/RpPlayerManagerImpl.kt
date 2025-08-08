@@ -62,19 +62,19 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
         when (identity) {
             is RpIdentity.CivilianIdentity -> {
                 RpPlayerCivilianIdentityModel.find {
-                    (RpPlayerCivilianIdentityTable.rpPlayer eq rpPlayerModel.id)
+                    (RpPlayerCivilianIdentityTable.player eq rpPlayerModel.id)
                 }.singleOrNull()
             }
 
             is RpIdentity.PoliceIdentity -> {
                 RpPlayerPoliceIdentityModel.find {
-                    (RpPlayerPoliceIdentityTable.rpPlayer eq rpPlayerModel.id)
+                    (RpPlayerPoliceIdentityTable.player eq rpPlayerModel.id)
                 }.singleOrNull()
             }
 
             is RpIdentity.RescueServiceIdentity -> {
                 RpPlayerRescueServiceIdentityModel.find {
-                    (RpPlayerRescueServiceIdentityTable.rpPlayer eq rpPlayerModel.id)
+                    (RpPlayerRescueServiceIdentityTable.player eq rpPlayerModel.id)
                 }.singleOrNull()
             }
 
@@ -92,7 +92,7 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
         val identity = when (identity) {
             is RpIdentity.CivilianIdentity -> {
                 RpPlayerCivilianIdentityModel.new {
-                    rpPlayer = rpPlayerModel
+                    this.player = rpPlayerModel
                     firstName = identity.firstName
                     lastName = identity.lastName
                     dateOfBirth = identity.dateOfBirth
@@ -103,7 +103,7 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
             is RpIdentity.PoliceIdentity -> {
                 RpPlayerPoliceIdentityModel.new {
-                    rpPlayer = rpPlayerModel
+                    this.player = rpPlayerModel
                     firstName = identity.firstName
                     lastName = identity.lastName
                     dateOfBirth = identity.dateOfBirth
@@ -116,7 +116,7 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
             is RpIdentity.RescueServiceIdentity -> {
                 RpPlayerRescueServiceIdentityModel.new {
-                    rpPlayer = rpPlayerModel
+                    this.player = rpPlayerModel
                     firstName = identity.firstName
                     lastName = identity.lastName
                     dateOfBirth = identity.dateOfBirth

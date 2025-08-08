@@ -3,6 +3,8 @@ package dev.slne.surf.roleplay.core.player
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.getIdentity
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
+import dev.slne.surf.roleplay.api.player.license.License
+import dev.slne.surf.roleplay.api.player.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
@@ -44,9 +46,13 @@ class RpPlayerImpl(
 
     fun addIdentity(identity: RpIdentity) = _identities.add(identity)
 
+    @Suppress("UNCHECKED_CAST")
+    override fun getIdentity(type: RpIdentity.RpIdentityType) =
+        _identities.firstOrNull { it.type == type }
+            ?: error("No identity of type $type found for player $uuid")
+
     override suspend fun <T : RpIdentity> createIdentity(identity: T) =
         rpPlayerManagerImpl.createIdentity(this, identity)
-
 
     override suspend fun <T : RpIdentity> createOrUpdateIdentity(identity: T) =
         rpPlayerManagerImpl.createOrUpdateIdentity(this, identity)
@@ -63,13 +69,13 @@ class RpPlayerImpl(
 
     override suspend fun addBalance(
         balanceType: BalanceType,
-        amount: Double
+        amount: Int
     ) = activeIdentity?.addBalance(balanceType, amount)
         ?: error("Tried adding balance to a player without an active identity $uuid")
 
     override suspend fun removeBalance(
         balanceType: BalanceType,
-        amount: Double
+        amount: Int
     ) = activeIdentity?.removeBalance(balanceType, amount)
         ?: error("Tried removing balance from a player without an active identity $uuid")
 
@@ -84,6 +90,36 @@ class RpPlayerImpl(
     }
 
     override fun hasCompletedCitizenship() = getIdentity<RpIdentity.CivilianIdentity>() != null
+
+    override val licenses
+        get() = activeIdentity?.licenses
+            ?: error("Tried accessing licenses of a player without an active identity $uuid")
+
+    override suspend fun addLicense(license: License) =
+        activeIdentity?.addLicense(license)
+            ?: error("Tried adding a license to a player without an active identity $uuid")
+
+    override suspend fun removeLicense(
+        license: License,
+        reason: LicenseRemovedReason
+    ) = activeIdentity?.removeLicense(license, reason)
+        ?: error("Tried removing a license from a player without an active identity $uuid")
+
+    override fun getLicense(license: Class<out License>) =
+        activeIdentity?.getLicense(license)
+            ?: error("Tried accessing a license of a player without an active identity $uuid")
+
+    override suspend fun confiscateLicense(
+        identity: RpIdentity,
+        license: License,
+        confiscatedBy: RpPlayer,
+        confiscatedReason: String
+    ) = activeIdentity?.confiscateLicense(
+        identity,
+        license,
+        confiscatedBy,
+        confiscatedReason
+    ) ?: error("Tried confiscating a license from a player without an active identity $uuid")
 
     override fun asComponent() = buildText {
         val activeIdentity = activeIdentity

@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.javatime.date
 
 abstract class RpPlayerIdentityBaseTable(table: String) : LongIdTable(table) {
-    val rpPlayer = reference(
+    val player = reference(
         "player_id",
         RpPlayerTable,
         onDelete = ReferenceOption.CASCADE,

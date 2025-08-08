@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.core.player.identity.db.impl.civilian
 
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.player.identity.db.RpPlayerIdentityBaseModel
 import dev.slne.surf.roleplay.core.player.identity.identities.CivilianIdentityImpl
@@ -14,7 +15,8 @@ class RpPlayerCivilianIdentityModel(
 ) {
     companion object : LongEntityClass<RpPlayerCivilianIdentityModel>(RpPlayerCivilianIdentityTable)
 
-    override fun toApi() = CivilianIdentityImpl(
+    override suspend fun toApi() = CivilianIdentityImpl(
+        player = RpPlayer[player.uuid],
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = dateOfBirth,

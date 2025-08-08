@@ -5,5 +5,6 @@ plugins {
 dependencies {
     api(project(":surf-roleplay-api"))
     api(libs.surf.database)
-    api("dev.hsbrysk:caffeine-coroutines:2.0.2")
+    api(libs.caffeine.coroutines)
+    compileOnlyApi(libs.surf.npc.api)
 }

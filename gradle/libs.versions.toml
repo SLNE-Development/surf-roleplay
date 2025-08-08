@@ -1,7 +1,9 @@
 [versions]
 surf-database = "2.2.1-SNAPSHOT"
-surf-npc-api = "1.21.7-1.1.0-SNAPSHOT"
+surf-npc-api = "1.21.7-1.4.0-SNAPSHOT"
+caffeine-coroutines = "2.0.2"
 
 [libraries]
 surf-database = { module = "dev.slne.surf:surf-database", version.ref = "surf-database" }
 surf-npc-api = { module = "dev.slne.surf.npc:surf-npc-api", version.ref = "surf-npc-api" }
+caffeine-coroutines = { module = "dev.hsbrysk:caffeine-coroutines", version.ref = "caffeine-coroutines" }

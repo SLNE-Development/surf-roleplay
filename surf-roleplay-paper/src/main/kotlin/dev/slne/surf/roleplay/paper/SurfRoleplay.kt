@@ -5,7 +5,9 @@ import com.github.shynixn.mccoroutine.folia.launch
 import dev.jorel.commandapi.kotlindsl.commandAPICommand
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import dev.slne.surf.roleplay.api.player.rpPlayer
+import dev.slne.surf.roleplay.core.RpCore
 import dev.slne.surf.roleplay.core.RpDatabase
+import dev.slne.surf.roleplay.core.player.license.licenseServiceImpl
 import dev.slne.surf.roleplay.mechanic.mechanicRegistryImpl
 import dev.slne.surf.roleplay.paper.listeners.ListenerManager
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
@@ -18,10 +20,13 @@ class SurfRoleplay : SuspendingJavaPlugin() {
     private lateinit var rpDatabase: RpDatabase
 
     override suspend fun onLoadAsync() {
+        RpCore.plugin = this
         rpDatabase = RpDatabase(dataPath)
 
         mechanicRegistryImpl.registerMechanics(this)
         mechanicRegistryImpl.registerDatabaseTables(rpDatabase)
+
+        licenseServiceImpl.onLoad()
 
         rpDatabase.onLoad()
 
@@ -33,6 +38,8 @@ class SurfRoleplay : SuspendingJavaPlugin() {
 
         mechanicRegistryImpl.enableMechanics()
         mechanicRegistryImpl.registerBukkitHandlers()
+
+        licenseServiceImpl.onEnable()
 
         commandAPICommand("active-identity") {
             playerExecutor { player, args ->
@@ -56,6 +63,7 @@ class SurfRoleplay : SuspendingJavaPlugin() {
     }
 
     override suspend fun onDisableAsync() {
+        licenseServiceImpl.onDisable()
         mechanicRegistryImpl.disableMechanics()
 
         rpDatabase.onDisable()

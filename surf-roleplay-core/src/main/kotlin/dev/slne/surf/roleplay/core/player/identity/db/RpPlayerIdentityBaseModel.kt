@@ -9,7 +9,7 @@ abstract class RpPlayerIdentityBaseModel<I : RpIdentity>(
     id: EntityID<Long>,
     table: RpPlayerIdentityBaseTable
 ) : LongEntity(id) {
-    var rpPlayer by RpPlayerModel referencedOn table.rpPlayer
+    var player by RpPlayerModel referencedOn table.player
 
     var firstName by table.firstName
     var lastName by table.lastName
@@ -18,5 +18,5 @@ abstract class RpPlayerIdentityBaseModel<I : RpIdentity>(
     var createdAt by table.createdAt
     var updatedAt by table.updatedAt
 
-    abstract fun toApi(): I
+    abstract suspend fun toApi(): I
 }

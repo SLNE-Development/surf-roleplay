@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice
 
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.player.identity.db.RpPlayerIdentityBaseModel
 import dev.slne.surf.roleplay.core.player.identity.identities.RescueServiceIdentityImpl
@@ -17,7 +18,8 @@ class RpPlayerRescueServiceIdentityModel(
 
     var rank by RpPlayerRescueServiceIdentityTable.rank
 
-    override fun toApi() = RescueServiceIdentityImpl(
+    override suspend fun toApi() = RescueServiceIdentityImpl(
+        player = RpPlayer[player.uuid],
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = dateOfBirth,

@@ -1,8 +1,7 @@
-@file:OptIn(InternalRpApi::class)
-
 package dev.slne.surf.roleplay.api.player.identity
 
-import dev.slne.surf.roleplay.api.player.utils.InternalRpApi
+import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.player.license.HasLicenses
 import dev.slne.surf.roleplay.api.transaction.HasTransactions
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import net.kyori.adventure.text.ComponentLike
@@ -12,7 +11,12 @@ import java.time.ZonedDateTime
 /**
  * Represents a roleplay identity of a player
  */
-interface RpIdentity : HasTransactions {
+interface RpIdentity : HasTransactions, HasLicenses {
+    
+    /**
+     * The player associated with this identity.
+     */
+    val player: RpPlayer
 
     /**
      * The type of the identity.

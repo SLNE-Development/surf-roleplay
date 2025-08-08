@@ -149,12 +149,13 @@ private fun confirmCreationButton(): ActionButton = actionButton {
             }
 
             val birthDate = LocalDate.parse(birthDateString, IdCard.formatter)
-            
+
             plugin.launch {
                 val rpPlayer = RpPlayer[player.uniqueId]
 
                 rpPlayer.createOrUpdateIdentity(
                     CivilianIdentityImpl(
+                        player = rpPlayer,
                         firstName = firstName,
                         lastName = lastName,
                         dateOfBirth = birthDate

@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.core.player.identity.db.impl.police
 
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.player.identity.db.RpPlayerIdentityBaseModel
 import dev.slne.surf.roleplay.core.player.identity.identities.PoliceIdentityImpl
@@ -17,7 +18,8 @@ class RpPlayerPoliceIdentityModel(
     var badgeNumber by RpPlayerPoliceIdentityTable.badgeNumber
     var rank by RpPlayerPoliceIdentityTable.rank
 
-    override fun toApi() = PoliceIdentityImpl(
+    override suspend fun toApi() = PoliceIdentityImpl(
+        player = RpPlayer[player.uuid],
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = dateOfBirth,

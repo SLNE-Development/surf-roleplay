@@ -9,7 +9,8 @@ import org.bukkit.entity.Player
 import java.time.ZonedDateTime
 import java.util.*
 
-interface RpPlayer : HasTransactions, ComponentLike {
+interface RpPlayer : HasTransactions, dev.slne.surf.roleplay.api.player.license.HasLicenses,
+    ComponentLike {
 
     /**
      * The [UUID] of the player
@@ -58,6 +59,14 @@ interface RpPlayer : HasTransactions, ComponentLike {
      * @param identity The [RpIdentity] to set as the active identity.
      */
     suspend fun setActiveIdentity(identity: RpIdentity)
+
+    /**
+     * Gets one of the player's identities by type.
+     *
+     * @param type The type of the identity to retrieve.
+     * @return The identity of the specified type, or `null` if not found.
+     */
+    fun getIdentity(type: RpIdentity.RpIdentityType): RpIdentity?
 
     /**
      * Gets one of the player's identities by class type.
