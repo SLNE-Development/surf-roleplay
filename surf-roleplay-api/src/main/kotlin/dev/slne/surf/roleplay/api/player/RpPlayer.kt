@@ -1,13 +1,17 @@
 package dev.slne.surf.roleplay.api.player
 
+import dev.slne.surf.roleplay.api.player.identity.RpIdentity
+import dev.slne.surf.roleplay.api.player.license.HasLicenses
 import dev.slne.surf.roleplay.api.transaction.HasTransactions
+import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.ComponentLike
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.time.ZonedDateTime
 import java.util.*
 
-interface RpPlayer : HasTransactions, ComponentLike {
+interface RpPlayer : HasTransactions, HasLicenses,
+    ComponentLike {
 
     /**
      * The [UUID] of the player
@@ -20,9 +24,14 @@ interface RpPlayer : HasTransactions, ComponentLike {
     val username: String?
 
     /**
-     * Information about the player, such as first name, last name, and birth date.
+     * The active identity of the player.
      */
-    val information: RpPlayerInformation
+    val activeIdentity: RpIdentity?
+
+    /**
+     * The identities of the player.
+     */
+    val identities: ObjectSet<RpIdentity>
 
     /**
      * The Bukkit [Player] representation of this player, if they are online.
@@ -46,6 +55,29 @@ interface RpPlayer : HasTransactions, ComponentLike {
     val updatedAt: ZonedDateTime
 
     /**
+     * Sets the active identity for the player.
+     *
+     * @param identity The [RpIdentity] to set as the active identity.
+     */
+    suspend fun setActiveIdentity(identity: RpIdentity)
+
+    /**
+     * Gets one of the player's identities by type.
+     *
+     * @param type The type of the identity to retrieve.
+     * @return The identity of the specified type, or `null` if not found.
+     */
+    fun getIdentity(type: RpIdentity.RpIdentityType): RpIdentity?
+
+    /**
+     * Gets one of the player's identities by class type.
+     *
+     * @param clazz The class type of the identity to retrieve.
+     * @param T The type of the identity.
+     */
+    fun <T : RpIdentity> getIdentity(clazz: Class<out T>): RpIdentity?
+
+    /**
      * Checks if the player has a specific permission.
      *
      * @param permission The permission to check.
@@ -61,19 +93,38 @@ interface RpPlayer : HasTransactions, ComponentLike {
     suspend fun updateUsername(username: String)
 
     /**
-     * Updates the player's roleplay information.
+     * Creates a new identity for the player.
      *
-     * @param update A lambda function that modifies the player's information.
+     * @param identity The identity to create.
+     * @return The created identity.
      */
-    suspend fun updateInformation(update: RpPlayerInformation.() -> Unit)
+    suspend fun <T : RpIdentity> createIdentity(identity: T): T
+
+    /**
+     * Updates the player's identity information.
+     *
+     * @param identity the [T]
+     * @return The updated identity, or `null` if the identity was not found and `createIfNotExists` is `false`.
+     */
+    suspend fun <T : RpIdentity> updateIdentity(identity: T): T?
+
+    /**
+     * Creates or updates the player's identity.
+     *
+     * If the identity already exists, it will be updated using the provided lambda function.
+     * If it does not exist, a new identity will be created.
+     *
+     * @param identity the [T]
+     * @return The created or updated identity, or `null` if the operation failed.
+     */
+    suspend fun <T : RpIdentity> createOrUpdateIdentity(identity: T): T
 
     /**
      * Checks if the player is a citizen.
-     * Player is citizen if they have successfully created an IDCard.
      *
      * @return `true` if the player is a citizen, `false` otherwise.
      */
-    fun isCitizen(): Boolean
+    fun hasCompletedCitizenship(): Boolean
 
     companion object {
         /**
@@ -90,6 +141,14 @@ interface RpPlayer : HasTransactions, ComponentLike {
         suspend fun getByName(username: String) = RpPlayerManager.getByName(username)
     }
 }
+
+/**
+ * Gets the [RpIdentity] of the specified type for this [RpPlayer].
+ *
+ * @param T The type of the identity to retrieve.
+ * @return The identity of the specified type, or `null` if not found.
+ */
+inline fun <reified T : RpIdentity> RpPlayer.getIdentity() = getIdentity(T::class.java)
 
 /**
  * Gets the [RpPlayer] associated with this [Player].
