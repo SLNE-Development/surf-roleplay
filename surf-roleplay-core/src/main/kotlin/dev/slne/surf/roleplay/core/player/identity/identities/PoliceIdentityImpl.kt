@@ -2,9 +2,7 @@ package dev.slne.surf.roleplay.core.player.identity.identities
 
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
-import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.core.player.identity.RpIdentityImpl
-import dev.slne.surf.surfapi.core.api.util.mutableObject2ObjectMapOf
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -26,12 +24,6 @@ class PoliceIdentityImpl(
     createdAt,
     updatedAt
 ), RpIdentity.PoliceIdentity {
-    override fun getCurrencyNames() = mutableObject2ObjectMapOf(
-        BalanceType.CASH to "police_cash",
-        BalanceType.BANK to "police_bank",
-        BalanceType.CRYPTO to "police_crypto",
-    )
-
     override fun toString(): String {
         val parent = super.toString()
 

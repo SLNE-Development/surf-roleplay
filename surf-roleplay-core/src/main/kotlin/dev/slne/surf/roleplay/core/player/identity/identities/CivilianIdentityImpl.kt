@@ -24,12 +24,6 @@ class CivilianIdentityImpl(
     createdAt,
     updatedAt
 ), RpIdentity.CivilianIdentity {
-    override fun getCurrencyNames() = mutableObject2ObjectMapOf(
-        BalanceType.CASH to "civilian_cash",
-        BalanceType.BANK to "civilian_bank",
-        BalanceType.CRYPTO to "civilian_crypto",
-    )
-
     override fun toString(): String {
         val parent = super.toString()
 

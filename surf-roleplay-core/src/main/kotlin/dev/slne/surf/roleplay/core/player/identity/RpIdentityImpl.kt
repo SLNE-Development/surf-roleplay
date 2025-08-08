@@ -13,6 +13,7 @@ import dev.slne.surf.roleplay.api.player.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.player.license.utils.UnobtainableReason
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.transaction.RpTransaction
+import dev.slne.surf.surfapi.core.api.util.mutableObject2ObjectMapOf
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet
@@ -28,10 +29,6 @@ abstract class RpIdentityImpl(
     override val createdAt: ZonedDateTime = ZonedDateTime.now(),
     override var updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpIdentity {
-
-    private val currencyMap by lazy {
-        getCurrencyNames()
-    }
 
     private val _licenses = mutableObjectSetOf<IdentityLicense>()
     override val licenses get() = _licenses
@@ -117,49 +114,58 @@ abstract class RpIdentityImpl(
     override fun hasLicense(license: Class<out License>) =
         _licenses.any { it.license::class.java == license }
 
+    private val currencyMap = mutableObject2ObjectMapOf(
+        BalanceType.CASH to 0,
+        BalanceType.BANK to 0,
+        BalanceType.CRYPTO to 0
+    )
+
     override suspend fun getBalance(balanceType: BalanceType): Int {
-        val currencyName = currencyMap[balanceType]
+        val currencyName = balanceType.getCurrencyName(this)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
-        return 0
+        return currencyMap[balanceType] ?: 0
     }
 
     override suspend fun addBalance(
         balanceType: BalanceType,
         amount: Int
     ): Boolean {
-        val currencyName = currencyMap[balanceType]
+        val currencyName = balanceType.getCurrencyName(this)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
-        return true
+        return if (amount > 0) {
+            currencyMap[balanceType] = (currencyMap[balanceType] ?: 0) + amount
+            true
+        } else {
+            false
+        }
     }
 
     override suspend fun removeBalance(
         balanceType: BalanceType,
         amount: Int
     ): Boolean {
-        val currencyName = currencyMap[balanceType]
+        val currencyName = balanceType.getCurrencyName(this)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
-        return true
+        return if (amount > 0 && (currencyMap[balanceType] ?: 0) >= amount) {
+            currencyMap[balanceType] = (currencyMap[balanceType] ?: 0) - amount
+            true
+        } else {
+            false
+        }
     }
 
     override suspend fun getBalanceHistory(
         balanceType: BalanceType,
         limit: Int
     ): ObjectLinkedOpenHashSet<RpTransaction> {
-        val currencyName = currencyMap[balanceType]
+        val currencyName = balanceType.getCurrencyName(this)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
         return ObjectLinkedOpenHashSet()
     }
-
-    /**
-     * Returns a map of currency names for each balance type.
-     *
-     * @return a map where keys are [BalanceType] and values are the corresponding currency names.
-     */
-    abstract fun getCurrencyNames(): Map<BalanceType, String>
 
     override fun toString(): String {
         return "RpIdentityImpl(type=$type, firstName='$firstName', lastName='$lastName', dateOfBirth=$dateOfBirth, createdAt=$createdAt, updatedAt=$updatedAt, licenses=$licenses)"

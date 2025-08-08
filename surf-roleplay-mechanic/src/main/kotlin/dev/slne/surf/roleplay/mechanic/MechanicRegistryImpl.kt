@@ -5,7 +5,6 @@ import com.google.auto.service.AutoService
 import dev.slne.surf.roleplay.api.mechanic.Mechanic
 import dev.slne.surf.roleplay.api.mechanic.MechanicRegistry
 import dev.slne.surf.roleplay.core.RpDatabase
-import dev.slne.surf.roleplay.mechanic.mechanics.cash.CashMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardMechanicImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.rentable.RentableMechanicImpl
 import dev.slne.surf.surfapi.bukkit.api.event.register
@@ -31,7 +30,6 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
         this.plugin = plugin
 
         mechanics.add(IdCardMechanicImpl)
-        mechanics.add(CashMechanicImpl)
         mechanics.add(RentableMechanicImpl)
     }
 
