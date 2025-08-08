@@ -141,6 +141,17 @@ class RpPlayerImpl(
         })
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is RpPlayerImpl) return false
+
+        if (uuid != other.uuid) return false
+
+        return true
+    }
+
+    override fun hashCode() = uuid.hashCode()
+
     override fun toString(): String {
         return "RpPlayerImpl(uuid=$uuid, createdAt=$createdAt, updatedAt=$updatedAt, identities=$identities, username=$username, activeIdentity=$activeIdentity, licenses=$licenses)"
     }
