@@ -107,7 +107,6 @@ class RpPlayerImpl(
 
     override fun getLicense(license: Class<out License>) =
         activeIdentity?.getLicense(license)
-            ?: error("Tried accessing a license of a player without an active identity $uuid")
 
     override suspend fun confiscateLicense(
         identity: RpIdentity,
