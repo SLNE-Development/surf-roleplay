@@ -145,4 +145,9 @@ class RpPlayerImpl(
             }
         })
     }
+
+    override fun toString(): String {
+        return "RpPlayerImpl(uuid=$uuid, createdAt=$createdAt, updatedAt=$updatedAt, identities=$identities, username=$username, bukkitPlayer=$bukkitPlayer, bukkitOfflinePlayer=$bukkitOfflinePlayer, activeIdentity=$activeIdentity, licenses=$licenses)"
+    }
+
 }

@@ -31,4 +31,10 @@ class PoliceIdentityImpl(
         BalanceType.BANK to "police_bank",
         BalanceType.CRYPTO to "police_crypto",
     )
+
+    override fun toString(): String {
+        val parent = super.toString()
+
+        return "PoliceIdentityImpl(badgeNumber='$badgeNumber', rank='$rank', $parent)"
+    }
 }

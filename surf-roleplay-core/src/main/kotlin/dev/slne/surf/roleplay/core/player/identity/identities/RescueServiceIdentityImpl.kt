@@ -30,4 +30,10 @@ class RescueServiceIdentityImpl(
         BalanceType.BANK to "rescue_service_bank",
         BalanceType.CRYPTO to "rescue_service_crypto",
     )
+
+    override fun toString(): String {
+        val parent = super.toString()
+
+        return "RescueServiceIdentityImpl(rank='$rank', $parent)"
+    }
 }

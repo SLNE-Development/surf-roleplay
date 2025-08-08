@@ -29,4 +29,10 @@ class CivilianIdentityImpl(
         BalanceType.BANK to "civilian_bank",
         BalanceType.CRYPTO to "civilian_crypto",
     )
+
+    override fun toString(): String {
+        val parent = super.toString()
+
+        return "CivilianIdentityImpl($parent)"
+    }
 }

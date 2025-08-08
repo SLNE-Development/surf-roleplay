@@ -160,4 +160,9 @@ abstract class RpIdentityImpl(
      * @return a map where keys are [BalanceType] and values are the corresponding currency names.
      */
     abstract fun getCurrencyNames(): Map<BalanceType, String>
+    
+    override fun toString(): String {
+        return "RpIdentityImpl(player=$player, type=$type, firstName='$firstName', lastName='$lastName', dateOfBirth=$dateOfBirth, createdAt=$createdAt, updatedAt=$updatedAt, licenses=$licenses)"
+    }
+
 }

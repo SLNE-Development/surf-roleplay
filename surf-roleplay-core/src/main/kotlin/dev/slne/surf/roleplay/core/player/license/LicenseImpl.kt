@@ -68,4 +68,9 @@ abstract class LicenseImpl(
     }
 
     override fun hashCode() = key.hashCode()
+
+    override fun toString(): String {
+        return "LicenseImpl(key=$key, displayName=$displayName, description=$description, price=$price, dependencies=$dependencies, permission='$permission')"
+    }
+
 }

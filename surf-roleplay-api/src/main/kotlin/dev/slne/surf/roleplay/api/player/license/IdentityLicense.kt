@@ -40,6 +40,10 @@ data class IdentityLicense(
         return result
     }
 
+    override fun toString(): String {
+        return "IdentityLicense(license=$license, identity=$identity, expiresAt=$expiresAt, createdAt=$createdAt, isExpired=$isExpired)"
+    }
+
     companion object {
         /**
          * Creates an [IdentityLicense] from a [License] and an [RpIdentity].
@@ -64,4 +68,6 @@ data class IdentityLicense(
             createdAt = createdAt
         )
     }
+
+
 }

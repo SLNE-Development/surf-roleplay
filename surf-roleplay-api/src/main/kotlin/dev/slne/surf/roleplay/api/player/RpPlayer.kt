@@ -1,6 +1,7 @@
 package dev.slne.surf.roleplay.api.player
 
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
+import dev.slne.surf.roleplay.api.player.license.HasLicenses
 import dev.slne.surf.roleplay.api.transaction.HasTransactions
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.ComponentLike
@@ -9,7 +10,7 @@ import org.bukkit.entity.Player
 import java.time.ZonedDateTime
 import java.util.*
 
-interface RpPlayer : HasTransactions, dev.slne.surf.roleplay.api.player.license.HasLicenses,
+interface RpPlayer : HasTransactions, HasLicenses,
     ComponentLike {
 
     /**
@@ -102,8 +103,7 @@ interface RpPlayer : HasTransactions, dev.slne.surf.roleplay.api.player.license.
     /**
      * Updates the player's identity information.
      *
-     * @param identityClass The class type of the identity to update.
-     * @param update A lambda function that modifies the player's identity.
+     * @param identity the [T]
      * @return The updated identity, or `null` if the identity was not found and `createIfNotExists` is `false`.
      */
     suspend fun <T : RpIdentity> updateIdentity(identity: T): T?
@@ -114,8 +114,7 @@ interface RpPlayer : HasTransactions, dev.slne.surf.roleplay.api.player.license.
      * If the identity already exists, it will be updated using the provided lambda function.
      * If it does not exist, a new identity will be created.
      *
-     * @param identity The identity to create or update.
-     * @param update A lambda function that modifies the player's identity.
+     * @param identity the [T]
      * @return The created or updated identity, or `null` if the operation failed.
      */
     suspend fun <T : RpIdentity> createOrUpdateIdentity(identity: T): T
