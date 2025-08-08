@@ -41,7 +41,7 @@ data class IdentityLicense(
     }
 
     override fun toString(): String {
-        return "IdentityLicense(license=$license, identity=$identity, expiresAt=$expiresAt, createdAt=$createdAt, isExpired=$isExpired)"
+        return "IdentityLicense(license=$license, expiresAt=$expiresAt, createdAt=$createdAt, isExpired=$isExpired)"
     }
 
     companion object {
