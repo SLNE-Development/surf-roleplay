@@ -6,6 +6,7 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.events.RpPlayerDeathEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.api.player.events.RpPlayerQuitEvent
+import dev.slne.surf.roleplay.core.player.rpPlayerManagerImpl
 import dev.slne.surf.roleplay.paper.plugin
 import kotlinx.coroutines.withContext
 import org.bukkit.event.EventHandler
@@ -33,9 +34,13 @@ object OnlineListener : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onQuit(event: PlayerQuitEvent) {
         plugin.launch {
+            val player = RpPlayer[event.player.uniqueId]
+
             withContext(plugin.globalRegionDispatcher) {
-                RpPlayerQuitEvent(RpPlayer[event.player.uniqueId]).callEvent()
+                RpPlayerQuitEvent(player).callEvent()
             }
+
+            rpPlayerManagerImpl.onDisconnect(player)
         }
     }
 

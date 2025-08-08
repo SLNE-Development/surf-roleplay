@@ -1,8 +1,6 @@
 package dev.slne.surf.roleplay.core.player
 
-import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.auto.service.AutoService
-import dev.hsbrysk.caffeine.buildCoroutine
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.RpPlayerManager
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
@@ -14,23 +12,20 @@ import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPolice
 import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityModel
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityTable
+import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.util.Services
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.ZonedDateTime
 import java.util.*
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.toJavaDuration
 
 @AutoService(RpPlayerManager::class)
 class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
-    private val cache = Caffeine.newBuilder()
-        .expireAfterAccess(30.minutes.toJavaDuration())
-        .buildCoroutine<UUID, RpPlayer> { key ->
-            findOrCreate(key).toApi() as RpPlayer
-        }
+    private val cache = mutableObjectSetOf<RpPlayer>()
+
+    fun onDisconnect(player: RpPlayer) = cache.removeIf { it.uuid == player.uuid }
 
     suspend fun findOrCreate(uuid: UUID) = newSuspendedTransaction(Dispatchers.IO) {
         RpPlayerModel.find { RpPlayerTable.uuid eq uuid }.singleOrNull() ?: RpPlayerModel.new {
@@ -191,7 +186,20 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
         identity
     }
 
-    override suspend fun get(uuid: UUID) = cache.get(uuid)
+    override suspend fun get(uuid: UUID): RpPlayer {
+        val cacheHit = cache.firstOrNull { it.uuid == uuid }
+
+        if (cacheHit != null) {
+            return cacheHit
+        }
+
+        val dbHit = findOrCreate(uuid)
+        val dbPlayer = dbHit.toApi()
+
+        cache.add(dbPlayer)
+
+        return dbPlayer
+    }
 }
 
 val rpPlayerManagerImpl get() = RpPlayerManager.INSTANCE as RpPlayerManagerImpl
