@@ -32,7 +32,7 @@ suspend fun createSelectPlayersDialog(player: RpPlayer): Dialog {
     return dialog {
         base {
             title {
-                primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+                primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
                 spacer("— Überweisungen")
             }
             afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -67,6 +67,8 @@ private fun exitPlayerSelectionButton(player: RpPlayer) = actionButton {
     action {
         playerCallback {
             plugin.launch {
+//                player.createBankAccount();
+                //add create methode, send to db
                 it.showDialog(createAtmMainMenuDialog(player))
             }
         }

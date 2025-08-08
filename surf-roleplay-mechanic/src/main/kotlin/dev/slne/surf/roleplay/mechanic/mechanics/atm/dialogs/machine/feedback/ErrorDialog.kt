@@ -22,7 +22,7 @@ import io.papermc.paper.registry.data.dialog.DialogBase
 fun createErrorNoCashDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -41,7 +41,7 @@ fun createErrorNoCashDialog(player: RpPlayer): Dialog = dialog {
 fun createErrorNoBankDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -59,7 +59,7 @@ fun createErrorNoBankDialog(player: RpPlayer): Dialog = dialog {
 fun createGenericErrorDialog(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -78,7 +78,7 @@ fun createGenericErrorDialog(player: RpPlayer): Dialog = dialog {
 fun createInvalidAmountPayError(player: RpPlayer, receiver: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -98,7 +98,7 @@ fun createInvalidAmountPayError(player: RpPlayer, receiver: RpPlayer): Dialog = 
 fun createInvalidAmountEnteredPayError(player: RpPlayer, receiver: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -118,7 +118,7 @@ fun createInvalidAmountEnteredPayError(player: RpPlayer, receiver: RpPlayer): Di
 fun createInvalidAmountEnteredCashError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -138,7 +138,7 @@ fun createInvalidAmountEnteredCashError(player: RpPlayer): Dialog = dialog {
 fun createInvalidAmountDepositError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -158,7 +158,7 @@ fun createInvalidAmountDepositError(player: RpPlayer): Dialog = dialog {
 fun createInvalidAmountWithdrawError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -179,7 +179,7 @@ fun createInvalidAmountWithdrawError(player: RpPlayer): Dialog = dialog {
 fun createCashWithdrawError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -199,7 +199,7 @@ fun createCashWithdrawError(player: RpPlayer): Dialog = dialog {
 fun createEventError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -219,7 +219,7 @@ fun createEventError(player: RpPlayer): Dialog = dialog {
 fun createCashDepositError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -239,7 +239,7 @@ fun createCashDepositError(player: RpPlayer): Dialog = dialog {
 fun createNoPlayersError(player: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("— Systemfehler")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)

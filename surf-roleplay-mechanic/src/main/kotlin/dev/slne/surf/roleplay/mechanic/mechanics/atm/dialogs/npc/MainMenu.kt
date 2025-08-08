@@ -21,7 +21,7 @@ fun createNpcMainMenuDialog(player: RpPlayer): Dialog {
 
     return dialog {
         base {
-            title { primary("Geldautomat ${AtmMechanicImpl.VERSION}") }
+            title { primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION}") }
             afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
 
             body {
@@ -56,7 +56,11 @@ private fun createBankAccount(rpPlayer: RpPlayer): ActionButton = actionButton {
     action {
         playerCallback { player ->
             plugin.launch {
-//                player.showDialog(createSelectPlayersDialog(rpPlayer))
+
+                // check if player already has a bank account
+                // show error screen, return
+
+                player.showDialog(createBankAccountDialog(rpPlayer))
             }
         }
     }

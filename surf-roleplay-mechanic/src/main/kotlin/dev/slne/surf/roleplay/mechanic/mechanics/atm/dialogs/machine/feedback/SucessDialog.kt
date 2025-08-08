@@ -20,7 +20,7 @@ import io.papermc.paper.registry.data.dialog.DialogBase
 fun createSuccessPayDialog(player: RpPlayer, amount: Int, receiver: RpPlayer): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("- Erfolgreich")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -42,7 +42,7 @@ fun createSuccessPayDialog(player: RpPlayer, amount: Int, receiver: RpPlayer): D
 fun createCashWithdrawSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("- Erfolgreich")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
@@ -62,7 +62,7 @@ fun createCashWithdrawSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
 fun createCashDepositSuccess(player: RpPlayer, amount: Int): Dialog = dialog {
     base {
         title {
-            primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
             spacer("- Erfolgreich")
         }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)

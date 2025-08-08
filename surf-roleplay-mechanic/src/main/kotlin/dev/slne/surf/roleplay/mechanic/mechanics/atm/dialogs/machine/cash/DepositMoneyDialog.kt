@@ -27,7 +27,7 @@ suspend fun createDepositDialog(player: RpPlayer): Dialog {
     return dialog {
         base {
             title {
-                primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+                primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
                 spacer("— Einzahlung")
             }
             afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)

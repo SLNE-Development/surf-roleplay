@@ -24,7 +24,7 @@ import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
 import io.papermc.paper.registry.data.dialog.DialogBase
 
-private val validAmountInput = Regex("^\\d+$")
+private val validAmountInput by lazy { Regex("^\\d+$") }
 
 suspend fun createAmountDialog(player: RpPlayer, selectedPlayer: RpPlayer): Dialog {
     val balance = player.getBalance(BalanceType.BANK)
@@ -32,7 +32,7 @@ suspend fun createAmountDialog(player: RpPlayer, selectedPlayer: RpPlayer): Dial
     return dialog {
         base {
             title {
-                primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+                primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
                 spacer("— Einzahlung")
             }
             afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)

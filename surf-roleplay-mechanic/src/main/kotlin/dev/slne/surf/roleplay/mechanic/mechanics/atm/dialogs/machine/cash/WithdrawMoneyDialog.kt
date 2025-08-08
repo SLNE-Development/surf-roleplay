@@ -33,7 +33,7 @@ suspend fun createWithdrawDialog(player: RpPlayer): Dialog {
     return dialog {
         base {
             title {
-                primary("Geldautomat ${AtmMechanicImpl.VERSION} ")
+                primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
                 spacer("— Auszahlung")
             }
             afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
