@@ -18,6 +18,3 @@ include("surf-roleplay-api")
 include("surf-roleplay-core")
 include("surf-roleplay-mechanic")
 include("surf-roleplay-paper")
-
-include("surf-job:surf-job-api")
-include("surf-job:surf-job-paper")

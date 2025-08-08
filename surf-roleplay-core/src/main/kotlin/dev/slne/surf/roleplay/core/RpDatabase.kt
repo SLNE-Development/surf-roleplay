@@ -2,6 +2,10 @@ package dev.slne.surf.roleplay.core
 
 import dev.slne.surf.database.DatabaseManager
 import dev.slne.surf.roleplay.core.player.db.RpPlayerTable
+import dev.slne.surf.roleplay.core.player.identity.db.impl.civilian.RpPlayerCivilianIdentityTable
+import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
+import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityTable
+import dev.slne.surf.roleplay.core.player.license.db.IdentityLicenseTable
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
@@ -23,6 +27,10 @@ class RpDatabase(val configPath: Path, val storagePath: Path = configPath / "sto
         newSuspendedTransaction {
             SchemaUtils.create(
                 RpPlayerTable,
+                RpPlayerCivilianIdentityTable,
+                RpPlayerRescueServiceIdentityTable,
+                RpPlayerPoliceIdentityTable,
+                IdentityLicenseTable,
                 *mechanicTables.toTypedArray()
             )
         }

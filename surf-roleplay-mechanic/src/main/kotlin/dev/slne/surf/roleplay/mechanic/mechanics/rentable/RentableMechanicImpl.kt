@@ -144,7 +144,7 @@ object RentableMechanicImpl : MechanicImpl(
             return RentableMechanic.RentCollectResult.NOT_ENOUGH_MONEY
         }
 
-        currentOwner.removeBankBalance(rent.toDouble())
+        currentOwner.removeBankBalance(rent)
 
         return RentableMechanic.RentCollectResult.SUCCESS
     }

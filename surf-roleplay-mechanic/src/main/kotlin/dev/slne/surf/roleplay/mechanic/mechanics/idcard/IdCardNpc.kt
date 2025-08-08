@@ -2,12 +2,13 @@ package dev.slne.surf.roleplay.mechanic.mechanics.idcard
 
 import dev.slne.surf.npc.api.dsl.npc
 import dev.slne.surf.npc.api.surfNpcApi
+import dev.slne.surf.roleplay.mechanic.plugin
 
 object IdCardNpc {
     suspend fun spawnNpc() {
         val npcSkin = surfNpcApi.getSkin("MikeyLLP")
 
-        npc {
+        npc(plugin) {
             uniqueName = IdCardMechanicImpl.NPC_NAME
             displayName = {
                 primary("Bürgeramt")

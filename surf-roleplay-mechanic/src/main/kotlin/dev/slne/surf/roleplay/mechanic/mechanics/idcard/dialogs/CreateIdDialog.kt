@@ -5,6 +5,7 @@ package dev.slne.surf.roleplay.mechanic.mechanics.idcard.dialogs
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.core.player.identity.identities.CivilianIdentityImpl
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCard
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -148,18 +149,22 @@ private fun confirmCreationButton(): ActionButton = actionButton {
             }
 
             val birthDate = LocalDate.parse(birthDateString, IdCard.formatter)
+
             plugin.launch {
                 val rpPlayer = RpPlayer[player.uniqueId]
 
-                rpPlayer.updateInformation {
-                    this.firstName = firstName
-                    this.lastName = lastName
-                    this.birthDate = birthDate
-                }
-
-                audience.showDialog(
-                    idCreationSuccess(firstName, lastName, birthDate)
+                val identity = rpPlayer.createOrUpdateIdentity(
+                    CivilianIdentityImpl(
+                        player = rpPlayer,
+                        firstName = firstName,
+                        lastName = lastName,
+                        dateOfBirth = birthDate
+                    )
                 )
+                
+                rpPlayer.setActiveIdentity(identity)
+
+                audience.showDialog(idCreationSuccess(firstName, lastName, birthDate))
             }
         }
     }
