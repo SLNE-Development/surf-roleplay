@@ -85,7 +85,7 @@ private fun createCloseButton() = actionButton {
 
     action {
         playerCallback {
-            it.clearDialogs()
+            it.clearDialogs(true)
         }
     }
 }
