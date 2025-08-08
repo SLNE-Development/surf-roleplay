@@ -153,7 +153,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
             plugin.launch {
                 val rpPlayer = RpPlayer[player.uniqueId]
 
-                rpPlayer.createOrUpdateIdentity(
+                val identity = rpPlayer.createOrUpdateIdentity(
                     CivilianIdentityImpl(
                         player = rpPlayer,
                         firstName = firstName,
@@ -161,6 +161,8 @@ private fun confirmCreationButton(): ActionButton = actionButton {
                         dateOfBirth = birthDate
                     )
                 )
+                
+                rpPlayer.setActiveIdentity(identity)
 
                 audience.showDialog(idCreationSuccess(firstName, lastName, birthDate))
             }
