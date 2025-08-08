@@ -25,7 +25,7 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
     private val cache = mutableObjectSetOf<RpPlayer>()
 
-    fun onDisconnect(player: RpPlayer) = cache.removeIf { it.uuid == player.uuid }
+    fun onDisconnect(player: RpPlayer) = cache.remove(player)
 
     suspend fun findOrCreate(uuid: UUID) = newSuspendedTransaction(Dispatchers.IO) {
         RpPlayerModel.find { RpPlayerTable.uuid eq uuid }.singleOrNull() ?: RpPlayerModel.new {
