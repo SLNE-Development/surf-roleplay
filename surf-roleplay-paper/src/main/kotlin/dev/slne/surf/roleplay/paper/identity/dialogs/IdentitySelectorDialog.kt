@@ -21,6 +21,7 @@ fun createIdentitySelectorDialog(player: RpPlayer) = dialog {
     base {
         title { primary("Identität auswählen") }
         afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        preventClosingWithEscape(identities.isNotEmpty())
 
         body {
             plainMessage(400) {
@@ -49,7 +50,6 @@ fun createIdentitySelectorDialog(player: RpPlayer) = dialog {
                 }
 
                 columns(1)
-                exitAction(createCloseButton())
             }
         }
     }
