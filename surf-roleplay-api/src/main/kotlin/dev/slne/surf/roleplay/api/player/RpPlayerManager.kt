@@ -3,7 +3,7 @@ package dev.slne.surf.roleplay.api.player
 import dev.slne.surf.surfapi.core.api.util.requiredService
 import java.util.*
 
-private val rpPlayerManager get() = requiredService<RpPlayerManager>()
+private val rpPlayerManager = requiredService<RpPlayerManager>()
 
 interface RpPlayerManager {
 
