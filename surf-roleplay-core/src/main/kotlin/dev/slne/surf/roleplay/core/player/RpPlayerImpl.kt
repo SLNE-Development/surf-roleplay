@@ -18,17 +18,12 @@ import java.util.*
 
 class RpPlayerImpl(
     override val uuid: UUID,
-    identities: ObjectSet<RpIdentity>,
     override var createdAt: ZonedDateTime = ZonedDateTime.now(),
     override var updatedAt: ZonedDateTime = ZonedDateTime.now()
 ) : RpPlayer {
 
     private val _identities = mutableObjectSetOf<RpIdentity>()
     override val identities: ObjectSet<RpIdentity> get() = _identities
-
-    init {
-        _identities.addAll(identities)
-    }
 
     override var username: String? = null
     override val bukkitPlayer: Player? get() = server.getPlayer(uuid)
@@ -147,7 +142,7 @@ class RpPlayerImpl(
     }
 
     override fun toString(): String {
-        return "RpPlayerImpl(uuid=$uuid, createdAt=$createdAt, updatedAt=$updatedAt, identities=$identities, username=$username, bukkitPlayer=$bukkitPlayer, bukkitOfflinePlayer=$bukkitOfflinePlayer, activeIdentity=$activeIdentity, licenses=$licenses)"
+        return "RpPlayerImpl(uuid=$uuid, createdAt=$createdAt, updatedAt=$updatedAt, identities=$identities, username=$username, activeIdentity=$activeIdentity, licenses=$licenses)"
     }
 
 }

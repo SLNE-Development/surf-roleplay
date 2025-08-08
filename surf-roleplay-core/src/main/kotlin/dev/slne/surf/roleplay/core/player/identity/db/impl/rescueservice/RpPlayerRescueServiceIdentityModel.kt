@@ -18,8 +18,8 @@ class RpPlayerRescueServiceIdentityModel(
 
     var rank by RpPlayerRescueServiceIdentityTable.rank
 
-    override suspend fun toApi() = RescueServiceIdentityImpl(
-        player = RpPlayer[player.uuid],
+    override suspend fun toApi(player: RpPlayer) = RescueServiceIdentityImpl(
+        player = player,
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = dateOfBirth,

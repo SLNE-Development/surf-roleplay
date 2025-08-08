@@ -18,8 +18,8 @@ class RpPlayerPoliceIdentityModel(
     var badgeNumber by RpPlayerPoliceIdentityTable.badgeNumber
     var rank by RpPlayerPoliceIdentityTable.rank
 
-    override suspend fun toApi() = PoliceIdentityImpl(
-        player = RpPlayer[player.uuid],
+    override suspend fun toApi(player: RpPlayer) = PoliceIdentityImpl(
+        player = player,
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = dateOfBirth,

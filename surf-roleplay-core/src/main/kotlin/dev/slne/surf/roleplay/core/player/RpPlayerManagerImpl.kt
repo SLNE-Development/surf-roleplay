@@ -129,7 +129,7 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
             else -> error("Unsupported identity type: ${identity::class.qualifiedName}")
         }
 
-        val api = identity.toApi()
+        val api = identity.toApi(player)
         player.addIdentity(api)
 
         api as T

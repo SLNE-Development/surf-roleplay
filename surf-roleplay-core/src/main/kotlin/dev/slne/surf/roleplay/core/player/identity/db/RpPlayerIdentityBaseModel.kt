@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.core.player.identity.db
 
+import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
 import org.jetbrains.exposed.dao.LongEntity
@@ -18,5 +19,5 @@ abstract class RpPlayerIdentityBaseModel<I : RpIdentity>(
     var createdAt by table.createdAt
     var updatedAt by table.updatedAt
 
-    abstract suspend fun toApi(): I
+    abstract suspend fun toApi(player: RpPlayer): I
 }

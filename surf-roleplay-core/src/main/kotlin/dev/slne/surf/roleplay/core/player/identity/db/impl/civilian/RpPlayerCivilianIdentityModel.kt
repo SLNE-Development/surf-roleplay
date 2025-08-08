@@ -15,8 +15,8 @@ class RpPlayerCivilianIdentityModel(
 ) {
     companion object : LongEntityClass<RpPlayerCivilianIdentityModel>(RpPlayerCivilianIdentityTable)
 
-    override suspend fun toApi() = CivilianIdentityImpl(
-        player = RpPlayer[player.uuid],
+    override suspend fun toApi(player: RpPlayer) = CivilianIdentityImpl(
+        player = player,
         firstName = firstName,
         lastName = lastName,
         dateOfBirth = dateOfBirth,

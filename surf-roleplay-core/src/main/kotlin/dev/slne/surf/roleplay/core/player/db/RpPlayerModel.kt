@@ -1,6 +1,5 @@
 package dev.slne.surf.roleplay.core.player.db
 
-import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.player.RpPlayerImpl
 import dev.slne.surf.roleplay.core.player.identity.db.impl.civilian.RpPlayerCivilianIdentityModel
 import dev.slne.surf.roleplay.core.player.identity.db.impl.civilian.RpPlayerCivilianIdentityTable
@@ -8,7 +7,6 @@ import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPolice
 import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityModel
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityTable
-import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -30,14 +28,11 @@ class RpPlayerModel(id: EntityID<Long>) : LongEntity(id) {
     val rescueServiceIdentity by RpPlayerRescueServiceIdentityModel optionalBackReferencedOn RpPlayerRescueServiceIdentityTable.player
 
     suspend fun toApi() = newSuspendedTransaction(Dispatchers.IO) {
-        RpPlayerImpl(
-            uuid = uuid,
-            identities = mutableObjectSetOf<RpIdentity>().apply {
-                civilianIdentity?.let { add(it.toApi()) }
-                policeIdentity?.let { add(it.toApi()) }
-                rescueServiceIdentity?.let { add(it.toApi()) }
-            },
-        ).apply {
+        RpPlayerImpl(uuid = uuid).apply {
+            civilianIdentity?.let { addIdentity(it.toApi(this)) }
+            policeIdentity?.let { addIdentity(it.toApi(this)) }
+            rescueServiceIdentity?.let { addIdentity(it.toApi(this)) }
+
             this.username = this@RpPlayerModel.username
             this.createdAt = this@RpPlayerModel.createdAt
             this.updatedAt = this@RpPlayerModel.updatedAt
