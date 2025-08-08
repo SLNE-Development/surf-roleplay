@@ -31,16 +31,16 @@ object OnlineListener : Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     fun onQuit(event: PlayerQuitEvent) {
         plugin.launch {
             val player = RpPlayer[event.player.uniqueId]
 
             withContext(plugin.globalRegionDispatcher) {
                 RpPlayerQuitEvent(player).callEvent()
-            }
 
-            rpPlayerManagerImpl.onDisconnect(player)
+                rpPlayerManagerImpl.onDisconnect(player)
+            }
         }
     }
 

@@ -6,13 +6,12 @@ import kotlin.time.Duration.Companion.seconds
 
 object LicenseExpirationJob : RpJob("LicenseExpirationJob", 1.seconds) {
     override suspend fun tick() {
-        val expiredLicenses = licenseServiceImpl.getAllExpiredLicenses()
+        val licenses = licenseServiceImpl.getAllExpiredLicenses()
 
-        expiredLicenses.forEach { identityLicense ->
-            identityLicense.identity.removeLicense(
-                identityLicense.license,
-                LicenseRemovedReason.Expired
-            )
+        licenses.forEach { (identity, expiredLicenses) ->
+            expiredLicenses.forEach { expiredLicense ->
+                identity.removeLicense(expiredLicense.license, LicenseRemovedReason.Expired)
+            }
         }
     }
 }

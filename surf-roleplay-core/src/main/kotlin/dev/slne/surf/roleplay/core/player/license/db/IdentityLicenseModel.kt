@@ -1,6 +1,6 @@
 package dev.slne.surf.roleplay.core.player.license.db
 
-import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.player.license.IdentityLicense
 import dev.slne.surf.roleplay.api.player.license.LicenseService
 import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
@@ -20,13 +20,9 @@ class IdentityLicenseModel(id: EntityID<Long>) : LongEntity(id) {
     var expiresAt by IdentityLicenseTable.expiresAt
     var createdAt by IdentityLicenseTable.createdAt
 
-    suspend fun toApi(): IdentityLicense {
-        val rpPlayer = RpPlayer[player.uuid]
-        val rpIdentity = rpPlayer.getIdentity(identity)
-            ?: error("Tried creaing IdentityLicenseModel with non-existing identity: $identity for player: $rpPlayer")
-
+    fun toApi(identity: RpIdentity): IdentityLicense {
         val license = IdentityLicense(
-            identity = rpIdentity,
+            identity = identity,
             license = LicenseService.getLicenseByKeyOrThrow(key(license)),
             expiresAt = expiresAt,
             createdAt = createdAt

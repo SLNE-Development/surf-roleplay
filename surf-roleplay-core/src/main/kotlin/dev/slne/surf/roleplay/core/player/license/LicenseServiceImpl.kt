@@ -8,6 +8,7 @@ import dev.jorel.commandapi.kotlindsl.getValue
 import dev.jorel.commandapi.kotlindsl.playerExecutor
 import dev.jorel.commandapi.kotlindsl.textArgument
 import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.player.RpPlayerManager
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.player.license.IdentityLicense
 import dev.slne.surf.roleplay.api.player.license.License
@@ -27,13 +28,12 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.key
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
-import dev.slne.surf.surfapi.core.api.util.toObjectSet
+import dev.slne.surf.surfapi.core.api.util.toObjectList
 import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.util.Services
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.time.ZonedDateTime
 
 @AutoService(LicenseService::class)
 class LicenseServiceImpl : LicenseService, Services.Fallback {
@@ -94,6 +94,15 @@ class LicenseServiceImpl : LicenseService, Services.Fallback {
     private val _licenses = mutableObjectSetOf<License>()
     override val licenses get() = _licenses.freeze()
 
+    suspend fun fetchLicenses(identity: RpIdentity) = newSuspendedTransaction(Dispatchers.IO) {
+        val rpPlayerModel = rpPlayerManagerImpl.findOrCreate(identity.player.uuid)
+
+        IdentityLicenseModel.find {
+            (IdentityLicenseTable.player eq rpPlayerModel.id) and
+                    (IdentityLicenseTable.identity eq identity.type)
+        }.map { it.toApi(identity) }.toObjectList()
+    }
+
     override fun getLicense(license: Class<out License>) =
         _licenses.firstOrNull { license.isAssignableFrom(it::class.java) }
 
@@ -117,7 +126,7 @@ class LicenseServiceImpl : LicenseService, Services.Fallback {
             this.license = license.key.asString()
             this.expiresAt = expiresAt
             this.createdAt = createdAt
-        }.toApi()
+        }.toApi(identityLicense.identity)
     }
 
     override suspend fun confiscateLicense(
@@ -175,14 +184,12 @@ class LicenseServiceImpl : LicenseService, Services.Fallback {
         true
     }
 
-    suspend fun getAllExpiredLicenses() = newSuspendedTransaction(Dispatchers.IO) {
-        val licenses = IdentityLicenseModel.find {
-            IdentityLicenseTable.expiresAt.less(ZonedDateTime.now())
-        }
+    fun getAllExpiredLicenses() = RpPlayerManager.players
+        .mapNotNull {
+            val activeIdentity = it.activeIdentity ?: return@mapNotNull null
 
-        licenses.map { it.toApi() }.toObjectSet()
-    }
-
+            activeIdentity to activeIdentity.licenses.filter { license -> license.isExpired }
+        }.toObjectList()
 }
 
 val licenseServiceImpl get() = LicenseService.INSTANCE as LicenseServiceImpl

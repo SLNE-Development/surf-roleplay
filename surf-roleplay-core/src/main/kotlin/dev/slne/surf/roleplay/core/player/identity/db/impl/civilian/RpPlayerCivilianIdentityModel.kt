@@ -4,6 +4,7 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.player.identity.db.RpPlayerIdentityBaseModel
 import dev.slne.surf.roleplay.core.player.identity.identities.CivilianIdentityImpl
+import dev.slne.surf.roleplay.core.player.license.licenseServiceImpl
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
@@ -22,5 +23,9 @@ class RpPlayerCivilianIdentityModel(
         dateOfBirth = dateOfBirth,
         createdAt = createdAt,
         updatedAt = updatedAt,
-    )
+    ).apply {
+        licenseServiceImpl.fetchLicenses(this).forEach {
+            addLicense(it)
+        }
+    }
 }

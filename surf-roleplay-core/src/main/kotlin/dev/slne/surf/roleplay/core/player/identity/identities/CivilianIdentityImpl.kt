@@ -2,9 +2,7 @@ package dev.slne.surf.roleplay.core.player.identity.identities
 
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
-import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.core.player.identity.RpIdentityImpl
-import dev.slne.surf.surfapi.core.api.util.mutableObject2ObjectMapOf
 import java.time.LocalDate
 import java.time.ZonedDateTime
 

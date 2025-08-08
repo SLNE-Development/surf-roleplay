@@ -1,6 +1,9 @@
 package dev.slne.surf.roleplay.core.player
 
+import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.auto.service.AutoService
+import com.sksamuel.aedile.core.asLoadingCache
+import com.sksamuel.aedile.core.withRemovalListener
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.RpPlayerManager
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
@@ -12,7 +15,8 @@ import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPolice
 import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityModel
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityTable
-import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
+import dev.slne.surf.surfapi.core.api.util.getCallerClass
+import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.util.Services
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -23,9 +27,19 @@ import java.util.*
 @AutoService(RpPlayerManager::class)
 class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
-    private val cache = mutableObjectSetOf<RpPlayer>()
+    private val cache = Caffeine.newBuilder()
+        .withRemovalListener { key, _, cause ->
+            println("Removing RpPlayer from cache: $key due to $cause")
+        }
+        .asLoadingCache<UUID, RpPlayer> {
+            println("Loading RpPlayer from database: $it")
+            findOrCreate(it).toApi()
+        }
 
-    fun onDisconnect(player: RpPlayer) = cache.remove(player)
+    override val players
+        get() = cache.underlying().asMap().values.mapNotNull { it.getNow(null) }.toObjectSet()
+
+    fun onDisconnect(player: RpPlayer) = cache.invalidate(player.uuid)
 
     suspend fun findOrCreate(uuid: UUID) = newSuspendedTransaction(Dispatchers.IO) {
         RpPlayerModel.find { RpPlayerTable.uuid eq uuid }.singleOrNull() ?: RpPlayerModel.new {
@@ -187,18 +201,8 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
     }
 
     override suspend fun get(uuid: UUID): RpPlayer {
-        val cacheHit = cache.firstOrNull { it.uuid == uuid }
-
-        if (cacheHit != null) {
-            return cacheHit
-        }
-
-        val dbHit = findOrCreate(uuid)
-        val dbPlayer = dbHit.toApi()
-
-        cache.add(dbPlayer)
-
-        return dbPlayer
+        println("Caller: " + getCallerClass(1))
+        return cache.get(uuid)
     }
 }
 

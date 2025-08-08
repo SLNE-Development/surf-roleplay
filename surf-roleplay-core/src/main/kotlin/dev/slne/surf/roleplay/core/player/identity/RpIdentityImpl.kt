@@ -33,6 +33,10 @@ abstract class RpIdentityImpl(
     private val _licenses = mutableObjectSetOf<IdentityLicense>()
     override val licenses get() = _licenses
 
+    fun addLicense(license: IdentityLicense) {
+        _licenses.add(license)
+    }
+
     override suspend fun addLicense(license: License): LicenseCreateResult {
         val (canObtain, reason) = license.canObtain(this)
 
