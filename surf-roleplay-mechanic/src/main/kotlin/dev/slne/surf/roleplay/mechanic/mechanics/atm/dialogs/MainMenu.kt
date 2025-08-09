@@ -29,6 +29,7 @@ import org.bukkit.NamespacedKey
 
 private val bankCardKey = NamespacedKey("surf-roleplay-mechanic", "bank_card")
 private val idCardOwnerKey = NamespacedKey("surf-roleplay-mechanic", "id_card_owner")
+private val idCardKey = NamespacedKey("surf-roleplay-mechanic", "id_card")
 private val hasVerified = true
 private val pinRegex by lazy { Regex("^\\d{4}\$") }
 
@@ -189,10 +190,10 @@ private fun createBankAccountButton(rpPlayer: RpPlayer): ActionButton = actionBu
             plugin.launch {
                 val hasIdCard = player.inventory.contents.any { item ->
                     item?.let {
+                        val idCard = it.persistentDataContainer.get(idCardKey, DataType.BYTE)
                         val owner = it.persistentDataContainer.get(idCardOwnerKey, DataType.UUID)
-                        val bankCard = it.persistentDataContainer.get(bankCardKey, DataType.BYTE)
 
-                        owner == player.uniqueId && bankCard != null
+                        owner == player.uniqueId && idCard != null
                     } == true
                 }
 

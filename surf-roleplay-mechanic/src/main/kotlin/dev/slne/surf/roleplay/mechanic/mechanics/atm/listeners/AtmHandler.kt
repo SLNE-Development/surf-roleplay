@@ -24,9 +24,12 @@ object AtmHandler : Listener {
 
         plugin.launch {
             val rpPlayer = RpPlayer[player.uniqueId]
-            val item = player.inventory.itemInMainHand
 
-            player.showDialog(createAtmMainMenuDialog(rpPlayer, item.persistentDataContainer.has(bankCardKey)))
+            val hasBankCard = player.inventory.contents.any { item ->
+                item?.persistentDataContainer?.has(bankCardKey) == true
+            }
+
+            player.showDialog(createAtmMainMenuDialog(rpPlayer, hasBankCard))
         }
         event.isCancelled = true
     }
