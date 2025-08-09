@@ -3,7 +3,6 @@ package dev.slne.surf.roleplay.core.player
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.auto.service.AutoService
 import com.sksamuel.aedile.core.asLoadingCache
-import com.sksamuel.aedile.core.withRemovalListener
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.RpPlayerManager
 import dev.slne.surf.roleplay.api.player.identity.RpIdentity
@@ -15,7 +14,6 @@ import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPolice
 import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityModel
 import dev.slne.surf.roleplay.core.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityTable
-import dev.slne.surf.surfapi.core.api.util.getCallerClass
 import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import kotlinx.coroutines.Dispatchers
 import net.kyori.adventure.util.Services
@@ -28,11 +26,7 @@ import java.util.*
 class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
     private val cache = Caffeine.newBuilder()
-        .withRemovalListener { key, _, cause ->
-            println("Removing RpPlayer from cache: $key due to $cause")
-        }
         .asLoadingCache<UUID, RpPlayer> {
-            println("Loading RpPlayer from database: $it")
             findOrCreate(it).toApi()
         }
 
@@ -200,10 +194,9 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
         identity
     }
 
-    override suspend fun get(uuid: UUID): RpPlayer {
-        println("Caller: " + getCallerClass(1))
-        return cache.get(uuid)
-    }
+    override suspend fun get(uuid: UUID) = cache.get(uuid)
+
+    override suspend fun getByName(username: String) = players.firstOrNull { it.username == username }
 }
 
 val rpPlayerManagerImpl get() = RpPlayerManager.INSTANCE as RpPlayerManagerImpl

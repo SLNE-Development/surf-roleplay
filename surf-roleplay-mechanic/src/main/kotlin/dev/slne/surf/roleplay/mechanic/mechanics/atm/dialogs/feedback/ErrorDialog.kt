@@ -1,21 +1,23 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(NmsUseWithCaution::class)
 
-package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback
+package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.cash.createDepositDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.cash.createWithdrawDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.createAtmMainMenuDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.pay.createAmountDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.bankaccount.createBankAccountDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash.createDepositDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash.createWithdrawDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.pay.createAmountDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
+import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
 
@@ -264,7 +266,7 @@ private fun exitInvalidAmountDepositButton(player: RpPlayer) =
         action {
             playerCallback {
                 plugin.launch {
-                    it.showDialog(createAtmMainMenuDialog(player))
+                    it.showDialog(createAtmMainMenuDialog(player, true))
                 }
             }
         }
@@ -291,7 +293,7 @@ private fun exitErrorButton(player: RpPlayer) = actionButton {
     action {
         playerCallback {
             plugin.launch {
-                it.showDialog(createAtmMainMenuDialog(player))
+                it.showDialog(createAtmMainMenuDialog(player, true))
             }
         }
     }
@@ -356,8 +358,145 @@ private fun exitEventErrorButton(player: RpPlayer) = actionButton {
     action {
         playerCallback {
             plugin.launch {
-                it.showDialog(createAtmMainMenuDialog(player))
+                it.showDialog(createAtmMainMenuDialog(player, true))
             }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+fun createNoIdCardFoundError(player: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
+            spacer("— Systemfehler")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                info("Du führst keinen Personalausweis bei dir.")
+                appendNewline()
+                error("Zur Erstellung eines Bankkontos musst du deine Identität mit deinem Personalausweis bestätigen.")
+                appendNewline()
+                error("Bitte versuche es erneut.")
+                appendNewline()
+            }
+        }
+        type {
+            notice(exitNoIdCardFoundErrorButton(player))
+        }
+    }
+}
+
+private fun exitNoIdCardFoundErrorButton(player: RpPlayer) = actionButton {
+    label { text("Zurück") }
+    tooltip { info("Klicke, um zum Hauptmenü zurückzukehren.") }
+
+    action {
+        playerCallback {
+            plugin.launch {
+                it.showDialog(createAtmMainMenuDialog(player, false))
+            }
+        }
+    }
+}
+
+fun createPinNotMatchingRegexError(player: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
+            spacer("— Systemfehler")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                error("Der angegebene PIN entspricht nicht den Vorgaben.")
+                appendNewline(2)
+                info("Der PIN muss aus vier Ziffern bestehen.")
+                appendNewline(2)
+                info("Bitte versuche es erneut.")
+                appendNewline()
+            }
+        }
+        type {
+            notice(exitBackToBankAccountCreationButton(player))
+        }
+    }
+}
+
+fun createInvalidEnteredPinError(player: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
+            spacer("— Systemfehler")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                error("Der angegebene PIN entspricht nicht den Vorgaben.")
+                appendNewline(2)
+                info("Der PIN muss aus vier Ziffern bestehen.")
+                appendNewline(2)
+                info("Bitte versuche es erneut.")
+                appendNewline()
+            }
+        }
+        type {
+            notice(exitErrorButton(player))
+        }
+    }
+}
+
+fun createPinNotEqualError(player: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
+            spacer("— Systemfehler")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                error("Der angegebene PIN stimmt nicht mit dem wiederholten PIN überein.")
+                appendNewline(2)
+                info("Bitte versuche es erneut.")
+                appendNewline()
+            }
+        }
+        type {
+            notice(exitBackToBankAccountCreationButton(player))
+        }
+    }
+}
+
+fun createPinInvalidError(player: RpPlayer): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
+            spacer("— Systemfehler")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                error("Der angegebene PIN stimmt nicht mit dem PIN des Bankkontos überein.")
+                appendNewline(2)
+                info("Bitte versuche es erneut.")
+                appendNewline()
+            }
+        }
+        type {
+            notice(exitErrorButton(player))
+        }
+    }
+}
+
+private fun exitBackToBankAccountCreationButton(player: RpPlayer) = actionButton {
+    label { text("Zurück") }
+    tooltip { info("Klicke, um zurück zur Kontoerstellung zu gelangen.") }
+
+    action {
+        playerCallback {
+            it.showDialog(createBankAccountDialog(player))
         }
     }
 }

@@ -5,11 +5,13 @@ import dev.slne.surf.npc.api.surfNpcApi
 import dev.slne.surf.roleplay.mechanic.plugin
 
 object IdCardNpc {
+    const val NPC_NAME = "id_card_npc"
+
     suspend fun spawnNpc() {
         val npcSkin = surfNpcApi.getSkin("MikeyLLP")
 
         npc(plugin) {
-            uniqueName = IdCardMechanicImpl.NPC_NAME
+            uniqueName = NPC_NAME
             displayName = {
                 primary("Bürgeramt")
             }

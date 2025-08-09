@@ -124,6 +124,10 @@ abstract class RpIdentityImpl(
         BalanceType.CRYPTO to 0
     )
 
+    override suspend fun transferBankBalance(receiver: RpPlayer, amount: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getBalance(balanceType: BalanceType): Int {
         val currencyName = balanceType.getCurrencyName(this)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")

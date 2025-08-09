@@ -161,7 +161,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
                         dateOfBirth = birthDate
                     )
                 )
-                
+
                 rpPlayer.setActiveIdentity(identity)
 
                 audience.showDialog(idCreationSuccess(firstName, lastName, birthDate))
@@ -217,7 +217,7 @@ private fun idCreationSuccess(
                 variableValue(lastName)
             }
             plainMessage(400) {
-                variableKey("Vorname: ")
+                variableKey("Geburtsdatum: ")
                 variableValue(IdCard.formatter.format(birthDate))
             }
         }
@@ -229,7 +229,7 @@ private fun idCreationSuccess(
             action {
                 playerCallback { player ->
                     player.clearDialogs()
-                    player.inventory.addItem(IdCard.idCard(firstName, lastName, birthDate))
+                    player.inventory.addItem(IdCard.idCard(firstName, lastName, birthDate, player))
                 }
             }
         }

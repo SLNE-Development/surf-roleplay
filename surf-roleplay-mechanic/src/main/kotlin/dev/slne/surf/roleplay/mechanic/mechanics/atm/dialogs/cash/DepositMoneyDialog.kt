@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(NmsUseWithCaution::class)
 
-package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.cash
+package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.cash
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.mechanic.atm.event.PlayerDepositMoneyEvent
@@ -9,8 +9,8 @@ import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.player.utils.BalanceType
 import dev.slne.surf.roleplay.api.utils.formatMoney
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.createAtmMainMenuDialog
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback.*
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback.*
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -115,7 +115,7 @@ private fun exitDepositMoneyButton(player: RpPlayer): ActionButton = actionButto
     action {
         customClick { info, audience ->
             plugin.launch {
-                audience.showDialog(createAtmMainMenuDialog(player))
+                audience.showDialog(createAtmMainMenuDialog(player, true))
             }
         }
     }

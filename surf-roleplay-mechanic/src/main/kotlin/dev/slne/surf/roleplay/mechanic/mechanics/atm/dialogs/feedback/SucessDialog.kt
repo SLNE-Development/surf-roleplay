@@ -1,19 +1,20 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(NmsUseWithCaution::class)
 
-package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.feedback
+package dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.feedback
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.player.RpPlayer
 import dev.slne.surf.roleplay.api.utils.formatMoneyComponent
 import dev.slne.surf.roleplay.mechanic.mechanics.atm.AtmMechanicImpl
-import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.machine.createAtmMainMenuDialog
+import dev.slne.surf.roleplay.mechanic.mechanics.atm.dialogs.createAtmMainMenuDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
+import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
 
@@ -86,8 +87,38 @@ private fun exitSuccessButton(player: RpPlayer) = actionButton {
     action {
         playerCallback {
             plugin.launch {
-                it.showDialog(createAtmMainMenuDialog(player))
+                it.showDialog(createAtmMainMenuDialog(player, true))
             }
+        }
+    }
+}
+
+//////////////
+
+fun createBankAccountCreationSuccess(player: RpPlayer, pin: Int): Dialog = dialog {
+    base {
+        title {
+            primary("Geldautomat ${AtmMechanicImpl.ATM_VERSION} ")
+            spacer("- Erfolgreich")
+        }
+        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        body {
+            plainMessage(400) {
+                success("Dein Bankkonto wurde erfolgreich erstellt.")
+                appendNewline(2)
+            }
+            plainMessage(400) {
+                variableKey("Bankkontobesitzer: ")
+                append(player)
+            }
+            plainMessage(400) {
+                variableKey("PIN: ")
+                variableValue(pin)
+            }
+
+        }
+        type {
+            notice(exitSuccessButton(player))
         }
     }
 }

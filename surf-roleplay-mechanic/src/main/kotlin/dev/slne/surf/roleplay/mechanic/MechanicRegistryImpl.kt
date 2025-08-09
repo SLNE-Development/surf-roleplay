@@ -32,8 +32,6 @@ class MechanicRegistryImpl : MechanicRegistry, Services.Fallback {
 
         mechanics.add(IdCardMechanicImpl)
         mechanics.add(AtmMechanicImpl)
-        mechanics.add(JobWagesMechanicImpl)
-        mechanics.add(CashMechanicImpl)
         mechanics.add(RentableMechanicImpl)
     }
 

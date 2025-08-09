@@ -5,7 +5,7 @@ import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.npc.api.event.NpcInteractEvent
 import dev.slne.surf.npc.api.surfNpcApi
 import dev.slne.surf.roleplay.api.player.RpPlayer
-import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardMechanicImpl
+import dev.slne.surf.roleplay.mechanic.mechanics.idcard.IdCardNpc
 import dev.slne.surf.roleplay.mechanic.mechanics.idcard.dialogs.createIdDialog
 import dev.slne.surf.roleplay.mechanic.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
@@ -13,11 +13,12 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import net.kyori.adventure.sound.Sound as KyoriSound
 
 object IdCardHandler : Listener {
 
     private val idCardNpc
-        get() = surfNpcApi.getNpc(IdCardMechanicImpl.NPC_NAME)
+        get() = surfNpcApi.getNpc(IdCardNpc.NPC_NAME)
             ?: error("The IDCard NPC is not registered")
 
     @EventHandler
@@ -39,7 +40,7 @@ object IdCardHandler : Listener {
                 player.playSound(true) {
                     type(Sound.BLOCK_NOTE_BLOCK_BASS)
                     volume(.5f)
-                    source(net.kyori.adventure.sound.Sound.Source.MUSIC)
+                    source(KyoriSound.Source.MUSIC)
                 }
                 return@launch
             }

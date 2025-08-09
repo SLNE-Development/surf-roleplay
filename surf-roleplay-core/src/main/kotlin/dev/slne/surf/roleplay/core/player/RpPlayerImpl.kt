@@ -58,6 +58,10 @@ class RpPlayerImpl(
     override suspend fun updateUsername(username: String) =
         rpPlayerManagerImpl.updateUsername(this, username)
 
+    override suspend fun transferBankBalance(receiver: RpPlayer, amount: Int) =
+        activeIdentity?.transferBankBalance(receiver, amount)
+            ?: error("Tried transferring bank balance of a player without an active identity $uuid")
+
     override suspend fun getBalance(balanceType: BalanceType) =
         activeIdentity?.getBalance(balanceType)
             ?: error("Tried accessing balance of a player without an active identity $uuid")
