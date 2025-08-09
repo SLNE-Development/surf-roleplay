@@ -1,5 +1,7 @@
 package dev.slne.surf.roleplay.api.mechanic
 
+import com.github.retrooper.packetevents.event.PacketListener
+import com.github.retrooper.packetevents.event.PacketListenerPriority
 import dev.slne.surf.roleplay.api.coroutine.RpJob
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.bukkit.event.Listener
@@ -23,6 +25,11 @@ interface Mechanic {
      * This is used for mechanics that require periodic updates or tasks.
      */
     val rpJobs: ObjectSet<RpJob>
+
+    /**
+     * Returns an object set of all packet listeners associated with this mechanic.
+     */
+    val packetListeners: ObjectSet<Pair<PacketListener, PacketListenerPriority>>
 
     /**
      * Called when the mechanic is loaded.
