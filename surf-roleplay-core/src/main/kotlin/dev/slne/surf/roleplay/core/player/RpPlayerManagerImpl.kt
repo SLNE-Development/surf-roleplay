@@ -28,11 +28,7 @@ import java.util.*
 class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
 
     private val cache = Caffeine.newBuilder()
-        .withRemovalListener { key, _, cause ->
-            println("Removing RpPlayer from cache: $key due to $cause")
-        }
         .asLoadingCache<UUID, RpPlayer> {
-            println("Loading RpPlayer from database: $it")
             findOrCreate(it).toApi()
         }
 
@@ -201,7 +197,6 @@ class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
     }
 
     override suspend fun get(uuid: UUID): RpPlayer {
-        println("Caller: " + getCallerClass(1))
         return cache.get(uuid)
     }
 }
