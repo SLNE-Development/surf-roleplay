@@ -1,4 +1,4 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable.utils.door
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door
 
 import it.unimi.dsi.fastutil.objects.ObjectSet
 

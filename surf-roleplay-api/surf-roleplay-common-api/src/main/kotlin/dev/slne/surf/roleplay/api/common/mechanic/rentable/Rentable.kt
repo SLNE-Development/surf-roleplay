@@ -1,12 +1,12 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable
+package dev.slne.surf.roleplay.api.common.mechanic.rentable
 
-import dev.slne.surf.roleplay.api.mechanic.rentable.events.RentableMemberAddEvent
-import dev.slne.surf.roleplay.api.mechanic.rentable.events.RentableMemberRemoveEvent
-import dev.slne.surf.roleplay.api.mechanic.rentable.events.RentableOwnerChangeEvent
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.StorageContainer
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.door.Door
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.door.DoorContainer
-import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.events.RentableMemberAddEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.events.RentableMemberRemoveEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.events.RentableOwnerChangeEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.StorageContainer
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door.Door
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door.DoorContainer
+import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.ComponentLike

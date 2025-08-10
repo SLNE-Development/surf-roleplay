@@ -1,7 +1,7 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable
+package dev.slne.surf.roleplay.api.common.mechanic.rentable
 
-import dev.slne.surf.roleplay.api.mechanic.Mechanic
-import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.common.mechanic.Mechanic
+import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 import org.jetbrains.annotations.Unmodifiable

@@ -1,7 +1,7 @@
-package dev.slne.surf.roleplay.core.player.license.db
+package dev.slne.surf.roleplay.server.player.license.db
 
-import dev.slne.surf.roleplay.api.player.identity.RpIdentity
-import dev.slne.surf.roleplay.api.player.license.IdentityLicense
+import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.api.common.player.license.IdentityLicense
 import dev.slne.surf.roleplay.api.player.license.LicenseService
 import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
 import dev.slne.surf.surfapi.core.api.messages.adventure.key

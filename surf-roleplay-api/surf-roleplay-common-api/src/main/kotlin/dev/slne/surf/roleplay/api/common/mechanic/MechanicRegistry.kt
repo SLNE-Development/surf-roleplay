@@ -1,4 +1,4 @@
-package dev.slne.surf.roleplay.api.mechanic
+package dev.slne.surf.roleplay.api.common.mechanic
 
 import dev.slne.surf.surfapi.core.api.util.requiredService
 

@@ -1,8 +1,8 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable.utils.door
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door
 
-import dev.slne.surf.roleplay.api.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.Crackable
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.Lockable
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.Crackable
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.Lockable
 import org.bukkit.Location
 
 /**

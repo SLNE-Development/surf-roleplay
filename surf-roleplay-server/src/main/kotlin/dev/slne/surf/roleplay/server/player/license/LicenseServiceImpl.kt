@@ -14,15 +14,15 @@ import dev.slne.surf.roleplay.api.player.license.IdentityLicense
 import dev.slne.surf.roleplay.api.player.license.License
 import dev.slne.surf.roleplay.api.player.license.LicenseService
 import dev.slne.surf.roleplay.api.player.license.utils.LicenseRemovedReason
-import dev.slne.surf.roleplay.core.player.license.db.IdentityLicenseModel
-import dev.slne.surf.roleplay.core.player.license.db.IdentityLicenseTable
-import dev.slne.surf.roleplay.core.player.license.licenses.civilian.CivilianFishingLicenseImpl
-import dev.slne.surf.roleplay.core.player.license.licenses.civilian.CivilianVehicleLicenseImpl
-import dev.slne.surf.roleplay.core.player.license.licenses.civilian.CivilianWeaponLicenseImpl
+import dev.slne.surf.roleplay.core.common.player.license.licenses.civilian.CivilianFishingLicenseImpl
+import dev.slne.surf.roleplay.core.common.player.license.licenses.civilian.CivilianVehicleLicenseImpl
+import dev.slne.surf.roleplay.core.common.player.license.licenses.civilian.CivilianWeaponLicenseImpl
 import dev.slne.surf.roleplay.core.player.license.listeners.LicenseBuyHandler
 import dev.slne.surf.roleplay.core.player.license.listeners.LicenseChangedHandler
 import dev.slne.surf.roleplay.core.player.rpPlayerManagerImpl
 import dev.slne.surf.roleplay.core.plugin
+import dev.slne.surf.roleplay.server.player.license.db.IdentityLicenseModel
+import dev.slne.surf.roleplay.server.player.license.db.IdentityLicenseTable
 import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.messages.adventure.key
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
@@ -34,6 +34,7 @@ import net.kyori.adventure.key.Key
 import net.kyori.adventure.util.Services
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import kotlin.jvm.java
 
 @AutoService(LicenseService::class)
 class LicenseServiceImpl : LicenseService, Services.Fallback {

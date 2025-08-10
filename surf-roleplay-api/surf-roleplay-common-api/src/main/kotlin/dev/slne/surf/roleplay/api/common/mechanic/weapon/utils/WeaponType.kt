@@ -1,7 +1,6 @@
-package dev.slne.surf.roleplay.api.mechanic.weapon.utils
+package dev.slne.surf.roleplay.api.common.mechanic.weapon.utils
 
 enum class WeaponType {
-
     PISTOL,
     RIFLE,
     SHOTGUN,

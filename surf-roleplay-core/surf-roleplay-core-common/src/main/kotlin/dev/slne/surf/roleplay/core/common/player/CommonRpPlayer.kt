@@ -39,6 +39,24 @@ abstract class CommonRpPlayer(
 
     fun addIdentity(identity: RpIdentity) = _identities.add(identity)
 
+    override suspend fun <T : RpIdentity> createIdentity(
+        identity: T
+    ): T {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun <T : RpIdentity> updateIdentity(
+        identity: T
+    ): T? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun <T : RpIdentity> createOrUpdateIdentity(
+        identity: T
+    ): T {
+        TODO("Not yet implemented")
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun getIdentity(type: RpIdentity.RpIdentityType) =
         _identities.firstOrNull { it.type == type }

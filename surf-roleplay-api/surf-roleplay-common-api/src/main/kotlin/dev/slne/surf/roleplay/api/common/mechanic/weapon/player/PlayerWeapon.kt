@@ -1,7 +1,7 @@
-package dev.slne.surf.roleplay.api.mechanic.weapon.player
+package dev.slne.surf.roleplay.api.common.mechanic.weapon.player
 
-import dev.slne.surf.roleplay.api.mechanic.weapon.Weapon
-import dev.slne.surf.roleplay.api.mechanic.weapon.magazine.PlayerMagazine
+import dev.slne.surf.roleplay.api.common.mechanic.weapon.Weapon
+import dev.slne.surf.roleplay.api.common.mechanic.weapon.magazine.PlayerMagazine
 import org.bukkit.inventory.ItemStack
 
 interface PlayerWeapon {
@@ -11,6 +11,6 @@ interface PlayerWeapon {
     val currentMagazine: PlayerMagazine?
 
     fun setCurrentMagazine(magazine: PlayerMagazine?)
-    
+
     fun buildItemStack(): ItemStack
 }

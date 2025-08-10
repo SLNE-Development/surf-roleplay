@@ -1,8 +1,8 @@
-package dev.slne.surf.roleplay.api.mechanic
+package dev.slne.surf.roleplay.api.common.mechanic
 
 import com.github.retrooper.packetevents.event.PacketListener
 import com.github.retrooper.packetevents.event.PacketListenerPriority
-import dev.slne.surf.roleplay.api.coroutine.RpJob
+import dev.slne.surf.roleplay.api.common.util.RpJob
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.bukkit.event.Listener
 

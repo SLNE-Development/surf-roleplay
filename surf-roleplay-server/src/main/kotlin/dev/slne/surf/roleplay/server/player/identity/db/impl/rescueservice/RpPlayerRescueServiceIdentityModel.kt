@@ -2,7 +2,7 @@ package dev.slne.surf.roleplay.server.player.identity.db.impl.rescueservice
 
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.player.identity.identities.RescueServiceIdentityImpl
+import dev.slne.surf.roleplay.core.common.player.identity.identities.RescueServiceIdentityImpl
 import dev.slne.surf.roleplay.server.player.identity.db.RpPlayerIdentityBaseModel
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

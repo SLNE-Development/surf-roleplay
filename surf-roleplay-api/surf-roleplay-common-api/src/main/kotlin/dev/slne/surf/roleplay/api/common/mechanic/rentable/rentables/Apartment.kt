@@ -1,6 +1,6 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable.rentables
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.rentables
 
-import dev.slne.surf.roleplay.api.mechanic.rentable.Rentable
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 
 /**
  * Represents an apartment that can be rented.

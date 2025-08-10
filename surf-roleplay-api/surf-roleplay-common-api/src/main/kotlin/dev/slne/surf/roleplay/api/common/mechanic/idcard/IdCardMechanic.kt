@@ -1,5 +1,5 @@
-package dev.slne.surf.roleplay.api.mechanic.idcard
+package dev.slne.surf.roleplay.api.common.mechanic.idcard
 
-import dev.slne.surf.roleplay.api.mechanic.Mechanic
+import dev.slne.surf.roleplay.api.common.mechanic.Mechanic
 
 interface IdCardMechanic : Mechanic

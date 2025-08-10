@@ -2,8 +2,8 @@ package dev.slne.surf.roleplay.server.player.identity.db.impl.civilian
 
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentityImpl
 import dev.slne.surf.roleplay.server.player.identity.db.RpPlayerIdentityBaseModel
-import dev.slne.surf.roleplay.server.player.identity.identities.CivilianIdentityImpl
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 

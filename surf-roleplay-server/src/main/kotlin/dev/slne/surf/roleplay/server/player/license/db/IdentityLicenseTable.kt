@@ -1,8 +1,8 @@
-package dev.slne.surf.roleplay.core.player.license.db
+package dev.slne.surf.roleplay.server.player.license.db
 
-import dev.slne.surf.database.database.columns.CurrentZonedDateTime
-import dev.slne.surf.database.database.columns.zonedDateTime
-import dev.slne.surf.roleplay.api.player.identity.RpIdentity
+import dev.slne.surf.cloud.api.server.exposed.columns.CurrentZonedDateTime
+import dev.slne.surf.cloud.api.server.exposed.columns.zonedDateTime
+import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.server.player.db.RpPlayerTable
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.ReferenceOption

@@ -1,16 +1,31 @@
-package dev.slne.surf.roleplay.api.mechanic.weapon.magazine
+package dev.slne.surf.roleplay.api.common.mechanic.weapon.magazine
 
-import dev.slne.surf.surfapi.bukkit.api.builder.LoreBuilder
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
+import net.kyori.adventure.text.Component
 
 interface Magazine {
 
+    /**
+     * The unique identifier of the magazine.
+     * This is used to identify the magazine in the system.
+     */
     val name: String
 
+    /**
+     * The display name of the magazine.
+     * This is a function that allows you to build the display name using a [SurfComponentBuilder].
+     */
     val displayName: SurfComponentBuilder.() -> Unit
 
-    val description: LoreBuilder.() -> Unit
+    /**
+     * The description of the magazine.
+     */
+    val description: Component
 
+    /**
+     * The maximum amount of ammo that can be loaded into this magazine.
+     * This is used to determine how many bullets the magazine can hold.
+     */
     val maxAmmo: Int
 
     /**

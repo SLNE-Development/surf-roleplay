@@ -1,11 +1,11 @@
-package dev.slne.surf.roleplay.api.mechanic.weapon
+package dev.slne.surf.roleplay.api.common.mechanic.weapon
 
-import dev.slne.surf.roleplay.api.mechanic.weapon.magazine.Magazine
-import dev.slne.surf.roleplay.api.mechanic.weapon.utils.WeaponType
-import dev.slne.surf.surfapi.bukkit.api.builder.LoreBuilder
+import dev.slne.surf.roleplay.api.common.mechanic.weapon.magazine.Magazine
+import dev.slne.surf.roleplay.api.common.mechanic.weapon.utils.WeaponType
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import it.unimi.dsi.fastutil.objects.ObjectSet
-import org.bukkit.Material
+import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.Component
 import kotlin.time.Duration
 
 interface Weapon {
@@ -14,11 +14,11 @@ interface Weapon {
 
     val name: String
 
-    val weaponMaterial: Material
+    val weaponMaterial: Key
 
     val displayName: SurfComponentBuilder.() -> Unit
 
-    val description: LoreBuilder.() -> Unit
+    val description: Component
 
     val weaponShootCooldown: Duration
 

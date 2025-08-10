@@ -1,6 +1,6 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable.utils
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils
 
-import dev.slne.surf.roleplay.api.player.RpPlayer
+import dev.slne.surf.roleplay.api.common.player.RpPlayer
 
 /**
  * Represents an entity that can be locked and accessed by players.

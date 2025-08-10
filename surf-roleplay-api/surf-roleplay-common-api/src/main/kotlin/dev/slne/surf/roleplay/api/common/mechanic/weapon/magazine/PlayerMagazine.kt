@@ -1,4 +1,4 @@
-package dev.slne.surf.roleplay.api.mechanic.weapon.magazine
+package dev.slne.surf.roleplay.api.common.mechanic.weapon.magazine
 
 import org.bukkit.inventory.ItemStack
 

@@ -1,6 +1,6 @@
-package dev.slne.surf.roleplay.api.mechanic.rentable.utils
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils
 
-import dev.slne.surf.roleplay.api.mechanic.rentable.Rentable
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 import org.bukkit.Location
 import org.bukkit.Material
 import kotlin.time.Duration

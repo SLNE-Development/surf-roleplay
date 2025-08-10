@@ -10,4 +10,5 @@ interface CivilianVehicleLicense {
     interface MotorcycleLicense : License
     interface BoatLicense : License
     interface PilotLicense : License
+    interface HelicopterLicense : License
 }
