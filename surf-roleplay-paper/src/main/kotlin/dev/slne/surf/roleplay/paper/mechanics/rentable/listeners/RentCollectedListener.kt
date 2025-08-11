@@ -2,15 +2,17 @@ package dev.slne.surf.roleplay.paper.mechanics.rentable.listeners
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.paper.rentable.events.RentableRentCollectEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableRentCollectEvent
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.springframework.stereotype.Component
 
-object RentCollectedListener : Listener {
+@Component
+class RentCollectedListener : Listener {
 
     @EventHandler
     fun onRentableRentCollect(event: RentableRentCollectEvent) {

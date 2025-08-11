@@ -1,12 +1,20 @@
-package dev.slne.surf.roleplay.core.player.license
+@file:OptIn(InternalRoleplayApi::class)
 
-import dev.slne.surf.roleplay.api.coroutine.RpJob
-import dev.slne.surf.roleplay.api.player.license.utils.LicenseRemovedReason
-import kotlin.time.Duration.Companion.seconds
+package dev.slne.surf.roleplay.server.player.license
 
-object LicenseExpirationJob : RpJob("LicenseExpirationJob", 1.seconds) {
-    override suspend fun tick() {
-        val licenses = licenseServiceImpl.getAllExpiredLicenses()
+import dev.slne.surf.roleplay.api.common.player.license.InternalLicenseBridge
+import dev.slne.surf.roleplay.api.common.player.license.utils.LicenseRemovedReason
+import dev.slne.surf.roleplay.api.common.util.InternalRoleplayApi
+import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.stereotype.Component
+import java.util.concurrent.TimeUnit
+
+@Component
+class LicenseExpirationJob {
+
+    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
+    suspend fun tick() {
+        val licenses = InternalLicenseBridge.instance.getAllExpiredLicenses()
 
         licenses.forEach { (identity, expiredLicenses) ->
             expiredLicenses.forEach { expiredLicense ->

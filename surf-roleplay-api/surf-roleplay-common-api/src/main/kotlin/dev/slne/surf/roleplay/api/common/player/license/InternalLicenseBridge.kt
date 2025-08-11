@@ -6,11 +6,13 @@ import dev.slne.surf.roleplay.api.common.InternalContextHolder
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.common.util.InternalRoleplayApi
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 import org.jetbrains.annotations.Unmodifiable
 import org.springframework.beans.factory.getBean
 
+@InternalRoleplayApi
 interface InternalLicenseBridge {
 
     /**
@@ -19,21 +21,13 @@ interface InternalLicenseBridge {
     val licenses: @Unmodifiable ObjectSet<License>
 
     /**
-     * Returns the license by its class.
+     * Retrieves a license of the specified type.
      *
-     * @param license the class of the license to retrieve.
-     * @return the license instance if found, or null if not found.
+     * @param T The type of the license to retrieve.
+     * @param license The class object of the license type.
+     * @return An instance of the requested license type.
      */
-    fun getLicense(license: Class<out License>): License?
-
-    /**
-     * Returns the license by its class.
-     *
-     * @param license the class of the license to retrieve.
-     * @return the license instance if found, or null if not found.
-     * @throws IllegalArgumentException if the license is not found.
-     */
-    fun getLicenseOrThrow(license: Class<out License>): License
+    fun <T : License> getLicense(license: Class<out T>): T
 
     /**
      * Returns the license by its key.
@@ -88,18 +82,23 @@ interface InternalLicenseBridge {
         license: License
     ): Boolean
 
+    /**
+     * Retrieves all expired licenses grouped by their respective identities.
+     *
+     * This method scans through the available licenses and identifies those
+     * that have expired. The expired licenses are returned as a mapping
+     * of identities to their associated expired licenses.
+     *
+     * @return A map where each key is an [RpIdentity] and the corresponding value
+     *         is a set of [IdentityLicense] objects representing the expired licenses
+     *         for that identity.
+     */
+    suspend fun getAllExpiredLicenses(): Object2ObjectMap<RpIdentity, ObjectSet<IdentityLicense>>
+
     companion object {
         val instance get() = InternalContextHolder.instance.context.getBean<InternalLicenseBridge>()
     }
 }
-
-/**
- * Convenience function to get a license by its type.
- *
- * @param T the type of the license to retrieve.
- * @return the license instance if found, or null if not found.
- */
-inline fun <reified T : License> InternalLicenseBridge.getLicense() = getLicense(T::class.java)
 
 /**
  * Convenience function to get a license by its type, or throw an exception if not found.
@@ -108,5 +107,5 @@ inline fun <reified T : License> InternalLicenseBridge.getLicense() = getLicense
  * @return the license instance if found.
  * @throws IllegalArgumentException if the license is not found.
  */
-inline fun <reified T : License> InternalLicenseBridge.getLicenseOrThrow() =
-    getLicenseOrThrow(T::class.java)
+inline fun <reified T : License> InternalLicenseBridge.getLicense() =
+    getLicense(T::class.java)

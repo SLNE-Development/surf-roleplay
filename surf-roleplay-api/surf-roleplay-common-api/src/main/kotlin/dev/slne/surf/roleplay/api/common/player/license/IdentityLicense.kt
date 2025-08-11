@@ -1,6 +1,8 @@
 package dev.slne.surf.roleplay.api.common.player.license
 
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import java.time.ZonedDateTime
 
 /**
@@ -13,11 +15,12 @@ import java.time.ZonedDateTime
  * @property identity The [RpIdentity] associated with this license.
  * @property expiresAt The expiration time of the license, if applicable. Defaults to null if the license does not expire.
  */
+@Serializable
 data class IdentityLicense(
     val license: License,
     val identity: RpIdentity,
-    val expiresAt: ZonedDateTime?,
-    val createdAt: ZonedDateTime = ZonedDateTime.now()
+    val expiresAt: @Contextual ZonedDateTime?,
+    val createdAt: @Contextual ZonedDateTime = ZonedDateTime.now()
 ) {
     /**
      * Checks if the license is expired.
@@ -68,6 +71,5 @@ data class IdentityLicense(
             createdAt = createdAt
         )
     }
-
 
 }

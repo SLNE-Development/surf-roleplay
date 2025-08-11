@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.core.common.mechanics.rentable.door
 
+import dev.slne.surf.cloud.api.common.player.teleport.TeleportLocation
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.LockPick
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door.Door
@@ -11,7 +12,7 @@ import kotlin.time.Duration
 abstract class DoorImpl(
     override val rentable: Rentable,
     override val container: DoorContainer,
-    override val location: Location,
+    override val location: TeleportLocation,
     override val crackDuration: Duration
 ) : Door {
 

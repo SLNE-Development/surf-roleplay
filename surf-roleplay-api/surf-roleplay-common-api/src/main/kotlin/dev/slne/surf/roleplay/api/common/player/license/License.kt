@@ -3,9 +3,11 @@ package dev.slne.surf.roleplay.api.common.player.license
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.common.player.license.utils.UnobtainableReason
 import it.unimi.dsi.fastutil.objects.ObjectSet
+import kotlinx.serialization.Serializable
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 
+@Serializable(with = LicenseSerializer::class)
 interface License {
     /**
      * The internal name of the license, used for identification.

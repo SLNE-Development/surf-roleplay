@@ -2,19 +2,23 @@ package dev.slne.surf.roleplay.core.common.player
 
 import dev.slne.surf.cloud.api.common.player.OfflineCloudPlayer
 import dev.slne.surf.cloud.api.common.player.toOfflineCloudPlayer
+import dev.slne.surf.roleplay.api.common.InternalContextHolder
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.getIdentity
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.common.player.license.License
 import dev.slne.surf.roleplay.api.common.player.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.api.common.transaction.utils.BalanceType
+import dev.slne.surf.roleplay.api.common.util.InternalRoleplayApi
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
+import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
-import it.unimi.dsi.fastutil.objects.ObjectSet
+import org.springframework.beans.factory.getBean
 import java.time.ZonedDateTime
 import java.util.*
 
+@OptIn(InternalRoleplayApi::class)
 abstract class CommonRpPlayer(
     private val uuid: UUID,
     override var createdAt: ZonedDateTime = ZonedDateTime.now(),
@@ -25,9 +29,18 @@ abstract class CommonRpPlayer(
         get() = uuid.toOfflineCloudPlayer()
 
     private val _identities = mutableObjectSetOf<RpIdentity>()
-    override val identities: ObjectSet<RpIdentity> get() = _identities
+    override val identities = _identities.freeze()
 
     override var activeIdentity: RpIdentity? = null
+
+    private val playerService get() = InternalContextHolder.instance.context.getBean<CommonRpPlayerManager>()
+
+    suspend fun fetchIdentities() {
+        val fetched = playerService.fetchIdentities(uuid)
+
+        _identities.clear()
+        _identities.addAll(fetched)
+    }
 
     override suspend fun setActiveIdentity(identity: RpIdentity) {
         if (!_identities.contains(identity)) {
@@ -39,23 +52,14 @@ abstract class CommonRpPlayer(
 
     fun addIdentity(identity: RpIdentity) = _identities.add(identity)
 
-    override suspend fun <T : RpIdentity> createIdentity(
-        identity: T
-    ): T {
-        TODO("Not yet implemented")
-    }
+    override suspend fun <T : RpIdentity> createIdentity(identity: T) =
+        playerService.createIdentity(identity)
 
-    override suspend fun <T : RpIdentity> updateIdentity(
-        identity: T
-    ): T? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun <T : RpIdentity> updateIdentity(identity: T) =
+        playerService.updateIdentity(identity)
 
-    override suspend fun <T : RpIdentity> createOrUpdateIdentity(
-        identity: T
-    ): T {
-        TODO("Not yet implemented")
-    }
+    override suspend fun <T : RpIdentity> createOrUpdateIdentity(identity: T) =
+        playerService.createOrUpdateIdentity(identity)
 
     @Suppress("UNCHECKED_CAST")
     override fun getIdentity(type: RpIdentity.RpIdentityType) =
@@ -120,9 +124,9 @@ abstract class CommonRpPlayer(
     )
         ?: error("Tried confiscating a license from a player without an active identity $uuid")
 
-    override suspend fun asComponent() = buildText {
+    override fun asComponent() = buildText {
         val activeIdentity = activeIdentity
-        val name = cloudPlayer.name()
+        val name = cloudPlayer.player?.name
 
         if (activeIdentity == null) {
             variableKey(name ?: uuid.toString())

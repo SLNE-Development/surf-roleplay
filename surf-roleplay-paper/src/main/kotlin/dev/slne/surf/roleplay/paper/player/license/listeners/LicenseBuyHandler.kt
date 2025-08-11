@@ -12,8 +12,10 @@ import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.springframework.stereotype.Component
 
-object LicenseBuyHandler : Listener {
+@Component
+class LicenseBuyHandler : Listener {
 
     private val licenseNpc
         get() = surfNpcApi.getNpc(LicenseNpc.NPC_NAME)

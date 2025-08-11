@@ -1,10 +1,10 @@
+@file:OptIn(InternalRoleplayApi::class)
+
 package dev.slne.surf.roleplay.api.common.mechanic
 
-import com.github.retrooper.packetevents.event.PacketListener
-import com.github.retrooper.packetevents.event.PacketListenerPriority
-import dev.slne.surf.roleplay.api.common.util.RpJob
-import it.unimi.dsi.fastutil.objects.ObjectSet
-import org.bukkit.event.Listener
+import dev.slne.surf.roleplay.api.common.InternalContextHolder
+import dev.slne.surf.roleplay.api.common.util.InternalRoleplayApi
+import org.springframework.beans.factory.getBean
 
 interface Mechanic {
 
@@ -13,23 +13,6 @@ interface Mechanic {
      * This name should be unique across all mechanics.
      */
     val name: String
-
-    /**
-     * Returns an object set of handlers for this mechanic.
-     */
-    val handlers: ObjectSet<Listener>
-
-    /**
-     * Returns an object set of all rp jobs associated with this mechanic.
-     * Rp jobs are tasks that can be scheduled to run periodically or at specific times.
-     * This is used for mechanics that require periodic updates or tasks.
-     */
-    val rpJobs: ObjectSet<RpJob>
-
-    /**
-     * Returns an object set of all packet listeners associated with this mechanic.
-     */
-    val packetListeners: ObjectSet<Pair<PacketListener, PacketListenerPriority>>
 
     /**
      * Called when the mechanic is loaded.
@@ -55,7 +38,7 @@ interface Mechanic {
          * @return The [Mechanic] instance of type [T].
          */
         fun <T : Mechanic> getMechanic(mechanic: Class<out T>): T =
-            MechanicRegistry.getMechanic(mechanic)
+            InternalContextHolder.instance.context.getBean<MechanicRegistry>().getMechanic(mechanic)
 
         /**
          * Gets the mechanic by its class type.

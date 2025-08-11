@@ -1,7 +1,7 @@
-package dev.slne.surf.roleplay.api.paper.rentable.events
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events
 
+import dev.slne.surf.cloud.api.common.event.CancellableCloudEvent
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
 
 /**
  * Event triggered when rent is collected from a rentable property.
@@ -11,6 +11,7 @@ import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
  * @property amount The amount of rent being collected.
  */
 class RentableRentCollectEvent(
+    source: Any,
     val rentable: Rentable,
     var amount: Int,
-) : CancellableRpEvent()
+) : CancellableCloudEvent(source)

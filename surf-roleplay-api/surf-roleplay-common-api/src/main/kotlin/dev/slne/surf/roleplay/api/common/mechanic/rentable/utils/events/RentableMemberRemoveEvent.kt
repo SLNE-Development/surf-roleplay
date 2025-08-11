@@ -1,8 +1,8 @@
-package dev.slne.surf.roleplay.api.paper.rentable.events
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events
 
+import dev.slne.surf.cloud.api.common.event.CancellableCloudEvent
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
 
 /**
  * Event triggered when a member is removed from a rentable property.
@@ -12,9 +12,24 @@ import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
  * @property member The player who is being removed as a member from the rentable property.
  */
 class RentableMemberRemoveEvent(
+    source: Any,
     val rentable: Rentable,
     val member: RpPlayer,
-) : CancellableRpEvent() {
+) : CancellableCloudEvent(source) {
+    /**
+     * Represents the reasons why removing a member from a rentable property might fail.
+     */
+    sealed class MemberRemoveFailureReason {
+        /**
+         * Indicates that the member is not part of the rentable property.
+         */
+        data object NotMember : MemberRemoveFailureReason()
+
+        /**
+         * Indicates that the event was cancelled, preventing the member from being removed.
+         */
+        data object EventCancelled : MemberRemoveFailureReason()
+    }
 
     /**
      * The result of the member removal operation.
@@ -32,20 +47,5 @@ class RentableMemberRemoveEvent(
          * @property reason The reason why the removal failed.
          */
         data class Failure(val reason: MemberRemoveFailureReason) : MemberRemoveResult()
-    }
-
-    /**
-     * Represents the reasons why removing a member from a rentable property might fail.
-     */
-    sealed class MemberRemoveFailureReason {
-        /**
-         * Indicates that the member is not part of the rentable property.
-         */
-        data object NotMember : MemberRemoveFailureReason()
-
-        /**
-         * Indicates that the event was cancelled, preventing the member from being removed.
-         */
-        data object EventCancelled : MemberRemoveFailureReason()
     }
 }

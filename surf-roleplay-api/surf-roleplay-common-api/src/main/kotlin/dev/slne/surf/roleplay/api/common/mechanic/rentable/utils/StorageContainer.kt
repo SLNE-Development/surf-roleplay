@@ -1,8 +1,9 @@
 package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils
 
+import dev.slne.surf.cloud.api.common.player.teleport.TeleportLocation
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
-import org.bukkit.Location
-import org.bukkit.Material
+import dev.slne.surf.surfapi.core.api.messages.adventure.key
+import net.kyori.adventure.key.Key
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -19,7 +20,7 @@ interface StorageContainer {
     /**
      * The location of the storage container in the world.
      */
-    val location: Location
+    val location: TeleportLocation
 
     /**
      * The type of the storage container, which can be either a regular storage container or a vault.
@@ -39,9 +40,9 @@ interface StorageContainer {
     /**
      * The different types of storage containers.
      */
-    enum class StorageContainerType(val material: Material) {
-        REGULAR(Material.CHEST),
-        VAULT(Material.VAULT);
+    enum class StorageContainerType(val material: Key) {
+        REGULAR(key("minecraft:chest")),
+        VAULT(key("minecraft:vault")), ;
     }
 
     /**

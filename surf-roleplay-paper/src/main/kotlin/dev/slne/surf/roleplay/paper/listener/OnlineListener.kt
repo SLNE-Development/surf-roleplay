@@ -4,9 +4,9 @@ import com.github.shynixn.mccoroutine.folia.globalRegionDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
+import dev.slne.surf.roleplay.api.common.player.events.RpPlayerJoinEvent
+import dev.slne.surf.roleplay.api.common.player.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.api.paper.player.events.RpPlayerDeathEvent
-import dev.slne.surf.roleplay.api.paper.player.events.RpPlayerJoinEvent
-import dev.slne.surf.roleplay.api.paper.player.events.RpPlayerQuitEvent
 import dev.slne.surf.roleplay.paper.plugin
 import kotlinx.coroutines.withContext
 import org.bukkit.event.EventHandler
@@ -15,8 +15,10 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.springframework.stereotype.Component
 
-object OnlineListener : Listener {
+@Component
+class OnlineListener : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onJoin(event: PlayerJoinEvent) {

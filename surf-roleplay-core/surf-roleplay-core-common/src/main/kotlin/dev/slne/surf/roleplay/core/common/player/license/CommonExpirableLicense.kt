@@ -8,7 +8,7 @@ import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import kotlin.time.Duration
 
-abstract class ExpirableLicenseImpl(
+abstract class CommonExpirableLicense(
     key: Key,
     displayName: Component,
     description: Component,
@@ -16,7 +16,7 @@ abstract class ExpirableLicenseImpl(
     override val expiresIn: Duration,
     dependencies: ObjectSet<License> = objectSetOf(),
     permission: String = LicensePermissionRegistry.createLicensePermission(key)
-) : LicenseImpl(
+) : CommonLicense(
     key,
     displayName,
     description,

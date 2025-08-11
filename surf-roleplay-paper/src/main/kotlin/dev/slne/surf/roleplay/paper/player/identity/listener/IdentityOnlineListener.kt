@@ -1,14 +1,16 @@
 package dev.slne.surf.roleplay.paper.player.identity.listener
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.paper.player.events.RpPlayerJoinEvent
+import dev.slne.surf.roleplay.api.common.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.paper.player.identity.dialogs.createIdentitySelectorDialog
 import dev.slne.surf.roleplay.paper.plugin
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.springframework.stereotype.Component
 
-object IdentityOnlineListener : Listener {
+@Component
+class IdentityOnlineListener : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onRpPlayerJoin(event: RpPlayerJoinEvent) {

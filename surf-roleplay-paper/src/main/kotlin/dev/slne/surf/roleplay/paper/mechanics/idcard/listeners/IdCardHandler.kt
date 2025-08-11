@@ -14,8 +14,10 @@ import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.springframework.stereotype.Component
 
-object IdCardHandler : Listener {
+@Component
+class IdCardHandler : Listener {
 
     private val idCardNpc
         get() = surfNpcApi.getNpc(IdCardNpc.NPC_NAME)

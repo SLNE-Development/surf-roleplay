@@ -1,8 +1,8 @@
-package dev.slne.surf.roleplay.api.paper.rentable.events
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events
 
+import dev.slne.surf.cloud.api.common.event.CancellableCloudEvent
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
 
 /**
  * Event triggered when a member is added to a rentable property.
@@ -12,9 +12,24 @@ import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
  * @property member The player who is being added as a member to the rentable property.
  */
 class RentableMemberAddEvent(
+    source: Any,
     val rentable: Rentable,
     val member: RpPlayer,
-) : CancellableRpEvent() {
+) : CancellableCloudEvent(source) {
+    /**
+     * Represents the reasons why adding a member to a rentable property might fail.
+     */
+    sealed class MemberAddFailureReason {
+        /**
+         * Indicates that the member is already part of the rentable property.
+         */
+        data object AlreadyMember : MemberAddFailureReason()
+
+        /**
+         * Indicates that the addition of the member was cancelled by an event handler.
+         */
+        data object EventCancelled : MemberAddFailureReason()
+    }
 
     /**
      * The result of the member addition operation.
@@ -32,20 +47,5 @@ class RentableMemberAddEvent(
          * @property reason The reason why the addition failed.
          */
         data class Failure(val reason: MemberAddFailureReason) : MemberAddResult()
-    }
-
-    /**
-     * Represents the reasons why adding a member to a rentable property might fail.
-     */
-    sealed class MemberAddFailureReason {
-        /**
-         * Indicates that the member is already part of the rentable property.
-         */
-        data object AlreadyMember : MemberAddFailureReason()
-
-        /**
-         * Indicates that the addition of the member was cancelled by an event handler.
-         */
-        data object EventCancelled : MemberAddFailureReason()
     }
 }

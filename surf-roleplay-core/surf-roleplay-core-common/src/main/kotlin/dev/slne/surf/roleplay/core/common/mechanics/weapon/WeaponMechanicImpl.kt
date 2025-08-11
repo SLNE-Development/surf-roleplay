@@ -1,7 +1,7 @@
 package dev.slne.surf.roleplay.mechanic.mechanics.weapon
 
+import dev.slne.surf.roleplay.api.common.mechanic.weapon.WeaponMechanic
 import dev.slne.surf.roleplay.api.mechanic.weapon.Weapon
-import dev.slne.surf.roleplay.api.mechanic.weapon.WeaponMechanic
 import dev.slne.surf.roleplay.mechanic.MechanicImpl
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf

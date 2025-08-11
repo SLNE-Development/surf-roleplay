@@ -1,14 +1,19 @@
+@file:OptIn(InternalRoleplayApi::class)
+
 package dev.slne.surf.roleplay.api.common.player
 
 import dev.slne.surf.cloud.api.common.player.OfflineCloudPlayer
+import dev.slne.surf.roleplay.api.common.InternalContextHolder
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.common.player.license.HasLicenses
 import dev.slne.surf.roleplay.api.common.transaction.HasRpTransactions
+import dev.slne.surf.roleplay.api.common.util.InternalRoleplayApi
 import it.unimi.dsi.fastutil.objects.ObjectSet
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.ComponentLike
+import org.springframework.beans.factory.getBean
 import java.time.ZonedDateTime
 
-interface RpPlayer : HasRpTransactions, HasLicenses {
+interface RpPlayer : HasRpTransactions, HasLicenses, ComponentLike {
 
     /**
      * The cloud player associated with this [RpPlayer].
@@ -92,16 +97,10 @@ interface RpPlayer : HasRpTransactions, HasLicenses {
      */
     fun hasCompletedCitizenship(): Boolean
 
-    /**
-     * Returns the player as a Component for display purposes.
-     * This method is used to convert the player information into a format suitable for display in user interfaces.
-     *
-     * @return A [Component] representing the player.
-     */
-    suspend fun asComponent(): Component
-
     companion object {
-        operator fun get(cloudPlayer: OfflineCloudPlayer): RpPlayer = null
+        operator fun get(cloudPlayer: OfflineCloudPlayer) =
+            InternalContextHolder.instance.context.getBean<RpPlayerManager>()
+                .getPlayerByUuid(cloudPlayer.uuid)
     }
 }
 

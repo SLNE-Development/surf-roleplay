@@ -1,27 +1,24 @@
 package dev.slne.surf.roleplay.core.common.player.identity.identities
 
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.player.license.CommonRpIdentity
+import dev.slne.surf.roleplay.core.common.player.identity.CommonRpIdentity
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.ZonedDateTime
+import java.util.*
 
+@Serializable
 class CivilianIdentityImpl(
-    player: RpPlayer,
-    firstName: String,
-    lastName: String,
-    dateOfBirth: LocalDate,
-    createdAt: ZonedDateTime = ZonedDateTime.now(),
-    updatedAt: ZonedDateTime = ZonedDateTime.now()
-) : CommonRpIdentity(
-    player,
-    type = RpIdentity.RpIdentityType.CIVILIAN,
-    firstName,
-    lastName,
-    dateOfBirth,
-    createdAt,
-    updatedAt
-), RpIdentity.CivilianIdentity {
+    override val uuid: @Contextual UUID,
+    override var firstName: String,
+    override var lastName: String,
+    override var dateOfBirth: @Contextual LocalDate,
+    override val createdAt: @Contextual ZonedDateTime = ZonedDateTime.now(),
+    override var updatedAt: @Contextual ZonedDateTime = ZonedDateTime.now()
+) : CommonRpIdentity(RpIdentityCodecType.CIVILIAN), RpIdentity.CivilianIdentity {
+    override val type = RpIdentity.RpIdentityType.CIVILIAN
+
     override fun toString(): String {
         val parent = super.toString()
 

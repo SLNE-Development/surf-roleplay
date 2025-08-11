@@ -1,9 +1,9 @@
-package dev.slne.surf.roleplay.api.paper.rentable.events
+package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events
 
+import dev.slne.surf.cloud.api.common.event.CancellableCloudEvent
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.RentableMechanic
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.paper.events.CancellableRpEvent
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 
 /**
@@ -16,11 +16,12 @@ import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
  * @property reason The reason for the owner change.
  */
 class RentableOwnerChangeEvent(
+    source: Any,
     val rentable: Rentable,
     val oldOwner: RpPlayer?,
     val newOwner: RpPlayer?,
     val reason: OwnerChangeReason,
-) : CancellableRpEvent() {
+) : CancellableCloudEvent(source) {
 
     /**
      * The reason why the owner change was cancelled, if applicable.
@@ -47,23 +48,6 @@ class RentableOwnerChangeEvent(
         data object OwnerSetNewOwner : OwnerChangeReason()
     }
 
-    /**
-     * The result of setting a new owner for the rentable property.
-     */
-    sealed class OwnerSetResult {
-        /**
-         * Indicates a successful owner change operation.
-         */
-        data object Success : OwnerSetResult()
-
-        /**
-         * Indicates a failure in setting the new owner for the rentable property.
-         * Contains the reason for the failure.
-         *
-         * @property reason The reason why the owner change failed.
-         */
-        data class Failure(val reason: OwnerSetFailureReason) : OwnerSetResult()
-    }
 
     /**
      * Represents the reasons why setting a new owner for a rentable property might fail.
@@ -135,4 +119,23 @@ class RentableOwnerChangeEvent(
             variableValue(reason)
         })
     }
+
+    /**
+     * The result of setting a new owner for the rentable property.
+     */
+    sealed class OwnerSetResult {
+        /**
+         * Indicates a successful owner change operation.
+         */
+        data object Success : OwnerSetResult()
+
+        /**
+         * Indicates a failure in setting the new owner for the rentable property.
+         * Contains the reason for the failure.
+         *
+         * @property reason The reason why the owner change failed.
+         */
+        data class Failure(val reason: OwnerSetFailureReason) : OwnerSetResult()
+    }
+
 }

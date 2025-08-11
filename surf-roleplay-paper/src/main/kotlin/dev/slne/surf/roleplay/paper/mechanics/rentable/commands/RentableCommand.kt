@@ -3,8 +3,9 @@ package dev.slne.surf.roleplay.paper.mechanics.rentable.commands
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerChangeReason
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerSetResult
 import dev.slne.surf.roleplay.api.paper.player.rpPlayer
-import dev.slne.surf.roleplay.api.paper.rentable.events.RentableOwnerChangeEvent
 import dev.slne.surf.roleplay.core.common.mechanics.rentable.RentableMechanicImpl.getByKey
 import dev.slne.surf.roleplay.core.common.mechanics.rentable.RentableMechanicImpl.rentables
 import dev.slne.surf.roleplay.paper.plugin
@@ -52,10 +53,10 @@ fun rentableCommand() = commandAPICommand("rentable") {
 
                 val result = rentable.setOwner(
                     rpPlayer,
-                    RentableOwnerChangeEvent.OwnerChangeReason.RentableBought
+                    OwnerChangeReason.RentableBought
                 )
 
-                if (result is RentableOwnerChangeEvent.OwnerSetResult.Success) {
+                if (result is OwnerSetResult.Success) {
                     player.sendText {
                         appendPrefix()
 
@@ -63,7 +64,7 @@ fun rentableCommand() = commandAPICommand("rentable") {
                         variableValue(rentableKey.asString())
                         success(" erfolgreich gemietet.")
                     }
-                } else if (result is RentableOwnerChangeEvent.OwnerSetResult.Failure) {
+                } else if (result is OwnerSetResult.Failure) {
                     player.sendText {
                         appendPrefix()
 

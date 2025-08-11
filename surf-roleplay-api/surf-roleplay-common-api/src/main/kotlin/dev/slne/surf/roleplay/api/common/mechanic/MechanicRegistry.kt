@@ -1,9 +1,5 @@
 package dev.slne.surf.roleplay.api.common.mechanic
 
-import dev.slne.surf.surfapi.core.api.util.requiredService
-
-private val mechanicRegistry = requiredService<MechanicRegistry>()
-
 interface MechanicRegistry {
 
     /**
@@ -14,10 +10,6 @@ interface MechanicRegistry {
      * @throws IllegalArgumentException if no mechanic of the specified class is registered.
      */
     fun <T : Mechanic> getMechanic(clazz: Class<T>): T
-
-    companion object : MechanicRegistry by mechanicRegistry {
-        val INSTANCE get() = mechanicRegistry
-    }
 }
 
 /**

@@ -1,9 +1,9 @@
 package dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door
 
+import dev.slne.surf.cloud.api.common.player.teleport.TeleportLocation
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.Crackable
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.Lockable
-import org.bukkit.Location
 
 /**
  * Represents a door in the game that can be locked and cracked.
@@ -24,7 +24,7 @@ interface Door : Lockable, Crackable {
     /**
      * The location of the door in the world.
      */
-    val location: Location
+    val location: TeleportLocation
 
     /**
      * Opens the door.

@@ -2,9 +2,10 @@ package dev.slne.surf.roleplay.paper.mechanics.rentable.listeners
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.paper.rentable.events.RentableMemberAddEvent
-import dev.slne.surf.roleplay.api.paper.rentable.events.RentableMemberRemoveEvent
-import dev.slne.surf.roleplay.api.paper.rentable.events.RentableOwnerChangeEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerChangeReason
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableMemberAddEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableMemberRemoveEvent
+import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableOwnerChangeEvent
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
@@ -12,8 +13,10 @@ import kotlinx.coroutines.withContext
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.springframework.stereotype.Component
 
-object RentableListener : Listener {
+@Component
+class RentableListener : Listener {
 
     @EventHandler
     fun onRentableMemberAdd(event: RentableMemberAddEvent) {
@@ -134,9 +137,9 @@ object RentableListener : Listener {
                         append(rentable)
                         success(".")
 
-                        if (reason == RentableOwnerChangeEvent.OwnerChangeReason.RentableBought) {
+                        if (reason == OwnerChangeReason.RentableBought) {
                             info(" Du hast die Immobilie gemietet.")
-                        } else if (reason is RentableOwnerChangeEvent.OwnerChangeReason.OwnerSetNewOwner) {
+                        } else if (reason is OwnerChangeReason.OwnerSetNewOwner) {
                             info(" Du wurdest als neuer Eigentümer gesetzt.")
                         }
                     }
@@ -158,7 +161,7 @@ object RentableListener : Listener {
                         append(rentable)
                         info(".")
 
-                        if (reason is RentableOwnerChangeEvent.OwnerChangeReason.OwnerSetNewOwner) {
+                        if (reason is OwnerChangeReason.OwnerSetNewOwner) {
                             error(" Du wurdest als Eigentümer entfernt.")
                         }
                     }

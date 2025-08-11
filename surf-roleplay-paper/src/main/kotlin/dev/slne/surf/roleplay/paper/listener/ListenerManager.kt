@@ -2,9 +2,7 @@
 
 package dev.slne.surf.roleplay.paper.listener
 
-import com.github.retrooper.packetevents.PacketEvents
 import com.github.retrooper.packetevents.event.PacketListener
-import com.github.retrooper.packetevents.event.PacketListenerPriority
 import com.github.retrooper.packetevents.event.PacketSendEvent
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes
 import com.github.retrooper.packetevents.protocol.packettype.PacketType
@@ -16,10 +14,9 @@ import com.github.shynixn.mccoroutine.folia.launch
 import com.github.shynixn.mccoroutine.folia.regionDispatcher
 import dev.jorel.commandapi.kotlindsl.commandAPICommand
 import dev.jorel.commandapi.kotlindsl.playerExecutor
-import dev.slne.surf.roleplay.paper.player.identity.listener.IdentityOnlineListener
+import dev.slne.surf.roleplay.core.common.mechanics.utils.RpPacketListener
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.builder.ItemStack
-import dev.slne.surf.surfapi.bukkit.api.event.register
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import io.papermc.paper.datacomponent.DataComponentTypes
 import io.papermc.paper.datacomponent.item.Consumable
@@ -34,19 +31,12 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.entity.ProjectileLaunchEvent
+import org.springframework.stereotype.Component
 
-object ListenerManager : Listener {
+@Component
+class ListenerManager : Listener {
 
     fun registerListeners() {
-        OnlineListener.register()
-        IdentityOnlineListener.register()
-        register()
-
-        PacketEvents.getAPI().eventManager.registerListener(
-            ArrowHitListener,
-            PacketListenerPriority.LOWEST
-        )
-
         commandAPICommand("give-bow") {
             playerExecutor { player, arguments ->
                 player.inventory.addItem(ItemStack(Material.BOW) {
@@ -70,7 +60,8 @@ object ListenerManager : Listener {
         }
     }
 
-    object ArrowHitListener : PacketListener {
+    @RpPacketListener
+    class ArrowHitListener : PacketListener {
         override fun onPacketSend(event: PacketSendEvent) {
             if (event.packetType == PacketType.Play.Server.SPAWN_ENTITY) {
                 val packet = WrapperPlayServerSpawnEntity(event)
