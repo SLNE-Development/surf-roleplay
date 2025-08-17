@@ -1,7 +1,4 @@
-allprojects {
-    group = "dev.slne.surf.roleplay"
-    version = findProperty("version") as String
-}
+import dev.slne.surf.surfapi.gradle.util.slnePublic
 
 buildscript {
     repositories {
@@ -10,6 +7,16 @@ buildscript {
     }
     dependencies {
         classpath("dev.slne.surf:surf-api-gradle-plugin:1.21.8+")
+    }
+}
+
+allprojects {
+    group = "dev.slne.surf.roleplay"
+    version = findProperty("version") as String
+
+    repositories {
+        slnePublic()
+        gradlePluginPortal()
     }
 }
 

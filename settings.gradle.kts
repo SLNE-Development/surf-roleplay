@@ -1,5 +1,13 @@
 rootProject.name = "surf-roleplay"
 
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven("https://maven.fabricmc.net")
+        gradlePluginPortal()
+    }
+}
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
@@ -15,3 +23,7 @@ include("surf-roleplay-core:surf-roleplay-core-client")
 include("surf-roleplay-paper")
 include("surf-roleplay-velocity")
 include("surf-roleplay-server")
+
+include("surf-roleplay-mod:surf-roleplay-mod-common")
+include("surf-roleplay-mod:surf-roleplay-mod-client")
+include("surf-roleplay-mod:surf-roleplay-mod-server")
