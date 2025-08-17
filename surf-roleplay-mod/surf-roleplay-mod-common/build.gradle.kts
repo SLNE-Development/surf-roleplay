@@ -3,8 +3,5 @@ plugins {
 }
 
 dependencies {
-    compileOnlyApi(libs.netty)
-    compileOnlyApi(libs.datafixerupper)
-    api(libs.bytebuddy)
-    api(libs.kotlin.byte.buf.serializer)
+    compileOnlyApi(libs.protoweaver.common)
 }

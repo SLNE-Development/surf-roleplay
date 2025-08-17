@@ -1,45 +1,34 @@
+import net.fabricmc.loom.api.LoomGradleExtensionAPI
+
 plugins {
     id("dev.slne.surf.surfapi.gradle.core")
-    alias(libs.plugins.loom)
+    alias(libs.plugins.architectury.base)
+    alias(libs.plugins.architectury.loom) apply false
 }
 
-base {
-    archivesName.set(project.extra["archives_base_name"] as String)
+val minecraftVersion = libs.versions.minecraft.get()
+val modName = rootProject.findProperty("archives_name") as String
+
+architectury {
+    minecraft = minecraftVersion
 }
 
-fabricApi {
-    configureDataGeneration {
-        client = true
+repositories {
+    maven("https://maven.neoforged.net/releases")
+}
+
+subprojects {
+    apply(plugin = "dev.architectury.loom")
+    apply(plugin = "architectury-plugin")
+
+    base {
+        archivesName = "$modName-${project.name}"
     }
-}
 
-dependencies {
-    val minecraftVersion = libs.versions.minecraft.get()
-    val yarnMappings = libs.versions.yarn.mappings.get()
-    val loaderVersion = libs.versions.fabric.loader.get()
-    val fabricVersion = libs.versions.fabric.api.get()
-    val fabricKotlinVersion = libs.versions.fabric.kotlin.get()
+    val loomExtension = extensions.getByType<LoomGradleExtensionAPI>()
 
-    minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings("net.fabricmc:yarn:$yarnMappings:v2")
-    modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
-
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
-    modImplementation("net.fabricmc:fabric-language-kotlin:$fabricKotlinVersion")
-}
-
-tasks.processResources {
-    inputs.property("version", project.version)
-
-    filesMatching("fabric.mod.json") {
-        expand("version" to inputs.properties["version"])
-    }
-}
-
-tasks.jar {
-    inputs.property("archivesName", base.archivesName.get())
-
-    from("LICENSE") {
-        rename { "${it}_${inputs.properties["archivesName"]}" }
+    dependencies {
+        "minecraft"("net.minecraft:minecraft:$minecraftVersion")
+        "mappings"(loomExtension.officialMojangMappings())
     }
 }

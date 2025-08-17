@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "dev.slne.roleplay.mod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "dev.slne.surf.roleplay.mod.mixin.ExampleMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
