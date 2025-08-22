@@ -1,17 +1,14 @@
 package dev.slne.surf.roleplay.core.common.mechanics.rentable.containers
 
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.StorageContainer
-import dev.slne.surf.roleplay.api.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.mechanic.rentable.utils.StorageContainer
-import dev.slne.surf.roleplay.mechanic.mechanics.rentable.utils.StorageContainerImpl
-import org.bukkit.Location
+import dev.slne.surf.cloud.api.common.player.teleport.WorldLocation
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.Rentable
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.StorageContainer
 
 class RegularStorageContainer(
     rentable: Rentable,
-    location: Location,
+    location: WorldLocation,
     size: StorageContainer.StorageContainerSize
-) : StorageContainerImpl(
+) : StorageContainer(
     rentable = rentable,
     location = location,
     type = StorageContainer.StorageContainerType.REGULAR,

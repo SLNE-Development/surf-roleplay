@@ -1,16 +1,18 @@
-package dev.slne.surf.roleplay.mechanic.mechanics.rentable
+package dev.slne.surf.roleplay.core.common.mechanics.rentable
 
-import dev.slne.surf.roleplay.api.coroutine.RpJob
-import dev.slne.surf.roleplay.core.common.mechanics.rentable.RentableMechanicImpl
+import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.stereotype.Component
 import java.time.ZonedDateTime
-import kotlin.time.Duration.Companion.seconds
+import java.util.concurrent.TimeUnit
 
-object RentCollectorJob : RpJob("RentCollectorJob", 1.seconds) {
+@Component
+class RentCollectorJob {
 
-    override suspend fun tick() {
+    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
+    suspend fun tick() {
         val now = ZonedDateTime.now()
 
-        RentableMechanicImpl.rentables.forEach { rentable ->
+        RentableMechanic.rentables.forEach { rentable ->
             if (rentable.owner == null) return@forEach
 
             val lastCollection = rentable.lastRentCollection

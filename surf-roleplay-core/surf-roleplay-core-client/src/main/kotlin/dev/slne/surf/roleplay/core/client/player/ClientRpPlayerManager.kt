@@ -1,14 +1,16 @@
 package dev.slne.surf.roleplay.core.client.player
 
-import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.player.CommonRpPlayerManager
+import dev.slne.surf.roleplay.core.common.player.RpPlayerManager
+import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
 import org.springframework.stereotype.Component
 import java.util.*
 
+@OptIn(InternalRoleplayApi::class)
 @Component
-class ClientRpPlayerManager : CommonRpPlayerManager() {
+class ClientRpPlayerManager : RpPlayerManager() {
     override fun createPlayer(uuid: UUID) = ClientRpPlayer(uuid)
-    
+
     override suspend fun fetchIdentities(uuid: UUID): Set<RpIdentity> {
         TODO("Not yet implemented")
     }

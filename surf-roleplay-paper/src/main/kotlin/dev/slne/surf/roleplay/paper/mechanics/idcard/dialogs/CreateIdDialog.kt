@@ -6,7 +6,7 @@ package dev.slne.surf.roleplay.paper.mechanics.idcard.dialogs
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentityImpl
+import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentity
 import dev.slne.surf.roleplay.paper.mechanics.idcard.IdCard
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -155,7 +155,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
                 val rpPlayer = RpPlayer[player.toCloudOfflinePlayer()]
 
                 val identity = rpPlayer.createOrUpdateIdentity(
-                    CivilianIdentityImpl(
+                    CivilianIdentity(
                         player = rpPlayer,
                         firstName = firstName,
                         lastName = lastName,

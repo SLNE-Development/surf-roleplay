@@ -2,8 +2,8 @@ package dev.slne.surf.roleplay.paper.player.license.listeners
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.common.player.license.events.RpPlayerLicenseAddedEvent
-import dev.slne.surf.roleplay.api.common.player.license.events.RpPlayerLicenseRemovedEvent
+import dev.slne.surf.roleplay.core.common.player.license.events.RpPlayerLicenseAddedEvent
+import dev.slne.surf.roleplay.core.common.player.license.events.RpPlayerLicenseRemovedEvent
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound

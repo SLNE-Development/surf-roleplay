@@ -1,7 +1,7 @@
 package dev.slne.surf.roleplay.paper.player.identity.listener
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.common.player.events.RpPlayerJoinEvent
+import dev.slne.surf.roleplay.core.common.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.paper.player.identity.dialogs.createIdentitySelectorDialog
 import dev.slne.surf.roleplay.paper.plugin
 import org.bukkit.event.EventHandler

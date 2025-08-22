@@ -1,16 +1,16 @@
 package dev.slne.surf.roleplay.core.common.mechanics.rentable.door.doors
 
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.door.DoorContainer
-import dev.slne.surf.roleplay.core.common.mechanics.rentable.door.DoorImpl
-import org.bukkit.Location
+import dev.slne.surf.cloud.api.common.player.teleport.WorldLocation
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.Rentable
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.door.Door
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.utils.DoorContainer
 import kotlin.time.Duration.Companion.seconds
 
 class RegularDoor(
     rentable: Rentable,
     container: DoorContainer,
-    location: Location
-) : DoorImpl(
+    location: WorldLocation
+) : Door(
     rentable = rentable,
     container = container,
     location = location,

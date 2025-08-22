@@ -1,24 +1,23 @@
 package dev.slne.surf.roleplay.core.common.mechanics.rentable.containers
 
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.Rentable
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.Crackable
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.LockPick
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.StorageContainer
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
+import dev.slne.surf.cloud.api.common.player.teleport.WorldLocation
 import dev.slne.surf.roleplay.core.common.mechanics.rentable.Cracker
-import dev.slne.surf.roleplay.mechanic.mechanics.rentable.utils.StorageContainerImpl
-import org.bukkit.Location
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.Rentable
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.StorageContainer
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.lockpick.LockPick
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.utils.Crackable
+import dev.slne.surf.roleplay.core.common.player.RpPlayer
 import kotlin.time.Duration
 
 class VaultStorageContainer(
     rentable: Rentable,
-    location: Location,
-    size: StorageContainer.StorageContainerSize,
+    location: WorldLocation,
+    size: StorageContainerSize,
     override val crackDuration: Duration = size.vaultCrackDuration
-) : StorageContainerImpl(
+) : StorageContainer(
     rentable = rentable,
     location = location,
-    type = StorageContainer.StorageContainerType.VAULT,
+    type = StorageContainerType.VAULT,
     size = size,
 ), Crackable {
     override var cracked: Boolean = false

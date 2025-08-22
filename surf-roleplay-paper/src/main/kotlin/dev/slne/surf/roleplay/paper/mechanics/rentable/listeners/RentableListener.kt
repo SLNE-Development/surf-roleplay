@@ -3,9 +3,9 @@ package dev.slne.surf.roleplay.paper.mechanics.rentable.listeners
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerChangeReason
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableMemberAddEvent
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableMemberRemoveEvent
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.RentableOwnerChangeEvent
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.events.RentableMemberAddEvent
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.events.RentableMemberRemoveEvent
+import dev.slne.surf.roleplay.core.common.mechanics.rentable.events.RentableOwnerChangeEvent
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText

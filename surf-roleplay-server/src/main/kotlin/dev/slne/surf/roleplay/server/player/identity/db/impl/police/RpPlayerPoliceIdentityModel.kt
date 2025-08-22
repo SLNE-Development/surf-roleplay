@@ -2,7 +2,7 @@ package dev.slne.surf.roleplay.core.player.identity.db.impl.police
 
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.player.identity.identities.PoliceIdentityImpl
+import dev.slne.surf.roleplay.core.common.player.identity.identities.PoliceIdentity
 import dev.slne.surf.roleplay.server.player.identity.db.RpPlayerIdentityBaseModel
 import dev.slne.surf.roleplay.server.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -19,7 +19,7 @@ class RpPlayerPoliceIdentityModel(
     var badgeNumber by RpPlayerPoliceIdentityTable.badgeNumber
     var rank by RpPlayerPoliceIdentityTable.rank
 
-    override suspend fun toApi(player: RpPlayer) = PoliceIdentityImpl(
+    override suspend fun toApi(player: RpPlayer) = PoliceIdentity(
         player = player,
         firstName = firstName,
         lastName = lastName,

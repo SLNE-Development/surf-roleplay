@@ -4,9 +4,9 @@ import com.github.shynixn.mccoroutine.folia.globalRegionDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.common.player.events.RpPlayerJoinEvent
-import dev.slne.surf.roleplay.api.common.player.events.RpPlayerQuitEvent
-import dev.slne.surf.roleplay.api.paper.player.events.RpPlayerDeathEvent
+import dev.slne.surf.roleplay.core.common.player.events.RpPlayerJoinEvent
+import dev.slne.surf.roleplay.core.common.player.events.RpPlayerQuitEvent
+import dev.slne.surf.roleplay.paper.player.events.RpPlayerDeathEvent
 import dev.slne.surf.roleplay.paper.plugin
 import kotlinx.coroutines.withContext
 import org.bukkit.event.EventHandler

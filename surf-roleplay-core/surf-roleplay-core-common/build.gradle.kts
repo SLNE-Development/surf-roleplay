@@ -5,7 +5,3 @@ plugins {
 surfCoreApi {
     withCloudCommon()
 }
-
-dependencies {
-    api(project(":surf-roleplay-api:surf-roleplay-common-api"))
-}

@@ -2,7 +2,6 @@ package dev.slne.surf.roleplay.core.common.player
 
 import dev.slne.surf.cloud.api.common.player.OfflineCloudPlayer
 import dev.slne.surf.cloud.api.common.player.task.PrePlayerJoinTask
-import dev.slne.surf.roleplay.api.common.player.rpPlayer
 import dev.slne.surf.surfapi.core.api.util.logger
 import org.springframework.stereotype.Component
 
@@ -12,7 +11,8 @@ class PlayerIdentityFetcher : PrePlayerJoinTask {
 
     override suspend fun preJoin(player: OfflineCloudPlayer): PrePlayerJoinTask.Result {
         try {
-            (player.rpPlayer() as CommonRpPlayer).fetchIdentities()
+            player.rpPlayer().fetchIdentities()
+            
             return PrePlayerJoinTask.Result.ALLOWED
         } catch (e: Throwable) {
             log.atSevere()

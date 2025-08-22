@@ -2,9 +2,9 @@ package dev.slne.surf.roleplay.paper.command
 
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.jorel.commandapi.kotlindsl.*
-import dev.slne.surf.roleplay.api.common.transaction.utils.BalanceType
-import dev.slne.surf.roleplay.api.paper.player.rpPlayer
+import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
 import dev.slne.surf.roleplay.paper.command.args.balanceTypeArgument
+import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.entity.Player

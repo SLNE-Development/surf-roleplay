@@ -10,7 +10,6 @@ surfCoreApi {
 
 dependencies {
     api(project(":surf-roleplay-core:surf-roleplay-core-common"))
-    api(project(":surf-roleplay-api:surf-roleplay-server-api"))
 }
 
 tasks.withType<ShadowJar> {

@@ -2,7 +2,7 @@ package dev.slne.surf.roleplay.server.player.identity.db.impl.civilian
 
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentityImpl
+import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentity
 import dev.slne.surf.roleplay.server.player.identity.db.RpPlayerIdentityBaseModel
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -15,7 +15,7 @@ class RpPlayerCivilianIdentityModel(
 ) {
     companion object : LongEntityClass<RpPlayerCivilianIdentityModel>(RpPlayerCivilianIdentityTable)
 
-    override suspend fun toApi(player: RpPlayer) = CivilianIdentityImpl(
+    override suspend fun toApi(player: RpPlayer) = CivilianIdentity(
         player = player,
         firstName = firstName,
         lastName = lastName,

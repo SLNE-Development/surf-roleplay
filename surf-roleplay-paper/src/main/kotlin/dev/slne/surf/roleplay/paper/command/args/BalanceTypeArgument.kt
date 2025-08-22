@@ -5,7 +5,7 @@ import dev.jorel.commandapi.arguments.Argument
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.arguments.CustomArgument
 import dev.jorel.commandapi.arguments.StringArgument
-import dev.slne.surf.roleplay.api.common.transaction.utils.BalanceType
+import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
 
 class BalanceTypeArgument(nodeName: String) : CustomArgument<BalanceType, String>(
     StringArgument(nodeName),
