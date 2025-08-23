@@ -5,8 +5,8 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerChangeReason
 import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerSetResult
-import dev.slne.surf.roleplay.core.common.mechanics.rentable.RentableMechanic.getByKey
-import dev.slne.surf.roleplay.core.common.mechanics.rentable.RentableMechanic.rentables
+import dev.slne.surf.roleplay.paper.mechanics.rentable.RentableMechanic.getByKey
+import dev.slne.surf.roleplay.paper.mechanics.rentable.RentableMechanic.rentables
 import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline

@@ -16,7 +16,7 @@ surfPaperPluginApi {
 }
 
 dependencies {
-    api(project(":surf-roleplay-core:surf-roleplay-core-client"))
+    api(project(":surf-roleplay-core:surf-roleplay-core-common"))
 
     compileOnly(libs.surf.npc.api)
 }

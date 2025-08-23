@@ -4,7 +4,6 @@ package dev.slne.surf.roleplay.server.player.license
 
 import dev.slne.surf.roleplay.core.common.player.license.LicenseService
 import dev.slne.surf.roleplay.core.common.player.license.utils.LicenseRemovedReason
-import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.util.concurrent.TimeUnit

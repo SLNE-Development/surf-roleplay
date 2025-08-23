@@ -13,7 +13,6 @@ import dev.slne.surf.roleplay.core.common.player.license.utils.UnobtainableReaso
 import dev.slne.surf.roleplay.core.common.transaction.HasRpTransactions
 import dev.slne.surf.roleplay.core.common.transaction.RpTransaction
 import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
-import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
 import dev.slne.surf.surfapi.core.api.util.mutableObject2ObjectMapOf
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
@@ -36,7 +35,7 @@ abstract class RpIdentity(
     open var updatedAt: @Contextual ZonedDateTime = ZonedDateTime.now()
 ) : HasRpTransactions, HasLicenses {
 
-    val player: RpPlayer get() = RpPlayerManager.instance.getPlayerByUuid(uuid)
+    val player: RpPlayer get() = RpPlayer[uuid]
     private val licenseService get() = LicenseService.instance
 
     @Transient
@@ -186,6 +185,10 @@ abstract class RpIdentity(
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
         return ObjectLinkedOpenHashSet()
+    }
+
+    override fun toString(): String {
+        return "RpIdentity(uuid=$uuid, type=$type, firstName='$firstName', lastName='$lastName', dateOfBirth=$dateOfBirth, createdAt=$createdAt, updatedAt=$updatedAt)"
     }
 
 }

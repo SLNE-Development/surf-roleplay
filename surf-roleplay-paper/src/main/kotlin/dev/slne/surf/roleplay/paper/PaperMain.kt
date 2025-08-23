@@ -2,8 +2,6 @@ package dev.slne.surf.roleplay.paper
 
 import com.github.shynixn.mccoroutine.folia.SuspendingJavaPlugin
 import dev.slne.surf.roleplay.core.common.RpInstance
-import dev.slne.surf.roleplay.core.common.util.InternalContextHolder
-import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
 import dev.slne.surf.roleplay.paper.command.activeIdentityCommand
 import dev.slne.surf.roleplay.paper.command.balanceCommand
 import org.bukkit.plugin.java.JavaPlugin

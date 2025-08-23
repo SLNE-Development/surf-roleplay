@@ -2,11 +2,14 @@ package dev.slne.surf.roleplay.core.common.player.license.utils
 
 import dev.slne.surf.roleplay.core.common.player.license.License
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
+import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
 
-sealed class UnobtainableReason(val message: SurfComponentBuilder.() -> Unit) {
+sealed class UnobtainableReason(message: SurfComponentBuilder.() -> Unit) {
+    val message = buildText(message)
+
     class NotEnoughCash(
         val currentAmount: Int, val neededAmount: Int
     ) : UnobtainableReason({

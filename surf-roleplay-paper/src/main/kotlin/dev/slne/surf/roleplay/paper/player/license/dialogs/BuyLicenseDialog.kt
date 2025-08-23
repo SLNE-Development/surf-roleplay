@@ -180,7 +180,7 @@ private fun cannotBuyLicenseNotice(
                         appendNewline(2)
                     }
 
-                    unobtainableReason.message(this)
+                    append(unobtainableReason.message)
                 }
             }
         }

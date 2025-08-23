@@ -25,9 +25,8 @@ class CivilianIdentity(
     createdAt,
     updatedAt
 ) {
-    override fun toString(): String {
-        val parent = super.toString()
 
-        return "CivilianIdentityImpl($parent)"
+    override fun toString(): String {
+        return "CivilianIdentity() ${super.toString()}"
     }
 }

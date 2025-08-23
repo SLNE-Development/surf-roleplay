@@ -2,9 +2,10 @@ package dev.slne.surf.roleplay.core.common.player.license.utils
 
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
 import dev.slne.surf.roleplay.core.common.player.license.IdentityLicense
+import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 
-sealed class LicenseRemovedReason(val message: SurfComponentBuilder.(IdentityLicense) -> Unit) {
+sealed class LicenseRemovedReason(private val messageBuilder: SurfComponentBuilder.(IdentityLicense) -> Unit) {
     object Expired : LicenseRemovedReason({
         info("Deine ")
         append(it.license.displayName)
@@ -57,4 +58,6 @@ sealed class LicenseRemovedReason(val message: SurfComponentBuilder.(IdentityLic
         append(it.license.displayName)
         info(" Lizenz wurde entfernt, Grund unbekannt.")
     })
+
+    fun message(license: IdentityLicense) = buildText { this.messageBuilder(license) }
 }

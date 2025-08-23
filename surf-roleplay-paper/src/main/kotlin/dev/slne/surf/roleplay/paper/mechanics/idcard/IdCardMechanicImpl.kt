@@ -1,10 +1,10 @@
 package dev.slne.surf.roleplay.paper.mechanics.idcard
 
-import dev.slne.surf.roleplay.core.common.mechanics.idcard.IdCardMechanic
-import dev.slne.surf.roleplay.core.common.mechanics.utils.RpMechanic
+import dev.slne.surf.roleplay.paper.mechanics.AbstractMechanic
+import dev.slne.surf.roleplay.paper.mechanics.Mechanic
 
-@RpMechanic
-class IdCardMechanicImpl : IdCardMechanic() {
+@Mechanic
+class IdCardMechanicImpl : AbstractMechanic("IdCardMechanic") {
     override suspend fun onEnable() {
         IdCardNpc.spawnNpc()
     }

@@ -2,12 +2,11 @@ package dev.slne.surf.roleplay.paper.mechanics.idcard.listeners
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
 import dev.slne.surf.npc.api.event.NpcInteractEvent
 import dev.slne.surf.npc.api.surfNpcApi
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.paper.mechanics.idcard.IdCardNpc
 import dev.slne.surf.roleplay.paper.mechanics.idcard.dialogs.createIdDialog
+import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
@@ -31,7 +30,7 @@ class IdCardHandler : Listener {
         if (npc.npcUuid != idCardNpc.npcUuid) return
 
         plugin.launch(plugin.entityDispatcher(player)) {
-            val rpPlayer = RpPlayer[player.toCloudOfflinePlayer()]
+            val rpPlayer = player.rpPlayer
 
             if (rpPlayer.hasCompletedCitizenship()) {
                 player.sendText {

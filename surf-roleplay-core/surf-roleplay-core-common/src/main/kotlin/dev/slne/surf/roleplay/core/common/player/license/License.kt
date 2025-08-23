@@ -4,7 +4,7 @@ package dev.slne.surf.roleplay.core.common.player.license
 
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.common.player.license.utils.UnobtainableReason
-import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
+import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
@@ -16,13 +16,15 @@ import net.kyori.adventure.text.Component
 abstract class License(
     val key: Key,
     val displayName: Component,
-    val description: SurfComponentBuilder.() -> Unit,
+    description: SurfComponentBuilder.() -> Unit,
     val price: Int,
     val dependencies: ObjectSet<License> = objectSetOf(),
     val permission: String = LicensePermissionRegistry.createLicensePermission(key)
 ) {
 
     private val licenseService get() = LicenseService.instance
+
+    val description = buildText(description)
 
     val children
         get() = licenseService.licenses.filter {

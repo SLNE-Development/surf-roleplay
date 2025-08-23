@@ -4,10 +4,9 @@
 package dev.slne.surf.roleplay.paper.mechanics.idcard.dialogs
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentity
 import dev.slne.surf.roleplay.paper.mechanics.idcard.IdCard
+import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.DialogBodyBuilder
@@ -18,14 +17,13 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.ActionButton
-import io.papermc.paper.registry.data.dialog.DialogBase
+import io.papermc.paper.registry.data.dialog.DialogBase.DialogAfterAction
 import net.kyori.adventure.text.format.TextDecoration
-import org.bukkit.entity.Player
 import java.time.LocalDate
 import java.time.Year
 
-private val nameRegex = Regex("^[a-zA-ZÄÖÜäöüß]{3,16}")
-private val nameRegexDashes = Regex("^[a-zA-ZÄÖÜäöüß-]{3,16}")
+private val nameRegex = "^[a-zA-ZÄÖÜäöüß]{3,16}".toRegex()
+private val nameRegexDashes = "^[a-zA-ZÄÖÜäöüß-]{3,16}".toRegex()
 
 fun createIdDialog(
     firstName: String? = null,
@@ -34,7 +32,7 @@ fun createIdDialog(
 ) = dialog {
     base {
         title { primary("Personalausweis beantragen") }
-        afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+        afterAction(DialogAfterAction.WAIT_FOR_RESPONSE)
 
         body {
             plainMessage(400) {
@@ -88,9 +86,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
     }
 
     action {
-        customClick { info, audience ->
-            val player = audience as? Player ?: error("Audience is not a Player")
-
+        customPlayerClick { info, player ->
             val firstName = info.getText("first_name") ?: ""
             val lastName = info.getText("last_name") ?: ""
             val birthDateString = info.getText("birth_date") ?: ""
@@ -102,7 +98,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
             val isValidBirthDateString = validateDate(birthDateString)
 
             if (!isValidBirthDateString || !isValidFirstName || !isValidLastName || !isValidFirstNameLength || !isValidLastNameLength) {
-                audience.showDialog(
+                player.showDialog(
                     invalidInputDialog(
                         firstName,
                         lastName,
@@ -146,17 +142,16 @@ private fun confirmCreationButton(): ActionButton = actionButton {
                         }
                     }
                 )
-                return@customClick
+                return@customPlayerClick
             }
 
             val birthDate = LocalDate.parse(birthDateString, IdCard.formatter)
 
             plugin.launch {
-                val rpPlayer = RpPlayer[player.toCloudOfflinePlayer()]
-
+                val rpPlayer = player.rpPlayer
                 val identity = rpPlayer.createOrUpdateIdentity(
                     CivilianIdentity(
-                        player = rpPlayer,
+                        uuid = player.uniqueId,
                         firstName = firstName,
                         lastName = lastName,
                         dateOfBirth = birthDate
@@ -165,7 +160,7 @@ private fun confirmCreationButton(): ActionButton = actionButton {
 
                 rpPlayer.setActiveIdentity(identity)
 
-                audience.showDialog(idCreationSuccess(firstName, lastName, birthDate))
+                player.showDialog(idCreationSuccess(firstName, lastName, birthDate))
             }
         }
     }
@@ -179,7 +174,7 @@ private fun invalidInputDialog(
 ): Dialog = dialog {
     base {
         title { error("Der Personalausweis konnte nicht erstellt werden!") }
-        afterAction(DialogBase.DialogAfterAction.NONE)
+        afterAction(DialogAfterAction.NONE)
 
         body {
             plainMessage(400) {}
@@ -206,7 +201,7 @@ private fun idCreationSuccess(
 ): Dialog = dialog {
     base {
         title { success("Dein Personalausweises wurde erfolgreich mit folgenden Angaben erstellt:") }
-        afterAction(DialogBase.DialogAfterAction.NONE)
+        afterAction(DialogAfterAction.NONE)
 
         body {
             plainMessage(400) {

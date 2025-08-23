@@ -24,7 +24,7 @@ subprojects {
     afterEvaluate {
         plugins.withType<JavaPlugin> {
             configure<JavaPluginExtension> {
-                toolchain.languageVersion.set(JavaLanguageVersion.of(24))
+                toolchain.languageVersion.set(JavaLanguageVersion.of(21))
             }
         }
     }

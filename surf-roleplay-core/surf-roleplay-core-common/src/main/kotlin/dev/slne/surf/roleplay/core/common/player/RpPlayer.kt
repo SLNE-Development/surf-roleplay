@@ -2,6 +2,7 @@ package dev.slne.surf.roleplay.core.common.player
 
 import dev.slne.surf.cloud.api.common.player.OfflineCloudPlayer
 import dev.slne.surf.cloud.api.common.player.toOfflineCloudPlayer
+import dev.slne.surf.roleplay.RoleplayApplication
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentityType
 import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentity
@@ -10,8 +11,6 @@ import dev.slne.surf.roleplay.core.common.player.license.License
 import dev.slne.surf.roleplay.core.common.player.license.utils.LicenseRemovedReason
 import dev.slne.surf.roleplay.core.common.transaction.HasRpTransactions
 import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
-import dev.slne.surf.roleplay.core.common.util.InternalContextHolder
-import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.util.freeze
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.getBean
 import java.time.ZonedDateTime
 import java.util.*
 
-@OptIn(InternalRoleplayApi::class)
 abstract class RpPlayer(
     private val uuid: UUID,
     var createdAt: ZonedDateTime = ZonedDateTime.now(),
@@ -31,12 +29,12 @@ abstract class RpPlayer(
     val cloudPlayer: OfflineCloudPlayer
         get() = uuid.toOfflineCloudPlayer()
 
-    private val _identities = mutableObjectSetOf<RpIdentity>()
+    private val _identities = mutableObjectSetOf<RpIdentity>() // TODO: 22.08.2025 20:31 - replace with cloud cache soon
     val identities = _identities.freeze()
 
     var activeIdentity: RpIdentity? = null
 
-    private val playerService get() = InternalContextHolder.instance.context.getBean<RpPlayerManager>()
+    private val playerService get() = RoleplayApplication.context.getBean<RpPlayerManager>()
 
     suspend fun fetchIdentities() {
         val fetched = playerService.fetchIdentities(uuid)
@@ -156,21 +154,23 @@ abstract class RpPlayer(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is RpPlayer) return false
 
-        other as dev.slne.surf.roleplay.core.common.player.RpPlayer
+        if (uuid != other.uuid) return false
 
-        return cloudPlayer == other.cloudPlayer
+        return true
     }
 
     override fun hashCode(): Int {
-        return cloudPlayer.hashCode()
+        return uuid.hashCode()
     }
 
+
     companion object {
-        operator fun get(cloudPlayer: OfflineCloudPlayer) =
-            InternalContextHolder.instance.context.getBean<RpPlayerManager>()
-                .getPlayerByUuid(cloudPlayer.uuid)
+        operator fun get(cloudPlayer: OfflineCloudPlayer) = get(cloudPlayer.uuid)
+        operator fun get(uuid: UUID) =
+            RoleplayApplication.context.getBean<RpPlayerManager>()
+                .getPlayerByUuid(uuid)
     }
 
 }

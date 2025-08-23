@@ -2,11 +2,20 @@ package dev.slne.surf.roleplay.paper.player.license
 
 import dev.slne.surf.npc.api.dsl.npc
 import dev.slne.surf.npc.api.surfNpcApi
+import dev.slne.surf.roleplay.core.common.RpLifecycle
 import dev.slne.surf.roleplay.paper.plugin
+import org.springframework.stereotype.Component
 
-object LicenseNpc {
+@Component
+class LicenseNpc: RpLifecycle {
 
-    const val NPC_NAME = "license_npc"
+    companion object  {
+        const val NPC_NAME = "license_npc"
+    }
+
+    override suspend fun onEnable() {
+        spawnNpc()
+    }
 
     suspend fun spawnNpc() {
         val npcSkin = surfNpcApi.getSkin("CastCrafter")

@@ -24,7 +24,5 @@ inline fun CommandAPICommand.balanceTypeArgument(
     nodeName: String,
     optional: Boolean = false,
     block: Argument<*>.() -> Unit = {}
-) = withArguments(BalanceTypeArgument(nodeName).apply {
-    isOptional = optional
-    block()
-})
+): CommandAPICommand =
+    withArguments(BalanceTypeArgument(nodeName).setOptional(optional).apply(block))

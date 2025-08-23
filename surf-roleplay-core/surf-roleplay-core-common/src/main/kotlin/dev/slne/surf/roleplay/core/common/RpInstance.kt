@@ -1,24 +1,35 @@
 package dev.slne.surf.roleplay.core.common
 
+import dev.slne.surf.cloud.api.common.util.forEachAnnotationOrdered
+import dev.slne.surf.cloud.api.common.util.forEachAnnotationOrderedReversed
 import dev.slne.surf.roleplay.core.common.mechanics.MechanicRegistry
+import org.springframework.beans.factory.ObjectProvider
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import javax.annotation.OverridingMethodsMustInvokeSuper
 
-abstract class RpInstance(
-    private val mechanicRegistry: MechanicRegistry
-) {
+@Component
+class RpInstance(private val lifecycles: ObjectProvider<RpLifecycle>) {
+    @Autowired
+    private lateinit var mechanicRegistry: MechanicRegistry
 
-    @OverridingMethodsMustInvokeSuper
-    open suspend fun onLoad() {
+
+    suspend fun onLoad() {
+        lifecycles.forEachAnnotationOrdered { it.onLoad() }
+
         mechanicRegistry.loadMechanics()
     }
 
-    @OverridingMethodsMustInvokeSuper
-    open suspend fun onEnable() {
+    suspend fun onEnable() {
+        lifecycles.forEachAnnotationOrdered { it.onEnable() }
+
         mechanicRegistry.enableMechanics()
     }
 
     @OverridingMethodsMustInvokeSuper
-    open suspend fun onDisable() {
+    suspend fun onDisable() {
+        lifecycles.forEachAnnotationOrderedReversed { it.onDisable() }
+
         mechanicRegistry.disableMechanics()
     }
 

@@ -1,4 +1,4 @@
-package dev.slne.surf.roleplay.core.player.license
+package dev.slne.surf.roleplay.server.player.license
 
 import com.google.auto.service.AutoService
 import dev.slne.surf.roleplay.api.player.RpPlayer

@@ -5,16 +5,15 @@ package dev.slne.surf.roleplay.core.common.player.license
 import dev.slne.surf.cloud.api.common.util.toObjectSet
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.util.InternalContextHolder
-import dev.slne.surf.roleplay.core.common.util.InternalRoleplayApi
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 import org.jetbrains.annotations.Unmodifiable
 import org.springframework.beans.factory.getBean
 import org.springframework.context.ApplicationContext
+import org.springframework.stereotype.Component
 
-@InternalRoleplayApi
+@Component
 abstract class LicenseService(
     private val context: ApplicationContext
 ) {

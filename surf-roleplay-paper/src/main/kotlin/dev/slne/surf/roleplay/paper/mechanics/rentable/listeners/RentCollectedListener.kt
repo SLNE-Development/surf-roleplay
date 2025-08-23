@@ -1,41 +1,36 @@
 package dev.slne.surf.roleplay.paper.mechanics.rentable.listeners
 
-import com.github.shynixn.mccoroutine.folia.entityDispatcher
-import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.core.common.mechanics.rentable.events.RentableRentCollectEvent
-import dev.slne.surf.roleplay.paper.plugin
+import dev.slne.surf.cloud.api.common.event.CloudEventHandler
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableRentCollectEvent
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
+import net.kyori.adventure.sound.Sound.Source
 import org.bukkit.Sound
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.springframework.stereotype.Component
 
+@Suppress("unused")
 @Component
-class RentCollectedListener : Listener {
+class RentCollectedListener {
 
-    @EventHandler
+    @CloudEventHandler
     fun onRentableRentCollect(event: RentableRentCollectEvent) {
         val rentable = event.rentable
         val player = rentable.owner?.cloudPlayer?.player ?: return
 
-        plugin.launch(plugin.entityDispatcher(player)) {
-            player.sendText {
-                appendPrefix()
+        player.sendText {
+            appendPrefix()
 
-                info("Du hast die Miete in Höhe von ")
-                variableValue("${event.amount} €")
-                info(" für deine Immobilie ")
-                append(rentable)
-                info(" bezahlt.")
-            }
+            info("Du hast die Miete in Höhe von ")
+            variableValue("${event.amount} €")
+            info(" für deine Immobilie ")
+            append(rentable)
+            info(" bezahlt.")
+        }
 
-            player.playSound(true) {
-                type(Sound.BLOCK_ANVIL_LAND)
-                volume(.5f)
-                source(net.kyori.adventure.sound.Sound.Source.BLOCK)
-            }
+        player.playSound(true) {
+            type(Sound.BLOCK_ANVIL_LAND)
+            volume(.5f)
+            source(Source.BLOCK)
         }
     }
-
 }

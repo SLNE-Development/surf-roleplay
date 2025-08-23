@@ -3,6 +3,7 @@ package dev.slne.surf.roleplay.core.common.player.license.licenses.civilian
 import dev.slne.surf.roleplay.core.common.player.license.ExpirableLicense
 import dev.slne.surf.roleplay.core.common.player.license.License
 import dev.slne.surf.surfapi.core.api.messages.adventure.key
+import dev.slne.surf.surfapi.core.api.messages.adventure.text
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import net.kyori.adventure.text.Component
 import kotlin.time.Duration.Companion.minutes
@@ -13,7 +14,7 @@ class CivilianVehicleLicense {
     @SpringComponent
     class DriversLicense : License(
         key = key("civilian", "drivers_license"),
-        displayName = Component.text("Führerschein"),
+        displayName = text("Führerschein"),
         description = {
             spacer("Der Führerschein erlaubt es dir, Fahrzeuge zu führen.")
         },
@@ -25,7 +26,7 @@ class CivilianVehicleLicense {
         driversLicense: DriversLicense
     ) : ExpirableLicense(
         key = key("civilian", "truck_license"),
-        displayName = Component.text("Lkw-Führerschein"),
+        displayName = text("Lkw-Führerschein"),
         description = {
             spacer("Der Lkw-Führerschein erlaubt es dir, Lastkraftwagen zu fahren.")
         },
@@ -41,7 +42,7 @@ class CivilianVehicleLicense {
         driversLicense: DriversLicense
     ) : License(
         key = key("civilian", "bus_license"),
-        displayName = Component.text("Bus-Führerschein"),
+        displayName = text("Bus-Führerschein"),
         description = {
             spacer("Der Bus-Führerschein erlaubt es dir, Busse zu fahren.")
         },
@@ -56,7 +57,7 @@ class CivilianVehicleLicense {
         driversLicense: DriversLicense
     ) : License(
         key = key("civilian", "taxi_license"),
-        displayName = Component.text("Taxi-Führerschein"),
+        displayName = text("Taxi-Führerschein"),
         description = {
             spacer("Der Taxi-Führerschein erlaubt es dir, Taxis zu fahren.")
 
@@ -70,7 +71,7 @@ class CivilianVehicleLicense {
     @SpringComponent
     class MotorcycleLicense : License(
         key = key("civilian", "motorcycle_license"),
-        displayName = Component.text("Motorrad-Führerschein"),
+        displayName = text("Motorrad-Führerschein"),
         description = {
             spacer("Der Motorrad-Führerschein erlaubt es dir, Motorräder zu fahren.")
         },
@@ -80,7 +81,7 @@ class CivilianVehicleLicense {
     @SpringComponent
     class BoatLicense : License(
         key = key("civilian", "boat_license"),
-        displayName = Component.text("Bootsführerschein"),
+        displayName = text("Bootsführerschein"),
         description = {
             spacer("Der Bootsführerschein erlaubt es dir, Boote zu fahren.")
         },
@@ -90,7 +91,7 @@ class CivilianVehicleLicense {
     @SpringComponent
     class PilotLicense : License(
         key = key("civilian", "pilot_license"),
-        displayName = Component.text("Pilotenschein"),
+        displayName = text("Pilotenschein"),
         description = {
             spacer("Der Pilotenschein erlaubt es dir, Flugzeuge zu fliegen.")
         },
@@ -100,7 +101,7 @@ class CivilianVehicleLicense {
     @SpringComponent
     class HelicopterLicense : License(
         key = key("civilian", "helicopter_license"),
-        displayName = Component.text("Hubschrauber-Führerschein"),
+        displayName = text("Hubschrauber-Führerschein"),
         description = {
             spacer("Der Hubschrauber-Führerschein erlaubt es dir, Hubschrauber zu fliegen.")
         },
