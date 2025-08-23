@@ -1,10 +1,9 @@
-package dev.slne.surf.roleplay.core.common.player.license.utils
+package dev.slne.surf.roleplay.paper.player.license.utils
 
-import dev.slne.surf.roleplay.core.common.player.license.License
+import dev.slne.surf.roleplay.paper.player.license.License
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
-import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.text.Component
 
 sealed class UnobtainableReason(message: SurfComponentBuilder.() -> Unit) {
@@ -47,7 +46,7 @@ sealed class UnobtainableReason(message: SurfComponentBuilder.() -> Unit) {
     })
 
     class DependenciesNotMet(
-        val missingDependencies: ObjectSet<License>
+        val missingDependencies: List<License>
     ) : UnobtainableReason({
         error("Du erfüllst nicht die Voraussetzungen, um diese Lizenz zu erwerben.")
         appendNewline(2)

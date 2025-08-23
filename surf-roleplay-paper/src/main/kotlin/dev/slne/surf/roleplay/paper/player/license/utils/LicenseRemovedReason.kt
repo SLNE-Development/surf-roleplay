@@ -1,7 +1,7 @@
-package dev.slne.surf.roleplay.core.common.player.license.utils
+package dev.slne.surf.roleplay.paper.player.license.utils
 
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
-import dev.slne.surf.roleplay.core.common.player.license.IdentityLicense
+import dev.slne.surf.roleplay.paper.player.license.IdentityLicense
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 

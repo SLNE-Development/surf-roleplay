@@ -1,4 +1,4 @@
-package dev.slne.surf.roleplay.core.common.player.license
+package dev.slne.surf.roleplay.paper.player.license
 
 import dev.slne.surf.surfapi.core.api.messages.builder.SurfComponentBuilder
 import dev.slne.surf.surfapi.core.api.util.objectSetOf

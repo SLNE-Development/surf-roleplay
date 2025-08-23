@@ -4,7 +4,7 @@
 package dev.slne.surf.roleplay.paper.mechanics.idcard.dialogs
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.core.common.player.identity.identities.CivilianIdentity
+import dev.slne.surf.roleplay.paper.player.identity.identities.CivilianIdentity
 import dev.slne.surf.roleplay.paper.mechanics.idcard.IdCard
 import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin

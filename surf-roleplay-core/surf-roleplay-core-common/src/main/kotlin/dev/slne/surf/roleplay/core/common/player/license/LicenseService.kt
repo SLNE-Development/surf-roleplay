@@ -96,7 +96,7 @@ abstract class LicenseService(
      * that have expired. The expired licenses are returned as a mapping
      * of identities to their associated expired licenses.
      *
-     * @return A map where each key is an [RpIdentity] and the corresponding value
+     * @return A map where each key is an [dev.slne.surf.roleplay.paper.player.identity.RpIdentity] and the corresponding value
      *         is a set of [IdentityLicense] objects representing the expired licenses
      *         for that identity.
      */

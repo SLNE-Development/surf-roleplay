@@ -1,10 +1,10 @@
-package dev.slne.surf.roleplay.core.common.player.license
+package dev.slne.surf.roleplay.paper.player.license
 
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
-import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.player.license.utils.LicenseCreateResult
-import dev.slne.surf.roleplay.core.common.player.license.utils.LicenseRemovedReason
-import dev.slne.surf.roleplay.core.common.player.license.utils.UnobtainableReason
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
+import dev.slne.surf.roleplay.paper.player.license.utils.LicenseCreateResult
+import dev.slne.surf.roleplay.paper.player.license.utils.LicenseRemovedReason
+import dev.slne.surf.roleplay.paper.player.license.utils.UnobtainableReason
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import org.jetbrains.annotations.Unmodifiable
 
@@ -20,7 +20,7 @@ interface HasLicenses {
      *
      * @param license The license to add.
      * @return A triple containing a boolean indicating success or failure, an [UnobtainableReason] if the license could not be obtained
-     * and the [dev.slne.surf.roleplay.core.common.player.license.IdentityLicense] if successfully added.
+     * and the [IdentityLicense] if successfully added.
      */
     suspend fun addLicense(license: License): LicenseCreateResult
 
@@ -54,7 +54,7 @@ interface HasLicenses {
      * Retrieves a specific license owned by the player.
      *
      * @param license The class of the license to retrieve.
-     * @return The [dev.slne.surf.roleplay.core.common.player.license.IdentityLicense] if found, or null if not found.
+     * @return The [IdentityLicense] if found, or null if not found.
      */
     fun getLicense(license: Class<out License>): IdentityLicense?
 
@@ -79,7 +79,7 @@ interface HasLicenses {
  * Extension function to retrieve a license by its type.
  *
  * @param T The type of the license to retrieve.
- * @return The [dev.slne.surf.roleplay.core.common.player.license.IdentityLicense] if found, or null if not found.
+ * @return The [IdentityLicense] if found, or null if not found.
  */
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : License> HasLicenses.getLicense() =

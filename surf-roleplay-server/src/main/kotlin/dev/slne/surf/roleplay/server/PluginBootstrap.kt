@@ -8,7 +8,7 @@ import dev.slne.surf.roleplay.RoleplayApplication
 
 class PluginBootstrap : StandalonePluginBootstrap {
     override suspend fun bootstrap(context: BootstrapContext) {
-        ContextHolder.instance.context =
+        RoleplayApplication.context =
             CloudInstance.startSpringApplication(RoleplayApplication::class)
     }
 }

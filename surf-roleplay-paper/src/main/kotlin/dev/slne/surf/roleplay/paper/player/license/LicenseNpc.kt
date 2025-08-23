@@ -7,9 +7,9 @@ import dev.slne.surf.roleplay.paper.plugin
 import org.springframework.stereotype.Component
 
 @Component
-class LicenseNpc: RpLifecycle {
+class LicenseNpc : RpLifecycle {
 
-    companion object  {
+    companion object {
         const val NPC_NAME = "license_npc"
     }
 

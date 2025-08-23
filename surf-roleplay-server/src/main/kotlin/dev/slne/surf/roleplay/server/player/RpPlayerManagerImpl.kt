@@ -1,95 +1,42 @@
-package dev.slne.surf.roleplay.core.player
+package dev.slne.surf.roleplay.server.player
 
-import com.github.benmanes.caffeine.cache.Caffeine
-import com.google.auto.service.AutoService
-import com.sksamuel.aedile.core.asLoadingCache
-import com.sksamuel.aedile.core.withRemovalListener
-import dev.slne.surf.roleplay.api.player.RpPlayer
-import dev.slne.surf.roleplay.api.player.RpPlayerManager
-import dev.slne.surf.roleplay.api.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
-import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityModel
-import dev.slne.surf.roleplay.server.player.db.RpPlayerTable
+import dev.slne.surf.cloud.api.common.player.CloudPlayerManager
+import dev.slne.surf.roleplay.core.common.player.RpPlayer
+import dev.slne.surf.roleplay.core.common.player.RpPlayerManager
+import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.server.player.identity.db.impl.police.RpPlayerPoliceIdentityModel
+import dev.slne.surf.roleplay.server.player.RpPlayerService
 import dev.slne.surf.roleplay.server.player.identity.db.impl.civilian.RpPlayerCivilianIdentityModel
-import dev.slne.surf.roleplay.server.player.identity.db.impl.civilian.RpPlayerCivilianIdentityTable
-import dev.slne.surf.roleplay.server.player.identity.db.impl.police.RpPlayerPoliceIdentityTable
 import dev.slne.surf.roleplay.server.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityModel
-import dev.slne.surf.roleplay.server.player.identity.db.impl.rescueservice.RpPlayerRescueServiceIdentityTable
 import dev.slne.surf.surfapi.core.api.util.getCallerClass
-import dev.slne.surf.surfapi.core.api.util.toObjectSet
 import kotlinx.coroutines.Dispatchers
-import net.kyori.adventure.util.Services
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.springframework.stereotype.Component
 import java.time.ZonedDateTime
 import java.util.*
 
-@AutoService(RpPlayerManager::class)
-class RpPlayerManagerImpl : RpPlayerManager, Services.Fallback {
+@Component
+class RpPlayerManagerImpl(private val rpPlayerService: RpPlayerService) : RpPlayerManager() {
 
-    private val cache = Caffeine.newBuilder()
-        .withRemovalListener { key, _, cause ->
-            println("Removing RpPlayer from cache: $key due to $cause")
-        }
-        .asLoadingCache<UUID, RpPlayer> {
-            println("Loading RpPlayer from database: $it")
-            findOrCreate(it).toApi()
-        }
+    override fun createPlayer(uuid: UUID) = ServerRpPlayer(uuid)
+    override fun onlineUuids() = CloudPlayerManager.getOnlinePlayers().uuidSnapshot()
 
-    override val players
-        get() = cache.underlying().asMap().values.mapNotNull { it.getNow(null) }.toObjectSet()
-
-    fun onDisconnect(player: RpPlayer) = cache.invalidate(player.uuid)
-
-    suspend fun findOrCreate(uuid: UUID) = newSuspendedTransaction(Dispatchers.IO) {
-        RpPlayerModel.find { RpPlayerTable.uuid eq uuid }.singleOrNull() ?: RpPlayerModel.new {
-            this.uuid = uuid
-            this.createdAt = ZonedDateTime.now()
-            this.updatedAt = ZonedDateTime.now()
-        }
+    override suspend fun fetchIdentities(uuid: UUID): Set<RpIdentity> {
+        rpPlayerService
     }
 
-    suspend fun updateUsername(
-        rpPlayer: RpPlayerImpl,
-        username: String
-    ): Unit = newSuspendedTransaction(Dispatchers.IO) {
-        rpPlayer.username = username
-        rpPlayer.updatedAt = ZonedDateTime.now()
-
-        RpPlayerModel.findSingleByAndUpdate((RpPlayerTable.uuid eq rpPlayer.uuid)) {
-            it.username = username
-            it.updatedAt = rpPlayer.updatedAt
-        }
-    }
-
-    private suspend fun <T : RpIdentity> findIdentityByType(
-        rpPlayer: RpPlayerImpl,
-        identity: T
-    ) = newSuspendedTransaction(Dispatchers.IO) {
-        val rpPlayerModel = rpPlayerManagerImpl.findOrCreate(rpPlayer.uuid)
-
-        when (identity) {
-            is RpIdentity.CivilianIdentity -> {
-                RpPlayerCivilianIdentityModel.find {
-                    (RpPlayerCivilianIdentityTable.player eq rpPlayerModel.id)
-                }.singleOrNull()
-            }
-
-            is RpIdentity.PoliceIdentity -> {
-                RpPlayerPoliceIdentityModel.find {
-                    (RpPlayerPoliceIdentityTable.player eq rpPlayerModel.id)
-                }.singleOrNull()
-            }
-
-            is RpIdentity.RescueServiceIdentity -> {
-                RpPlayerRescueServiceIdentityModel.find {
-                    (RpPlayerRescueServiceIdentityTable.player eq rpPlayerModel.id)
-                }.singleOrNull()
-            }
-
-            else -> error("Unsupported identity type: ${identity::class.qualifiedName}")
-        }
-    }
+//    suspend fun updateUsername(
+//        rpPlayer: RpPlayerImpl,
+//        username: String
+//    ): Unit = newSuspendedTransaction(Dispatchers.IO) {
+//        rpPlayer.username = username
+//        rpPlayer.updatedAt = ZonedDateTime.now()
+//
+//        RpPlayerModel.findSingleByAndUpdate((RpPlayerTable.uuid eq rpPlayer.uuid)) {
+//            it.username = username
+//            it.updatedAt = rpPlayer.updatedAt
+//        }
+//    }
 
     @Suppress("UNCHECKED_CAST")
     suspend fun <T : RpIdentity> createIdentity(

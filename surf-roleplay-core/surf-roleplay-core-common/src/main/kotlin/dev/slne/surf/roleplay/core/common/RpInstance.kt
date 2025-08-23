@@ -17,7 +17,6 @@ class RpInstance(private val lifecycles: ObjectProvider<RpLifecycle>) {
         lifecycles.forEachAnnotationOrdered { it.onEnable() }
     }
 
-    @OverridingMethodsMustInvokeSuper
     suspend fun onDisable() {
         lifecycles.forEachAnnotationOrderedReversed { it.onDisable() }
     }

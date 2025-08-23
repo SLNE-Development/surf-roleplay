@@ -5,8 +5,8 @@ package dev.slne.surf.roleplay.paper.player.license.dialogs
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
-import dev.slne.surf.roleplay.core.common.player.license.IdentityLicense
-import dev.slne.surf.roleplay.core.common.player.license.utils.UnobtainableReason
+import dev.slne.surf.roleplay.paper.player.license.IdentityLicense
+import dev.slne.surf.roleplay.paper.player.license.utils.UnobtainableReason
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton

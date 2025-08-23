@@ -1,7 +1,7 @@
 package dev.slne.surf.roleplay.core.player.db
 
 import dev.slne.surf.roleplay.core.player.RpPlayerImpl
-import dev.slne.surf.roleplay.core.player.identity.db.impl.police.RpPlayerPoliceIdentityModel
+import dev.slne.surf.roleplay.server.player.identity.db.impl.police.RpPlayerPoliceIdentityModel
 import dev.slne.surf.roleplay.server.player.db.RpPlayerTable
 import dev.slne.surf.roleplay.server.player.identity.db.impl.civilian.RpPlayerCivilianIdentityModel
 import dev.slne.surf.roleplay.server.player.identity.db.impl.civilian.RpPlayerCivilianIdentityTable

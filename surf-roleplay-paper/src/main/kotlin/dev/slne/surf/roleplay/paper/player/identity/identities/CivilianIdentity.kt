@@ -1,6 +1,6 @@
-package dev.slne.surf.roleplay.core.common.player.identity.identities
+package dev.slne.surf.roleplay.paper.player.identity.identities
 
-import dev.slne.surf.roleplay.core.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentityType
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable

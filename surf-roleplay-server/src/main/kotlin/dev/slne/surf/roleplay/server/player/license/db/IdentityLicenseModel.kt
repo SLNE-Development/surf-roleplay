@@ -3,6 +3,7 @@ package dev.slne.surf.roleplay.server.player.license.db
 import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
 import dev.slne.surf.roleplay.api.player.license.LicenseService
 import dev.slne.surf.roleplay.core.common.player.license.IdentityLicense
+import dev.slne.surf.roleplay.core.common.player.license.NetworkIdentityLicense
 import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
 import dev.slne.surf.surfapi.core.api.messages.adventure.key
 import org.jetbrains.exposed.dao.LongEntity
@@ -30,6 +31,12 @@ class IdentityLicenseModel(id: EntityID<Long>) : LongEntity(id) {
 
         return license
     }
+
+    fun toNetwork() = NetworkIdentityLicense(
+        licenseKey = license,
+        expiresAt = expiresAt,
+        createdAt = createdAt
+    )
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

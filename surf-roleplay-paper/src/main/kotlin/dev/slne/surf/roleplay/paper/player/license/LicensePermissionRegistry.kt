@@ -1,4 +1,4 @@
-package dev.slne.surf.roleplay.core.common.player.license
+package dev.slne.surf.roleplay.paper.player.license
 
 import net.kyori.adventure.key.Key
 

@@ -1,18 +1,19 @@
-@file:OptIn(InternalRoleplayApi::class)
+package dev.slne.surf.roleplay.paper.player.identity
 
-package dev.slne.surf.roleplay.core.common.player.identity
-
+import dev.slne.surf.roleplay.RoleplayApplication
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
-import dev.slne.surf.roleplay.core.common.player.RpPlayerManager
-import dev.slne.surf.roleplay.core.common.player.license.*
-import dev.slne.surf.roleplay.core.common.player.license.events.RpPlayerLicenseAddedEvent
-import dev.slne.surf.roleplay.core.common.player.license.events.RpPlayerLicenseRemovedEvent
-import dev.slne.surf.roleplay.core.common.player.license.utils.LicenseCreateResult
-import dev.slne.surf.roleplay.core.common.player.license.utils.LicenseRemovedReason
-import dev.slne.surf.roleplay.core.common.player.license.utils.UnobtainableReason
+import dev.slne.surf.roleplay.core.common.player.identity.RpIdentityType
 import dev.slne.surf.roleplay.core.common.transaction.HasRpTransactions
 import dev.slne.surf.roleplay.core.common.transaction.RpTransaction
 import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.roleplay.paper.player.license.*
+import dev.slne.surf.roleplay.paper.player.license.events.RpPlayerLicenseAddedEvent
+import dev.slne.surf.roleplay.paper.player.license.events.RpPlayerLicenseRemovedEvent
+import dev.slne.surf.roleplay.paper.player.license.utils.LicenseCreateResult
+import dev.slne.surf.roleplay.paper.player.license.utils.LicenseRemovedReason
+import dev.slne.surf.roleplay.paper.player.license.utils.UnobtainableReason
+import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObject2ObjectMapOf
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
@@ -20,27 +21,28 @@ import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import org.springframework.beans.factory.getBean
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.util.*
 
 @Serializable
-abstract class RpIdentity(
-    open val uuid: @Contextual UUID,
-    open val type: RpIdentityType,
-    open var firstName: String,
-    open var lastName: String,
-    open var dateOfBirth: @Contextual LocalDate,
-    open val createdAt: @Contextual ZonedDateTime = ZonedDateTime.now(),
+abstract class RpIdentity : HasRpTransactions, HasLicenses {
+    abstract val uuid: @Contextual UUID
+    abstract val type: RpIdentityType
+    abstract var firstName: String
+    abstract var lastName: String
+    abstract var dateOfBirth: @Contextual LocalDate
+    open val createdAt: @Contextual ZonedDateTime = ZonedDateTime.now()
     open var updatedAt: @Contextual ZonedDateTime = ZonedDateTime.now()
-) : HasRpTransactions, HasLicenses {
 
-    val player: RpPlayer get() = RpPlayer[uuid]
-    private val licenseService get() = LicenseService.instance
+    val player get() = PaperRpPlayer[uuid]
 
     @Transient
     private val _licenses = mutableObjectSetOf<IdentityLicense>()
-    override val licenses get() = _licenses
+
+    @Transient
+    override val licenses = _licenses.freeze()
 
     fun addLicense(license: IdentityLicense) {
         _licenses.add(license)
@@ -51,10 +53,10 @@ abstract class RpIdentity(
     }
 
     override suspend fun addLicense(license: License): LicenseCreateResult {
-        val (canObtain, reason) = license.canObtain(this)
+        val unobtainableReasons = license.canObtain(this)
 
-        if (!canObtain) {
-            return LicenseCreateResult(false, reason, null)
+        if (unobtainableReasons.isNotEmpty()) {
+            return LicenseCreateResult(false, unobtainableReasons, null)
         }
 
         val expiresAt = if (license is ExpirableLicense) {
@@ -191,4 +193,7 @@ abstract class RpIdentity(
         return "RpIdentity(uuid=$uuid, type=$type, firstName='$firstName', lastName='$lastName', dateOfBirth=$dateOfBirth, createdAt=$createdAt, updatedAt=$updatedAt)"
     }
 
+    companion object {
+        private val licenseService get() = RoleplayApplication.context.getBean<PaperLicenseService>()
+    }
 }

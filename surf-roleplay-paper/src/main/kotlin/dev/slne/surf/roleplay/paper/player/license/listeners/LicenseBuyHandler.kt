@@ -2,12 +2,11 @@ package dev.slne.surf.roleplay.paper.player.license.listeners
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
 import dev.slne.surf.npc.api.event.NpcInteractEvent
 import dev.slne.surf.npc.api.surfNpcApi
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
 import dev.slne.surf.roleplay.paper.player.license.LicenseNpc
 import dev.slne.surf.roleplay.paper.player.license.dialogs.licenseDialog
+import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.event.EventHandler
@@ -27,18 +26,18 @@ class LicenseBuyHandler : Listener {
         val npc = event.npc
 
         if (npc.npcUuid != licenseNpc.npcUuid) return
+        val rpPlayer = player.rpPlayer
+        val activeIdentity = rpPlayer.activeIdentity ?: run {
+            player.sendText {
+                appendPrefix()
 
-        plugin.launch(plugin.entityDispatcher(player)) {
-            val rpPlayer = RpPlayer[player.toCloudOfflinePlayer()]
-            val activeIdentity = rpPlayer.activeIdentity ?: run {
-                player.sendText {
-                    appendPrefix()
-
-                    error("Du musst eine Identität ausgewählt haben, um Lizenzen zu kaufen.")
-                }
-                return@launch
+                error("Du musst eine Identität ausgewählt haben, um Lizenzen zu kaufen.")
             }
 
+            return
+        }
+
+        plugin.launch(plugin.entityDispatcher(player)) {
             player.showDialog(licenseDialog(rpPlayer, activeIdentity))
         }
     }
