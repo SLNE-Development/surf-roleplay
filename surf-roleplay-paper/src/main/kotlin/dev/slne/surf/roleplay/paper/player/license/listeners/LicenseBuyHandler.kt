@@ -5,6 +5,7 @@ import com.github.shynixn.mccoroutine.folia.launch
 import dev.slne.surf.npc.api.event.NpcInteractEvent
 import dev.slne.surf.npc.api.surfNpcApi
 import dev.slne.surf.roleplay.paper.player.license.LicenseNpc
+import dev.slne.surf.roleplay.paper.player.license.PaperLicenseService
 import dev.slne.surf.roleplay.paper.player.license.dialogs.licenseDialog
 import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
@@ -14,7 +15,7 @@ import org.bukkit.event.Listener
 import org.springframework.stereotype.Component
 
 @Component
-class LicenseBuyHandler : Listener {
+class LicenseBuyHandler(private val paperLicenseService: PaperLicenseService) : Listener {
 
     private val licenseNpc
         get() = surfNpcApi.getNpc(LicenseNpc.NPC_NAME)
@@ -38,7 +39,7 @@ class LicenseBuyHandler : Listener {
         }
 
         plugin.launch(plugin.entityDispatcher(player)) {
-            player.showDialog(licenseDialog(rpPlayer, activeIdentity))
+            player.showDialog(licenseDialog(rpPlayer, activeIdentity, paperLicenseService))
         }
     }
 

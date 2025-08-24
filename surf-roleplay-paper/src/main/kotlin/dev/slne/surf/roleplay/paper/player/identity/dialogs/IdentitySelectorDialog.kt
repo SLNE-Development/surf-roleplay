@@ -4,7 +4,7 @@
 package dev.slne.surf.roleplay.paper.player.identity.dialogs
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
@@ -15,7 +15,7 @@ import dev.slne.surf.surfapi.bukkit.api.nms.NmsUseWithCaution
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.registry.data.dialog.DialogBase
 
-fun createIdentitySelectorDialog(player: RpPlayer) = dialog {
+fun createIdentitySelectorDialog(player: PaperRpPlayer) = dialog {
     val identities = player.identities
 
     base {
@@ -56,7 +56,7 @@ fun createIdentitySelectorDialog(player: RpPlayer) = dialog {
 }
 
 private fun createIdentitySelectorButtons(
-    player: RpPlayer,
+    player: PaperRpPlayer,
 ) = player.identities.map { identity ->
     actionButton {
         label(identity.type.asComponent())

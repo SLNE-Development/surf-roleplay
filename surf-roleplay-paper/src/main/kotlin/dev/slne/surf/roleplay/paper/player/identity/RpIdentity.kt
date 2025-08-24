@@ -2,11 +2,15 @@ package dev.slne.surf.roleplay.paper.player.identity
 
 import dev.slne.surf.roleplay.RoleplayApplication
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
+import dev.slne.surf.roleplay.core.common.player.identity.NetworkIdentity
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentityType
 import dev.slne.surf.roleplay.core.common.transaction.HasRpTransactions
 import dev.slne.surf.roleplay.core.common.transaction.RpTransaction
 import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
 import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.roleplay.paper.player.identity.identities.CivilianIdentity
+import dev.slne.surf.roleplay.paper.player.identity.identities.PoliceIdentity
+import dev.slne.surf.roleplay.paper.player.identity.identities.RescueServiceIdentity
 import dev.slne.surf.roleplay.paper.player.license.*
 import dev.slne.surf.roleplay.paper.player.license.events.RpPlayerLicenseAddedEvent
 import dev.slne.surf.roleplay.paper.player.license.events.RpPlayerLicenseRemovedEvent
@@ -19,14 +23,12 @@ import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
 import dev.slne.surf.surfapi.core.api.util.objectSetOf
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet
 import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import org.springframework.beans.factory.getBean
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.util.*
 
-@Serializable
 abstract class RpIdentity : HasRpTransactions, HasLicenses {
     abstract val uuid: @Contextual UUID
     abstract val type: RpIdentityType
@@ -43,6 +45,8 @@ abstract class RpIdentity : HasRpTransactions, HasLicenses {
 
     @Transient
     override val licenses = _licenses.freeze()
+
+    abstract fun toNetwork(): NetworkIdentity
 
     fun addLicense(license: IdentityLicense) {
         _licenses.add(license)
@@ -195,5 +199,38 @@ abstract class RpIdentity : HasRpTransactions, HasLicenses {
 
     companion object {
         private val licenseService get() = RoleplayApplication.context.getBean<PaperLicenseService>()
+
+
+        fun fromNetwork(network: NetworkIdentity) = when (network) {
+            is NetworkIdentity.Civilian -> CivilianIdentity(
+                network.uuid,
+                network.firstName,
+                network.lastName,
+                network.dateOfBirth,
+                network.createdAt,
+                network.updatedAt
+            )
+
+            is NetworkIdentity.Police -> PoliceIdentity(
+                network.uuid,
+                network.firstName,
+                network.lastName,
+                network.dateOfBirth,
+                network.badgeNumber,
+                network.rank,
+                network.createdAt,
+                network.updatedAt
+            )
+
+            is NetworkIdentity.RescueService -> RescueServiceIdentity(
+                network.uuid,
+                network.firstName,
+                network.lastName,
+                network.dateOfBirth,
+                network.rank,
+                network.createdAt,
+                network.updatedAt
+            )
+        }
     }
 }

@@ -3,9 +3,11 @@
 package dev.slne.surf.roleplay.paper.player.license.dialogs
 
 import com.github.shynixn.mccoroutine.folia.launch
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import dev.slne.surf.roleplay.paper.player.license.IdentityLicense
+import dev.slne.surf.roleplay.paper.player.license.License
+import dev.slne.surf.roleplay.paper.player.license.PaperLicenseService
 import dev.slne.surf.roleplay.paper.player.license.utils.UnobtainableReason
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
@@ -15,14 +17,14 @@ import dev.slne.surf.surfapi.bukkit.api.dialog.type
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
-import it.unimi.dsi.fastutil.objects.ObjectSet
 
 suspend fun buyLicenseDialog(
-    player: RpPlayer,
+    player: PaperRpPlayer,
     identity: RpIdentity,
     license: License,
+    licenseService: PaperLicenseService
 ): Dialog {
-    val canObtain = license.canObtain(identity)
+    val unobtainableReasons = license.canObtain(identity)
 
     return dialog {
         base {
@@ -50,19 +52,18 @@ suspend fun buyLicenseDialog(
                     appendLicenseDependencies(player, license.dependencies)
                     appendNewline(2)
 
-                    if (canObtain.first) {
+                    if (unobtainableReasons.isEmpty()) {
                         info("Klicke auf ")
                         variableValue(""""Erwerben"""")
                         info(", um die Lizenz zu kaufen.")
                     } else {
                         error("Du kannst diese Lizenz nicht erwerben:")
                         appendNewline(2)
-                        canObtain.second.forEachIndexed { index, reason ->
+                        unobtainableReasons.forEachIndexed { index, reason ->
                             if (index > 0) {
                                 appendNewline(2)
                             }
-
-                            reason.message(this)
+                            append(reason.message)
                         }
                     }
                 }
@@ -70,22 +71,23 @@ suspend fun buyLicenseDialog(
         }
 
         type {
-            if (canObtain.first) {
+            if (unobtainableReasons.isEmpty()) {
                 confirmation(
-                    buyLicenseButton(player, identity, license),
-                    backButton(player, identity)
+                    buyLicenseButton(player, identity, license, licenseService),
+                    backButton(player, identity, licenseService)
                 )
             } else {
-                notice(backButton(player, identity))
+                notice(backButton(player, identity, licenseService))
             }
         }
     }
 }
 
 private fun buyLicenseButton(
-    player: RpPlayer,
+    player: PaperRpPlayer,
     identity: RpIdentity,
-    license: License
+    license: License,
+    licenseService: PaperLicenseService
 ) = actionButton {
     label { success("Erwerben") }
     tooltip {
@@ -105,23 +107,32 @@ private fun buyLicenseButton(
                             player,
                             identity,
                             license,
-                            result.reason
+                            result.reason,
+                            licenseService
                         )
                     )
 
                     return@launch
                 }
 
-                it.showDialog(boughtLicenseNotice(player, identity, result.license!!))
+                it.showDialog(
+                    boughtLicenseNotice(
+                        player,
+                        identity,
+                        result.license!!,
+                        licenseService
+                    )
+                )
             }
         }
     }
 }
 
 private fun boughtLicenseNotice(
-    player: RpPlayer,
+    player: PaperRpPlayer,
     identity: RpIdentity,
-    license: IdentityLicense
+    license: IdentityLicense,
+    licenseService: PaperLicenseService
 ): Dialog = dialog {
     base {
         title { success("Lizenz erworben") }
@@ -147,7 +158,7 @@ private fun boughtLicenseNotice(
 
             action {
                 playerCallback {
-                    it.showDialog(myLicenseDialog(player, identity, license))
+                    it.showDialog(myLicenseDialog(player, identity, license, licenseService))
                 }
             }
         }
@@ -155,10 +166,11 @@ private fun boughtLicenseNotice(
 }
 
 private fun cannotBuyLicenseNotice(
-    player: RpPlayer,
+    player: PaperRpPlayer,
     identity: RpIdentity,
     license: License,
-    reason: ObjectSet<UnobtainableReason>,
+    reason: Set<UnobtainableReason>,
+    licenseService: PaperLicenseService
 ): Dialog = dialog {
     base {
         title { error("Lizenz kann nicht erworben werden") }
@@ -198,7 +210,7 @@ private fun cannotBuyLicenseNotice(
             action {
                 playerCallback {
                     plugin.launch {
-                        it.showDialog(buyLicenseDialog(player, identity, license))
+                        it.showDialog(buyLicenseDialog(player, identity, license, licenseService))
                     }
                 }
             }
@@ -206,13 +218,17 @@ private fun cannotBuyLicenseNotice(
     }
 }
 
-private fun backButton(player: RpPlayer, identity: RpIdentity) = actionButton {
+private fun backButton(
+    player: PaperRpPlayer,
+    identity: RpIdentity,
+    licenseService: PaperLicenseService
+) = actionButton {
     label { text("Zurück") }
     tooltip { info("Klicke, um zur Übersicht der erwerbbaren Lizenzen zurückzukehren.") }
 
     action {
         playerCallback {
-            it.showDialog(buyLicensesDialog(player, identity))
+            it.showDialog(buyLicensesDialog(player, identity, licenseService))
         }
     }
 }

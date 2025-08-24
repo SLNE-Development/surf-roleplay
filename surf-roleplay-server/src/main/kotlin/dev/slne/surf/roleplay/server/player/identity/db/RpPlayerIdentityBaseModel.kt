@@ -2,7 +2,8 @@ package dev.slne.surf.roleplay.server.player.identity.db
 
 import dev.slne.surf.cloud.api.server.exposed.table.AuditableLongEntity
 import dev.slne.surf.cloud.api.server.exposed.table.AuditableLongEntityClass
-import dev.slne.surf.roleplay.core.player.db.RpPlayerModel
+import dev.slne.surf.roleplay.core.common.player.identity.NetworkIdentity
+import dev.slne.surf.roleplay.server.player.db.RpPlayerModel
 import org.jetbrains.exposed.dao.id.EntityID
 
 abstract class RpPlayerIdentityBaseModel(
@@ -14,6 +15,8 @@ abstract class RpPlayerIdentityBaseModel(
     var firstName by table.firstName
     var lastName by table.lastName
     var dateOfBirth by table.dateOfBirth
+
+    abstract fun toNetwork(): NetworkIdentity
 }
 
 abstract class RpPlayerIdentityBaseClass<out E : RpPlayerIdentityBaseModel>(val identityTable: RpPlayerIdentityBaseTable) :

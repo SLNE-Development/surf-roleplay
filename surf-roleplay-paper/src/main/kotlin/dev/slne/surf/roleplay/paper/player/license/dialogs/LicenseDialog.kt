@@ -2,9 +2,11 @@
 
 package dev.slne.surf.roleplay.paper.player.license.dialogs
 
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import dev.slne.surf.roleplay.paper.player.license.IdentityLicense
+import dev.slne.surf.roleplay.paper.player.license.License
+import dev.slne.surf.roleplay.paper.player.license.PaperLicenseService
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.builder.actionButton
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
@@ -21,10 +23,9 @@ import net.kyori.adventure.text.format.TextDecoration
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.collections.map
 
 fun SurfComponentBuilder.appendLicenseDependencies(
-    player: RpPlayer,
+    player: PaperRpPlayer,
     dependencies: ObjectSet<License>
 ) {
     variableKey("Voraussetzungen: ")
@@ -122,7 +123,11 @@ private fun buildRelativeString(from: LocalDateTime, to: LocalDateTime): String 
     return if (to.isAfter(from)) "in $joined" else "vor $joined"
 }
 
-fun licenseDialog(player: RpPlayer, identity: RpIdentity) = dialog {
+fun licenseDialog(
+    player: PaperRpPlayer,
+    identity: RpIdentity,
+    licenseService: PaperLicenseService
+) = dialog {
     base {
         title { primary("Lizenzsystem v1.0") }
         afterAction(DialogBase.DialogAfterAction.NONE)
@@ -154,32 +159,42 @@ fun licenseDialog(player: RpPlayer, identity: RpIdentity) = dialog {
     type {
         multiAction {
             columns(1)
-            action(myLicensesButton(player, identity))
-            action(buyLicensesButton(player, identity))
+            action(myLicensesButton(player, identity, licenseService))
+            action(buyLicensesButton(player, identity, licenseService))
         }
     }
 }
 
-private fun myLicensesButton(player: RpPlayer, identity: RpIdentity): ActionButton = actionButton {
-    label { text("Meine Lizenzen") }
-    tooltip { info("Klicke, um deine Lizenzen zu sehen.") }
-    width(400)
+private fun myLicensesButton(
+    player: PaperRpPlayer,
+    identity: RpIdentity,
+    licenseService: PaperLicenseService
+): ActionButton =
+    actionButton {
+        label { text("Meine Lizenzen") }
+        tooltip { info("Klicke, um deine Lizenzen zu sehen.") }
+        width(400)
 
-    action {
-        playerCallback {
-            it.showDialog(myLicensesDialog(player, identity))
+        action {
+            playerCallback {
+                it.showDialog(myLicensesDialog(player, identity, licenseService))
+            }
         }
     }
-}
 
-private fun buyLicensesButton(player: RpPlayer, identity: RpIdentity): ActionButton = actionButton {
-    label { text("Lizenz erwerben") }
-    tooltip { info("Klicke, um eine Lizenz zu erwerben.") }
-    width(400)
+private fun buyLicensesButton(
+    player: PaperRpPlayer,
+    identity: RpIdentity,
+    licenseService: PaperLicenseService
+): ActionButton =
+    actionButton {
+        label { text("Lizenz erwerben") }
+        tooltip { info("Klicke, um eine Lizenz zu erwerben.") }
+        width(400)
 
-    action {
-        playerCallback {
-            it.showDialog(buyLicensesDialog(player, identity))
+        action {
+            playerCallback {
+                it.showDialog(buyLicensesDialog(player, identity, licenseService))
+            }
         }
     }
-}

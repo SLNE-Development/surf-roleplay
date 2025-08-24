@@ -1,8 +1,8 @@
 package dev.slne.surf.roleplay.paper.player.events
 
-import dev.slne.surf.cloud.api.client.paper.player.toCloudOfflinePlayer
 import dev.slne.surf.cloud.api.common.event.CloudEvent
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.roleplay.paper.player.rpPlayer
 import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
@@ -20,7 +20,7 @@ import org.bukkit.event.entity.PlayerDeathEvent
  */
 class RpPlayerDeathEvent(
     source: Any,
-    val player: RpPlayer,
+    val player: PaperRpPlayer,
     bukkitEvent: PlayerDeathEvent
 ) : CloudEvent(source) {
 
@@ -30,8 +30,7 @@ class RpPlayerDeathEvent(
     var killerBlock: Block? = null
         private set
 
-    fun killerRpPlayer() =
-        (killerEntity as? Player)?.let { RpPlayer.Companion[it.toCloudOfflinePlayer()] }
+    fun killerRpPlayer() = (killerEntity as? Player)?.rpPlayer
 
     init {
         val player = bukkitEvent.player

@@ -1,14 +1,13 @@
 package dev.slne.surf.roleplay.paper.player.identity.identities
 
-import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
+import dev.slne.surf.roleplay.core.common.player.identity.NetworkIdentity
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentityType
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.util.*
 
-@Serializable
 class PoliceIdentity(
     override val uuid: @Contextual UUID,
     override var firstName: String,
@@ -18,18 +17,21 @@ class PoliceIdentity(
     val rank: String,
     override val createdAt: @Contextual ZonedDateTime = ZonedDateTime.now(),
     override var updatedAt: @Contextual ZonedDateTime = ZonedDateTime.now()
-) : RpIdentity(
-    uuid,
-    RpIdentityType.POLICE,
-    firstName,
-    lastName,
-    dateOfBirth,
-    createdAt,
-    updatedAt
-) {
-    override fun toString(): String {
-        val parent = super.toString()
+) : RpIdentity() {
+    override val type = RpIdentityType.POLICE
 
-        return "PoliceIdentityImpl(badgeNumber='$badgeNumber', rank='$rank', $parent)"
+    override fun toNetwork() = NetworkIdentity.Police(
+        uuid = uuid,
+        firstName = firstName,
+        lastName = lastName,
+        dateOfBirth = dateOfBirth,
+        badgeNumber = badgeNumber,
+        rank = rank,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+
+    override fun toString(): String {
+        return "PoliceIdentity(rank='$rank') ${super.toString()}"
     }
 }

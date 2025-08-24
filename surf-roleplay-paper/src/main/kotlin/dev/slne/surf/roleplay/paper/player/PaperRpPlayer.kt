@@ -9,10 +9,12 @@ import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import dev.slne.surf.roleplay.paper.player.license.HasLicenses
 import dev.slne.surf.roleplay.paper.player.license.License
 import dev.slne.surf.roleplay.paper.player.license.utils.LicenseRemovedReason
+import dev.slne.surf.surfapi.bukkit.api.extensions.server
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
+import io.papermc.paper.datacomponent.item.attribute.AttributeModifierDisplay.override
 import org.springframework.beans.factory.getBean
 import java.util.*
 
@@ -24,6 +26,8 @@ class PaperRpPlayer(uuid: UUID) : RpPlayer(uuid), HasLicenses {
 
     var activeIdentity: RpIdentity? = null
         private set
+
+    val player get() = server.getPlayer(uuid)
 
     override val licenses
         get() = activeIdentity?.licenses
@@ -42,12 +46,6 @@ class PaperRpPlayer(uuid: UUID) : RpPlayer(uuid), HasLicenses {
     }
 
     fun addIdentity(identity: RpIdentity) = _identities.add(identity)
-
-    suspend fun <T : RpIdentity> createIdentity(identity: T) =
-        identityService.createIdentity(identity)
-
-    suspend fun <T : RpIdentity> updateIdentity(identity: T) =
-        identityService.updateIdentity(identity)
 
     suspend fun <T : RpIdentity> createOrUpdateIdentity(identity: T) =
         identityService.createOrUpdateIdentity(identity)

@@ -3,27 +3,26 @@ package dev.slne.surf.roleplay.paper.mechanics.rentable.commands
 import com.github.shynixn.mccoroutine.folia.launch
 import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.kotlindsl.*
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerChangeReason
-import dev.slne.surf.roleplay.api.common.mechanic.rentable.utils.events.OwnerSetResult
-import dev.slne.surf.roleplay.paper.mechanics.rentable.RentableMechanic.getByKey
-import dev.slne.surf.roleplay.paper.mechanics.rentable.RentableMechanic.rentables
+import dev.slne.surf.roleplay.paper.mechanics.rentable.RentableMechanic
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableOwnerChangeEvent.OwnerChangeReason
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableOwnerChangeEvent.OwnerSetResult
 import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.appendNewline
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
 import org.bukkit.NamespacedKey
 
-fun rentableCommand() = commandAPICommand("rentable") {
+fun rentableCommand(mechanic: RentableMechanic) = commandAPICommand("rentable") {
     subcommand("rent") {
         namespacedKeyArgument("rentableKey") {
             replaceSuggestions(ArgumentSuggestions.stringCollection { info ->
-                rentables.map { it.key.asString() }
+                mechanic.rentables.map { it.key.asString() }
             })
         }
 
         playerExecutor { player, args ->
             val rentableKey: NamespacedKey by args
-            val rentable = getByKey(rentableKey) ?: run {
+            val rentable = mechanic.getByKey(rentableKey) ?: run {
                 player.sendText {
                     appendPrefix()
 
@@ -72,8 +71,7 @@ fun rentableCommand() = commandAPICommand("rentable") {
                         variableValue(rentableKey.asString())
                         error(" konnte nicht gemietet werden: ")
                         appendNewline(2)
-
-                        result.reason.message(this)
+                        append(result.reason.message)
                     }
                 }
             }

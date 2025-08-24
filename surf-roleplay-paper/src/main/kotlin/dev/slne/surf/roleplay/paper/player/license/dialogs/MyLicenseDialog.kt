@@ -2,9 +2,10 @@
 
 package dev.slne.surf.roleplay.paper.player.license.dialogs
 
-import dev.slne.surf.roleplay.api.common.player.RpPlayer
-import dev.slne.surf.roleplay.api.common.player.identity.RpIdentity
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import dev.slne.surf.roleplay.paper.player.license.IdentityLicense
+import dev.slne.surf.roleplay.paper.player.license.PaperLicenseService
 import dev.slne.surf.surfapi.bukkit.api.dialog.base
 import dev.slne.surf.surfapi.bukkit.api.dialog.dialog
 import dev.slne.surf.surfapi.bukkit.api.dialog.type
@@ -13,9 +14,10 @@ import io.papermc.paper.dialog.Dialog
 import io.papermc.paper.registry.data.dialog.DialogBase
 
 fun myLicenseDialog(
-    player: RpPlayer,
+    player: PaperRpPlayer,
     identity: RpIdentity,
-    identityLicense: IdentityLicense
+    identityLicense: IdentityLicense,
+    licenseService: PaperLicenseService
 ): Dialog = dialog {
     val license = identityLicense.license
 
@@ -51,7 +53,7 @@ fun myLicenseDialog(
 
             action {
                 playerCallback {
-                    it.showDialog(myLicensesDialog(player, identity))
+                    it.showDialog(myLicensesDialog(player, identity, licenseService))
                 }
             }
         }

@@ -1,35 +1,28 @@
 package dev.slne.surf.roleplay.paper.player.identity.listener
 
-import com.github.shynixn.mccoroutine.folia.launch
+import dev.slne.surf.cloud.api.common.event.CloudEventHandler
 import dev.slne.surf.roleplay.paper.player.events.RpPlayerJoinEvent
 import dev.slne.surf.roleplay.paper.player.identity.dialogs.createIdentitySelectorDialog
-import dev.slne.surf.roleplay.paper.plugin
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
 import org.springframework.stereotype.Component
 
+@Suppress("unused")
 @Component
-class IdentityOnlineListener : Listener {
+class IdentityOnlineListener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @CloudEventHandler
     fun onRpPlayerJoin(event: RpPlayerJoinEvent) {
-        plugin.launch {
-            val player = event.player
-            val identities = player.identities
+        val player = event.player
+        val identities = player.identities
 
-            if (identities.isEmpty()) {
-                return@launch
-            }
+        if (identities.isEmpty()) return
 
-            if (identities.size == 1) {
-                val identity = identities.first()
-                player.setActiveIdentity(identity)
+        if (identities.size == 1) {
+            val identity = identities.first()
+            player.setActiveIdentity(identity)
 
-                return@launch
-            }
-
-            player.cloudPlayer.player?.showDialog(createIdentitySelectorDialog(player))
+            return
         }
+
+        player.player?.showDialog(createIdentitySelectorDialog(player))
     }
 }
