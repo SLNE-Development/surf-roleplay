@@ -14,8 +14,8 @@ import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
 
-@Mechanic
-class RentableMechanic : AbstractMechanic("RentableMechanic") {
+@Mechanic("RentableMechanic")
+class RentableMechanic : AbstractMechanic() {
 
     private val _rentables = mutableObjectSetOf<Rentable>()
     val rentables = _rentables.freeze()

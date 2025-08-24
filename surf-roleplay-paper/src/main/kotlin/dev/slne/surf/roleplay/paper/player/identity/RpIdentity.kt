@@ -143,7 +143,7 @@ abstract class RpIdentity : HasRpTransactions, HasLicenses {
     )
 
     override suspend fun getBalance(balanceType: BalanceType): Int {
-        val currencyName = balanceType.getCurrencyName(this)
+        val currencyName = balanceType.getCurrencyName(type)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
         return currencyMap[balanceType] ?: 0
@@ -153,7 +153,7 @@ abstract class RpIdentity : HasRpTransactions, HasLicenses {
         balanceType: BalanceType,
         amount: Int
     ): Boolean {
-        val currencyName = balanceType.getCurrencyName(this)
+        val currencyName = balanceType.getCurrencyName(type)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
         return if (amount > 0) {
@@ -168,7 +168,7 @@ abstract class RpIdentity : HasRpTransactions, HasLicenses {
         balanceType: BalanceType,
         amount: Int
     ): Boolean {
-        val currencyName = balanceType.getCurrencyName(this)
+        val currencyName = balanceType.getCurrencyName(type)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
         return if (amount > 0 && (currencyMap[balanceType] ?: 0) >= amount) {
@@ -183,7 +183,7 @@ abstract class RpIdentity : HasRpTransactions, HasLicenses {
         balanceType: BalanceType,
         limit: Int
     ): ObjectLinkedOpenHashSet<RpTransaction> {
-        val currencyName = balanceType.getCurrencyName(this)
+        val currencyName = balanceType.getCurrencyName(type)
             ?: throw IllegalArgumentException("Unknown balance type: $balanceType")
 
         return ObjectLinkedOpenHashSet()

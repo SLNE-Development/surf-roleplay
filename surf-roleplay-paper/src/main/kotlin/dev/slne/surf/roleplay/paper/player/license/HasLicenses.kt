@@ -73,6 +73,8 @@ interface HasLicenses {
      * @return A boolean indicating whether the player has the license.
      */
     fun hasLicense(license: License) = hasLicense(license::class.java)
+
+    fun getExpiredLicenses() = licenses.filter { it.isExpired }
 }
 
 /**

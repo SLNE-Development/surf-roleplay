@@ -40,7 +40,7 @@ class RpPlayerRepository {
     private suspend fun findIdentityModelByType(
         uuid: UUID,
         type: RpIdentityType
-    ): RpPlayerIdentityBaseModel<*>? {
+    ): RpPlayerIdentityBaseModel? {
         val playerId = findPlayerId(uuid) ?: return null
         val modelClass = when (type) {
             RpIdentityType.CIVILIAN -> RpPlayerCivilianIdentityModel
@@ -54,7 +54,7 @@ class RpPlayerRepository {
     suspend fun createIdentity(uuid: UUID, creationData: RpIdentityCreationData) {
         val playerModel = findOrCreateModel(uuid)
 
-        fun RpPlayerIdentityBaseModel<*>.applyCommonData() {
+        fun RpPlayerIdentityBaseModel.applyCommonData() {
             this.player = playerModel
             this.firstName = creationData.firstName
             this.lastName = creationData.lastName
@@ -82,7 +82,7 @@ class RpPlayerRepository {
     suspend fun updateIdentity(uuid: UUID, updateData: RpIdentityUpdateData): Boolean {
         val existingModel = findIdentityModelByType(uuid, updateData.identityType) ?: return false
 
-        fun RpPlayerIdentityBaseModel<*>.applyCommonUpdate() {
+        fun RpPlayerIdentityBaseModel.applyCommonUpdate() {
             updateData.firstName?.let { this.firstName = it }
             updateData.lastName?.let { this.lastName = it }
             updateData.dateOfBirth?.let { this.dateOfBirth = it }

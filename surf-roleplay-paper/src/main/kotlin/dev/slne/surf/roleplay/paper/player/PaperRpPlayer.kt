@@ -2,12 +2,10 @@ package dev.slne.surf.roleplay.paper.player
 
 import dev.slne.surf.roleplay.RoleplayApplication
 import dev.slne.surf.roleplay.core.common.player.RpPlayer
-import dev.slne.surf.roleplay.core.common.player.getIdentity
 import dev.slne.surf.roleplay.core.common.player.identity.RpIdentityType
 import dev.slne.surf.roleplay.core.common.transaction.utils.BalanceType
 import dev.slne.surf.roleplay.paper.player.identity.PaperIdentityService
 import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
-import dev.slne.surf.roleplay.paper.player.identity.identities.CivilianIdentity
 import dev.slne.surf.roleplay.paper.player.license.HasLicenses
 import dev.slne.surf.roleplay.paper.player.license.License
 import dev.slne.surf.roleplay.paper.player.license.utils.LicenseRemovedReason

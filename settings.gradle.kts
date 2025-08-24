@@ -15,9 +15,7 @@ plugins {
 }
 
 include("surf-roleplay-core:surf-roleplay-core-common")
-include("surf-roleplay-core:surf-roleplay-core-client")
 include("surf-roleplay-paper")
-include("surf-roleplay-velocity")
 include("surf-roleplay-server")
 
 include("surf-roleplay-mod:surf-roleplay-mod-common")

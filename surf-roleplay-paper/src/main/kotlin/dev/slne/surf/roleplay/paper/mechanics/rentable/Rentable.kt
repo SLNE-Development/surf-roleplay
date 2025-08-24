@@ -1,11 +1,19 @@
 package dev.slne.surf.roleplay.paper.mechanics.rentable
 
+import dev.slne.surf.roleplay.core.common.player.RpPlayer
+import dev.slne.surf.roleplay.paper.mechanics.rentable.RentableMechanic.RentCollectResult
 import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableMemberAddEvent
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableMemberAddEvent.MemberAddFailureReason
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableMemberAddEvent.MemberAddResult
 import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableMemberRemoveEvent
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableMemberRemoveEvent.MemberRemoveFailureReason
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableMemberRemoveEvent.MemberRemoveResult
 import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableOwnerChangeEvent
+import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableOwnerChangeEvent.*
 import dev.slne.surf.roleplay.paper.mechanics.rentable.events.RentableRentCollectEvent
 import dev.slne.surf.roleplay.paper.mechanics.rentable.utils.DoorContainer
-import dev.slne.surf.roleplay.core.common.player.RpPlayer
+import dev.slne.surf.roleplay.paper.player.PaperRpPlayer
+import dev.slne.surf.surfapi.core.api.collection.TransformingObjectSet
 import dev.slne.surf.surfapi.core.api.messages.adventure.buildText
 import dev.slne.surf.surfapi.core.api.util.freeze
 import dev.slne.surf.surfapi.core.api.util.mutableObjectSetOf
@@ -14,6 +22,7 @@ import it.unimi.dsi.fastutil.objects.ObjectSet
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.ComponentLike
 import java.time.ZonedDateTime
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 
@@ -28,23 +37,28 @@ abstract class Rentable(
     doorContainers: ObjectSet<DoorContainer> = objectSetOf()
 ) : ComponentLike {
 
-    private val _members = mutableObjectSetOf<RpPlayer>()
+    private val _members = mutableObjectSetOf<UUID>()
     private val _storageContainers = mutableObjectSetOf<StorageContainer>()
     private val _doorContainers = mutableObjectSetOf<DoorContainer>()
-
-    val storageContainers = _storageContainers.freeze()
-    val doorContainers = _doorContainers.freeze()
-
     private val collectingRent = AtomicBoolean(false)
-
 
     init {
         _storageContainers.addAll(storageContainers)
         _doorContainers.addAll(doorContainers)
     }
 
-    var owner: RpPlayer? = null
-    val members get() = _members.freeze()
+    val storageContainers = _storageContainers.freeze()
+    val doorContainers = _doorContainers.freeze()
+
+    private var ownerUuid: UUID? = null
+    var owner: PaperRpPlayer?
+        get() = ownerUuid?.let(PaperRpPlayer::get)
+        set(value) {
+            ownerUuid = value?.uuid
+        }
+
+
+    val members = TransformingObjectSet(_members, PaperRpPlayer::get, PaperRpPlayer::uuid).freeze()
     val isRented: Boolean get() = owner != null
     var lastRentCollection: ZonedDateTime? = null
 
@@ -53,13 +67,13 @@ abstract class Rentable(
      *
      * @return The result of the rent collection, indicating success or failure.
      */
-    suspend fun collectRent(): RentableMechanic.RentCollectResult {
+    suspend fun collectRent(): RentCollectResult {
         if (!collectingRent.compareAndSet(false, true)) { // exit quickly if already collecting
-            return RentableMechanic.RentCollectResult.ALREADY_COLLECTING
+            return RentCollectResult.ALREADY_COLLECTING
         }
 
         try {
-            val currentOwner = owner ?: return RentableMechanic.RentCollectResult.NOT_RENTED
+            val currentOwner = owner ?: return RentCollectResult.NOT_RENTED
             val currentBankBalance = currentOwner.getBankBalance()
 
             val event = RentableRentCollectEvent(
@@ -70,19 +84,19 @@ abstract class Rentable(
             event.post()
 
             if (event.isCancelled) {
-                return RentableMechanic.RentCollectResult.EVENT_CANCELLED
+                return RentCollectResult.EVENT_CANCELLED
             }
 
             val rent = event.amount
 
             if (rent > currentBankBalance) {
-                return RentableMechanic.RentCollectResult.NOT_ENOUGH_MONEY
+                return RentCollectResult.NOT_ENOUGH_MONEY
             }
 
             currentOwner.removeBankBalance(rent)
             lastRentCollection = ZonedDateTime.now()
 
-            return RentableMechanic.RentCollectResult.SUCCESS
+            return RentCollectResult.SUCCESS
         } finally {
             collectingRent.set(false)
         }
@@ -96,31 +110,31 @@ abstract class Rentable(
      * @return The result of the owner change event, indicating success or failure.
      */
     suspend fun setOwner(
-        player: RpPlayer?,
-        reason: RentableOwnerChangeEvent.OwnerChangeReason
-    ): RentableOwnerChangeEvent.OwnerSetResult {
+        player: PaperRpPlayer?,
+        reason: OwnerChangeReason
+    ): OwnerSetResult {
         val event = RentableOwnerChangeEvent(this, this, owner, player, reason)
         event.post()
 
         if (event.isCancelled) {
-            return RentableOwnerChangeEvent.OwnerSetResult.Failure(
-                RentableOwnerChangeEvent.OwnerSetFailureReason.EventCancelled(
+            return OwnerSetResult.Failure(
+                OwnerSetFailureReason.EventCancelled(
                     event.cancelReason ?: "Unbekannt"
                 )
             )
         }
 
         if (player == null) {
-            owner = null
+            ownerUuid = null
             lastRentCollection = null
             _members.clear()
 
-            return RentableOwnerChangeEvent.OwnerSetResult.Success
+            return OwnerSetResult.Success
         }
 
         if (player == owner) {
-            return RentableOwnerChangeEvent.OwnerSetResult.Failure(
-                RentableOwnerChangeEvent.OwnerSetFailureReason.AlreadyOwned
+            return OwnerSetResult.Failure(
+                OwnerSetFailureReason.AlreadyOwned
             )
         }
 
@@ -128,8 +142,8 @@ abstract class Rentable(
         val ownedRentables = mechanic.getOwnedRentablesByPlayer(player)
 
         if (ownedRentables.size >= maxRentables) {
-            return RentableOwnerChangeEvent.OwnerSetResult.Failure(
-                RentableOwnerChangeEvent.OwnerSetFailureReason.AlreadyOwningTooManyRentables(
+            return OwnerSetResult.Failure(
+                OwnerSetFailureReason.AlreadyOwningTooManyRentables(
                     ownedRentables.size,
                     maxRentables
                 )
@@ -139,8 +153,8 @@ abstract class Rentable(
         val currentMoney = player.getBankBalance()
 
         if (currentMoney < rent) {
-            return RentableOwnerChangeEvent.OwnerSetResult.Failure(
-                RentableOwnerChangeEvent.OwnerSetFailureReason.NotEnoughMoney(
+            return OwnerSetResult.Failure(
+                OwnerSetFailureReason.NotEnoughMoney(
                     currentMoney = currentMoney,
                     requiredMoney = rent
                 )
@@ -150,15 +164,15 @@ abstract class Rentable(
         owner = player
         val result = collectRent()
 
-        if (result != RentableMechanic.RentCollectResult.SUCCESS) {
+        if (result != RentCollectResult.SUCCESS) {
             owner = null
 
-            return RentableOwnerChangeEvent.OwnerSetResult.Failure(
-                RentableOwnerChangeEvent.OwnerSetFailureReason.RentCollectionFailed(result)
+            return OwnerSetResult.Failure(
+                OwnerSetFailureReason.RentCollectionFailed(result)
             )
         }
 
-        return RentableOwnerChangeEvent.OwnerSetResult.Success
+        return OwnerSetResult.Success
     }
 
     /**
@@ -167,21 +181,21 @@ abstract class Rentable(
      * @param player The player to add as a member.
      * @return The result of the member addition event, indicating success or failure.
      */
-    suspend fun addMember(player: RpPlayer): RentableMemberAddEvent.MemberAddResult {
+    suspend fun addMember(player: RpPlayer): MemberAddResult {
         if (isMember(player)) {
-            return RentableMemberAddEvent.MemberAddResult.Failure(RentableMemberAddEvent.MemberAddFailureReason.AlreadyMember)
+            return MemberAddResult.Failure(MemberAddFailureReason.AlreadyMember)
         }
 
         val event = RentableMemberAddEvent(this, this, player)
         event.post()
 
         if (event.isCancelled) {
-            return RentableMemberAddEvent.MemberAddResult.Failure(RentableMemberAddEvent.MemberAddFailureReason.EventCancelled)
+            return MemberAddResult.Failure(MemberAddFailureReason.EventCancelled)
         }
 
-        _members.add(player)
+        _members.add(player.uuid)
 
-        return RentableMemberAddEvent.MemberAddResult.Success
+        return MemberAddResult.Success
     }
 
     /**
@@ -190,21 +204,21 @@ abstract class Rentable(
      * @param player The player to remove from the members.
      * @return The result of the member removal event, indicating success or failure.
      */
-    suspend fun removeMember(player: RpPlayer): RentableMemberRemoveEvent.MemberRemoveResult {
+    suspend fun removeMember(player: RpPlayer): MemberRemoveResult {
         if (!isMember(player)) {
-            return RentableMemberRemoveEvent.MemberRemoveResult.Failure(RentableMemberRemoveEvent.MemberRemoveFailureReason.NotMember)
+            return MemberRemoveResult.Failure(MemberRemoveFailureReason.NotMember)
         }
 
         val event = RentableMemberRemoveEvent(this, this, player)
         event.post()
 
         if (event.isCancelled) {
-            return RentableMemberRemoveEvent.MemberRemoveResult.Failure(RentableMemberRemoveEvent.MemberRemoveFailureReason.EventCancelled)
+            return MemberRemoveResult.Failure(MemberRemoveFailureReason.EventCancelled)
         }
 
-        _members.remove(player)
+        _members.remove(player.uuid)
 
-        return RentableMemberRemoveEvent.MemberRemoveResult.Success
+        return MemberRemoveResult.Success
     }
 
     /**
@@ -213,7 +227,7 @@ abstract class Rentable(
      * @param player The player to check.
      * @return True if the player is a member, false otherwise.
      */
-    fun isMember(player: RpPlayer) = _members.contains(player) || owner == player
+    fun isMember(player: RpPlayer) = _members.contains(player.uuid) || ownerUuid == player.uuid
 
     override fun asComponent() = buildText {
         variableValue(key.asString())

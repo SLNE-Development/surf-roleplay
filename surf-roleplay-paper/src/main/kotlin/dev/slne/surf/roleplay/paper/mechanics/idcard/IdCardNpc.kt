@@ -3,6 +3,7 @@ package dev.slne.surf.roleplay.paper.mechanics.idcard
 import dev.slne.surf.npc.api.dsl.npc
 import dev.slne.surf.npc.api.surfNpcApi
 import dev.slne.surf.roleplay.paper.plugin
+import dev.slne.surf.surfapi.bukkit.api.extensions.server
 
 object IdCardNpc {
     const val NPC_NAME = "idcard_npc"
@@ -19,7 +20,7 @@ object IdCardNpc {
             skin = npcSkin
 
             location {
-                world = "world"
+                world = server.worlds.first().name
                 x = 2.0
                 y = 100.0
                 z = 0.0

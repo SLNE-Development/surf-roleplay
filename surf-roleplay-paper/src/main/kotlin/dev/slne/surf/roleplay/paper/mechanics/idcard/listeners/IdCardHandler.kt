@@ -10,6 +10,7 @@ import dev.slne.surf.roleplay.paper.player.rpPlayer
 import dev.slne.surf.roleplay.paper.plugin
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import dev.slne.surf.surfapi.core.api.messages.adventure.sendText
+import net.kyori.adventure.sound.Sound.Source
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -19,8 +20,7 @@ import org.springframework.stereotype.Component
 class IdCardHandler : Listener {
 
     private val idCardNpc
-        get() = surfNpcApi.getNpc(IdCardNpc.NPC_NAME)
-            ?: error("The IDCard NPC is not registered")
+        get() = surfNpcApi.getNpc(IdCardNpc.NPC_NAME) ?: error("The IDCard NPC is not registered")
 
     @EventHandler
     fun onNpcInteract(event: NpcInteractEvent) {
@@ -40,8 +40,8 @@ class IdCardHandler : Listener {
 
                 player.playSound(true) {
                     type(Sound.BLOCK_NOTE_BLOCK_BASS)
-                    volume(.5f)
-                    source(net.kyori.adventure.sound.Sound.Source.MUSIC)
+                    volume(0.5f)
+                    source(Source.MUSIC)
                 }
                 return@launch
             }

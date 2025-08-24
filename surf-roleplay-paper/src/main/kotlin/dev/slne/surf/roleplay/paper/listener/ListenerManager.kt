@@ -14,8 +14,9 @@ import com.github.shynixn.mccoroutine.folia.launch
 import com.github.shynixn.mccoroutine.folia.regionDispatcher
 import dev.jorel.commandapi.kotlindsl.commandAPICommand
 import dev.jorel.commandapi.kotlindsl.playerExecutor
-import dev.slne.surf.roleplay.paper.spring.RpPacketListener
+import dev.slne.surf.cloud.api.common.util.objectSetOf
 import dev.slne.surf.roleplay.paper.plugin
+import dev.slne.surf.roleplay.paper.spring.RpPacketListener
 import dev.slne.surf.surfapi.bukkit.api.builder.ItemStack
 import dev.slne.surf.surfapi.core.api.messages.adventure.playSound
 import io.papermc.paper.datacomponent.DataComponentTypes
@@ -62,6 +63,12 @@ class ListenerManager : Listener {
 
     @RpPacketListener
     class ArrowHitListener : PacketListener {
+        private val blockSounds = objectSetOf(
+            Sounds.ENTITY_ARROW_HIT,
+            Sounds.ENTITY_ARROW_SHOOT,
+            Sounds.ENTITY_ARROW_SHOOT
+        )
+
         override fun onPacketSend(event: PacketSendEvent) {
             if (event.packetType == PacketType.Play.Server.SPAWN_ENTITY) {
                 val packet = WrapperPlayServerSpawnEntity(event)
@@ -70,17 +77,9 @@ class ListenerManager : Listener {
                 if (type == EntityTypes.ARROW) {
                     event.isCancelled = true
                 }
-            }
-
-            if (event.packetType == PacketType.Play.Server.SOUND_EFFECT) {
+            } else if (event.packetType == PacketType.Play.Server.SOUND_EFFECT) {
                 val packet = WrapperPlayServerSoundEffect(event)
                 val sound = packet.sound
-
-                val blockSounds = setOf(
-                    Sounds.ENTITY_ARROW_HIT,
-                    Sounds.ENTITY_ARROW_SHOOT,
-                    Sounds.ENTITY_ARROW_SHOOT
-                )
 
                 if (sound in blockSounds) {
                     event.isCancelled = true

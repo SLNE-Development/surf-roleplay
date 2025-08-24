@@ -1,5 +1,6 @@
 package dev.slne.surf.roleplay.paper.player.license
 
+import dev.slne.surf.roleplay.core.common.player.license.NetworkIdentityLicense
 import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
 import java.time.ZonedDateTime
 
@@ -23,6 +24,14 @@ data class IdentityLicense(
      * Checks if the license is expired.
      */
     val isExpired get() = expiresAt?.isBefore(ZonedDateTime.now()) ?: false
+
+    fun toNetwork() = NetworkIdentityLicense(
+        identity.uuid,
+        identity.type,
+        license.key,
+        expiresAt,
+        createdAt
+    )
 
     companion object {
         /**

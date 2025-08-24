@@ -21,10 +21,6 @@ class RpPlayerManagerImpl(private val rpPlayerService: RpPlayerService) : RpPlay
     override fun createPlayer(uuid: UUID) = ServerRpPlayer(uuid)
     override fun onlineUuids() = CloudPlayerManager.getOnlinePlayers().uuidSnapshot()
 
-    override suspend fun fetchIdentities(uuid: UUID): Set<RpIdentity> {
-        rpPlayerService
-    }
-
 //    suspend fun updateUsername(
 //        rpPlayer: RpPlayerImpl,
 //        username: String
