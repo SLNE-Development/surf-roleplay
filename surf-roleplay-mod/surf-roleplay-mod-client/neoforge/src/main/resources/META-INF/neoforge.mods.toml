@@ -1,0 +1,24 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "surf-roleplay"
+version = "${version}"
+displayName = "surf-roleplay"
+authors = "SLNE Development"
+description = '''
+
+'''
+#logoFile = ""
+
+#[[dependencies.testmod3]]
+#modId = "neoforge"
+#type = "required"
+#versionRange = "[21,)"
+#ordering = "NONE"
+#side = "BOTH"
+
+[[mixins]]
+config = "roleplay.mixins.json"

@@ -1,41 +1,26 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import dev.slne.surf.surfapi.gradle.util.registerRequired
-import dev.slne.surf.surfapi.gradle.util.withSurfApiBukkit
 
 plugins {
     id("dev.slne.surf.surfapi.gradle.paper-plugin")
 }
 
-dependencies {
-    api(project(":surf-roleplay-core"))
-    api(project(":surf-roleplay-mechanic"))
-    
-    runtimeOnly(libs.surf.database)
-}
-
 surfPaperPluginApi {
-    mainClass("dev.slne.surf.roleplay.paper.SurfRoleplay")
-    generateLibraryLoader(false)
-    authors.add("Ammo")
+    withCloudClientPaper()
+    mainClass("dev.slne.surf.roleplay.paper.PaperMain")
     foliaSupported(true)
 
     serverDependencies {
         registerRequired("surf-npc-bukkit")
     }
+}
 
-    runServer {
-        withSurfApiBukkit()
+dependencies {
+    api(project(":surf-roleplay-core:surf-roleplay-core-common"))
 
-        val npcVersion =
-            libs.surf.npc.api.get().version ?: error("NPC API version is not specified")
-        val npcAsset = "surf-npc-bukkit-${npcVersion}.jar"
+    compileOnly(libs.surf.npc.api)
+}
 
-        downloadPlugins {
-            github(
-                "slne-development",
-                "surf-npc",
-                "v$npcVersion",
-                npcAsset
-            )
-        }
-    }
+tasks.withType<ShadowJar> {
+    destinationDirectory.set(rootProject.file("output"))
 }

@@ -1,0 +1,61 @@
+package dev.slne.surf.roleplay.paper.player.license
+
+import dev.slne.surf.roleplay.core.common.player.license.NetworkIdentityLicense
+import dev.slne.surf.roleplay.paper.player.identity.RpIdentity
+import java.time.ZonedDateTime
+
+/**
+ * Represents a license associated with a player's identity in the roleplay system.
+ *
+ * This class encapsulates the details of a license, including the license type, the identity it is associated with,
+ * the expiration time, and the creation time.
+ *
+ * @property license The [License] associated with this identity.
+ * @property identity The [dev.slne.surf.roleplay.paper.player.identity.RpIdentity] associated with this license.
+ * @property expiresAt The expiration time of the license, if applicable. Defaults to null if the license does not expire.
+ */
+data class IdentityLicense(
+    val license: License,
+    val identity: RpIdentity,
+    val expiresAt: ZonedDateTime?,
+    val createdAt: ZonedDateTime = ZonedDateTime.now()
+) {
+    /**
+     * Checks if the license is expired.
+     */
+    val isExpired get() = expiresAt?.isBefore(ZonedDateTime.now()) ?: false
+
+    fun toNetwork() = NetworkIdentityLicense(
+        identity.uuid,
+        identity.type,
+        license.key,
+        expiresAt,
+        createdAt
+    )
+
+    companion object {
+        /**
+         * Creates an [IdentityLicense] from a [License] and an [dev.slne.surf.roleplay.paper.player.identity.RpIdentity].
+         *
+         * @param license The [License] to create the identity license from.
+         * @param identity The [dev.slne.surf.roleplay.paper.player.identity.RpIdentity] associated with the license.
+         * @param createdAt The creation time of the identity license, defaults to the current time.
+         * @return A new [IdentityLicense] instance.
+         */
+        fun createFromLicense(
+            license: License,
+            identity: RpIdentity,
+            createdAt: ZonedDateTime = ZonedDateTime.now()
+        ) = IdentityLicense(
+            license = license,
+            identity = identity,
+            expiresAt = if (license is ExpirableLicense) {
+                ZonedDateTime.now().plusSeconds(license.expiresIn.inWholeSeconds)
+            } else {
+                null
+            },
+            createdAt = createdAt
+        )
+    }
+
+}

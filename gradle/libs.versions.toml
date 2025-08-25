@@ -1,7 +1,34 @@
 [versions]
-surf-database = "2.2.1-SNAPSHOT"
-surf-npc-api = "1.21.7-1.4.1-SNAPSHOT"
+surf-npc-api = "1.21.7-1.4.2-SNAPSHOT"
+loom = "1.11-SNAPSHOT"
+netty = "4.2.4.Final"
+datafixerupper = "8.0.16"
+bytebuddy = "1.15.10"
+kotlin-byte-buf-serializer = "1.1.0"
+protoweaver = "1.4.9"
+architectury-base = "3.4.161"
+architectury-loom = "1.10.433"
+architectury-api = "17.0.8"
+neoforge = "21.8.32"
+
+# Mod
+minecraft = "1.21.8"
+yarn-mappings = "1.21.8+build.1"
+fabric-loader = "0.17.2"
+fabric-kotlin = "1.13.5+kotlin.2.2.10"
+fabric-api = "0.132.0+1.21.8"
 
 [libraries]
-surf-database = { module = "dev.slne.surf:surf-database", version.ref = "surf-database" }
 surf-npc-api = { module = "dev.slne.surf.npc:surf-npc-api", version.ref = "surf-npc-api" }
+netty = { module = "io.netty:netty-all", version.ref = "netty" }
+datafixerupper = { module = "com.mojang:datafixerupper", version.ref = "datafixerupper" }
+bytebuddy = { module = "net.bytebuddy:byte-buddy", version.ref = "bytebuddy" }
+kotlin-byte-buf-serializer = { module = "dev.slne.surf:kotlin-byte-buf-serializer", version.ref = "kotlin-byte-buf-serializer" }
+protoweaver-common = { module = "me.mrnavastar.protoweaver:common", version.ref = "protoweaver" }
+protoweaver-fabric = { module = "me.mrnavastar.protoweaver:client", version.ref = "protoweaver" }
+protoweaver-paper = { module = "me.mrnavastar.protoweaver:common", version.ref = "protoweaver" }
+
+[plugins]
+loom = { id = "fabric-loom", version.ref = "loom" }
+architectury-base = { id = "architectury-plugin", version.ref = "architectury-base" }
+architectury-loom = { id = "dev.architectury.loom", version.ref = "architectury-loom" }
